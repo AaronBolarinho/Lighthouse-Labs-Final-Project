@@ -5,6 +5,8 @@ import MessageBar from './MessageBar.jsx';
 // import ProposedDebate from '.ProposedDebate.jsx';
 // import ProposedDebateList from '.ProposedDebateList.jsx';
 // import ActiveDebateList from '.ActiveDebateList.jsx';
+const io = require('socket.io-client')
+const socket = io.connect('http://localhost:3001')
 
 class App extends Component {
   render() {
