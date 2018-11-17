@@ -10,19 +10,15 @@ const chatroomManager = ChatroomManager()
 
 io.on('connection', function (client) {
   const {
-    // handleRegister,
     handleJoin,
     handleLeave,
     handleMessage,
     handleGetChatrooms,
-    // handleGetAvailableUsers,
     handleDisconnect
   } = makeHandlers(client, clientManager, chatroomManager)
 
   console.log('client connected...', client.id)
   clientManager.addClient(client)
-
-  // client.on('register', handleRegister)
 
   client.on('join', handleJoin)
 
@@ -31,8 +27,6 @@ io.on('connection', function (client) {
   client.on('message', handleMessage)
 
   client.on('chatrooms', handleGetChatrooms)
-
-  // client.on('availableUsers', handleGetAvailableUsers)
 
   client.on('disconnect', function () {
     console.log('client disconnect...', client.id)
@@ -45,7 +39,7 @@ io.on('connection', function (client) {
   })
 })
 
-server.listen(3000,"0.0.0.0", function (err) {
+server.listen(3001, function (err) {
   if (err) throw err
   console.log('listening on port 3000')
 })

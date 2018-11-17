@@ -3,18 +3,15 @@ var webpack = require('webpack');
 
 module.exports = {
   devtool: 'eval',
-
   entry: [
-    'webpack-dev-server/client?http://localhost:3001',
+    'webpack-dev-server/client?http://localhost:3000',
     './src/index.jsx'
   ],
-
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
     publicPath: '/build/'
   },
-
   module: {
     rules: [
       {
@@ -31,12 +28,5 @@ module.exports = {
         ]
       }
     ]
-  },
-
-  devServer: {
-    port: 3001,
-    contentBase: path.resolve(__dirname, 'public'),
-    hot: true,
-    historyApiFallback: true
-  },
+  }
 };

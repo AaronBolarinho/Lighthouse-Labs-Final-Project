@@ -1,5 +1,15 @@
 const Chatroom = require('./Chatroom')
-const chatroomTemplates = require('../config/chatrooms')
+// const chatroomTemplates = require('../config/chatrooms')
+
+const chatroomTemplates = [ {
+    name: 'Terminus',
+    image: 'https://jpeg.org/images/jpeg2000-home.jpg'
+  },
+{
+  name: "BLAH",
+  image: 'https://jpeg.org/images/jpeg2000-home.jpg'
+}
+  ]
 
 module.exports = function () {
   // mapping of all available chatrooms
