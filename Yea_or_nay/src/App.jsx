@@ -5,10 +5,27 @@ import DebateRoom from './DebateRoom.jsx';
 // import ProposedDebate from '.ProposedDebate.jsx';
 // import ProposedDebateList from '.ProposedDebateList.jsx';
 // import ActiveDebateList from '.ActiveDebateList.jsx';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 const io = require('socket.io-client')
 const socket = io.connect('http://localhost:3001')
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      user: null,
+      client: socket,
+      debateRooms: [{name: "Room1"}, {name:"Room2"}]
+    }
+  }
+
+renderDebateRoom(debateRoom) {
+    return (
+      <DebateRoom debateRoom={debateRoom}/>
+    )
+  }
+
   render() {
     return (
       <div>
@@ -63,7 +80,31 @@ class App extends Component {
                   </div>
                  </div>
               </div>
-              <DebateRoom/>
+              {this.state.debateRooms.map(debateRoom => (
+                <DebateRoom key={debateRoom.name} debateRoom={debateRoom}/> ))}
+              {/*<BrowserRouter>
+                <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={
+                    props => this.renderDebateRoom("Room1")
+                  }
+                  />
+              {
+                      this.state.debateRooms.map(debateRoom => (
+                        <Route
+                          key={debateRoom.name}
+                          exact
+                          path={`/${debateRoom.name}`}
+                          render={
+                            props => this.renderDebateRoom(debateRoom.name)
+                          }
+                        />
+                      ))
+                    }
+                </Switch>
+              </BrowserRouter> */}
             </div>
           </div>
         </div>

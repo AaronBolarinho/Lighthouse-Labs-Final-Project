@@ -3,7 +3,7 @@ var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-// app.get('/', function (req, res) {
+// app.get('/Room1', function (req, res) {
 //   res.sendFile(__dirname + '/index.html');
 // });
 
@@ -34,7 +34,8 @@ io.on('connection', function (client) {
     let incomingmsg = JSON.parse(data)
     console.log("RECIEVED : ", data);
     incomingmsg.tag = "serverMessage"
-    client.broadcast.emit('message', JSON.stringify(incomingmsg))
+    client.emit('message', JSON.stringify(incomingmsg))
+    console.log("SENT ", incomingmsg)
   });
 
   client.on('chatrooms', handleGetChatrooms)

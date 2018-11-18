@@ -9,6 +9,7 @@ class DebateRoom extends Component {
   constructor(props) {
     super();
     this.state = {
+      debateRoom: props.debateRoom,
       messages: [{id:1, content:"hello", username:"TestUser1"}, {id:2, content:"hello back", username:"TestUser2"} ],
       connectedUsers: 2
     };
@@ -33,34 +34,22 @@ class DebateRoom extends Component {
   }
 
   componentDidMount() {
-    console.log("DEBATE ROOM MOUNTED")
-    console.log(this.updateMessages)
+    console.log(`${this.state.debateRoom.name} MOUNTED`)
+    // Should join the room here
+    // let room = this.props.debateRoom.name
+    // socket.join(room)
     socket.on ('message', data => {
     const serverMsg = JSON.parse(data)
     console.log("received : ", serverMsg)
     this.updateMessages(serverMsg)
-    console.log("client Hello" ,data);
     })
-
-    //This is where the socket receiving and sending happens NEED TO UPDATE MESSAGE LIST HERE
-    // socket.onopen = function (){
-    // };
-    // socket.onmessage = event => {
-    //   const serverMsg = JSON.parse(event.data);  //Deal with receiving message here
-    //   switch(serverMsg.type) {
-    //     case 'message':
-    //       this.updateMessages(serverMsg);
-    //       break;
-    //       default:
-    //     throw new Error ('Unknown event type ' + serverMsg.type);
-    //   }
   }
 
   render() {
     return (
       <div className = "debate-room">
         <div className="column is-three-quarters">
-          <DebateMessageList messages={this.state.messages} />
+          <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} />
           <div className="field">
             <div className="control">
               <DebateRoomChatBar sendMessage={this.sendMessage} />
