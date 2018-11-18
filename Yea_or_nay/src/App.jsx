@@ -20,11 +20,11 @@ class App extends Component {
     }
   }
 
-renderDebateRoom(debateRoom) {
-    return (
-      <DebateRoom debateRoom={debateRoom}/>
-    )
-  }
+// renderDebateRoom(debateRoom) {
+//     return (
+//       <DebateRoom debateRoom={debateRoom}/>
+//     )
+//   }
 
   render() {
     return (

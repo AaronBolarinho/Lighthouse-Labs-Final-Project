@@ -25,6 +25,7 @@ module.exports = function () {
   }
 
   function getChatroomByName(chatroomName) {
+    console.log("CHATROOMS ARE ", chatrooms)
     return chatrooms.get(chatroomName)
   }
 

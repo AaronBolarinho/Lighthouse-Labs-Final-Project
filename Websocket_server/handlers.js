@@ -8,6 +8,7 @@ function makeHandleEvent(client, clientManager, chatroomManager) {
         let chatroom = chatroomManager.getChatroomByName(chatroomName)
         // append event to chat history
         const entry = { user, ...createEntry() }
+             //
         chatroom.addEntry(entry)
 
         // notify other clients in chatrooms
@@ -23,9 +24,12 @@ function makeHandleEvent(client, clientManager, chatroomManager) {
 }
 
 module.exports = function (client, clientManager, chatroomManager) {
+  // console.log("CLIENT IS ", client)
   const handleEvent = makeHandleEvent(client, clientManager, chatroomManager)
+  // console.log("HANDLE EVENT IS ", handleEvent)
 
   function handleJoin(chatroomName, callback) {
+    // console.log("JOIN handler called for ", chatroomName)
     const createEntry = () => ({ event: `joined ${chatroomName}` })
 
     handleEvent(chatroomName, createEntry)

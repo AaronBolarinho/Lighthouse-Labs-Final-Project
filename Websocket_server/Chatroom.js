@@ -1,4 +1,4 @@
-module.exports = function ({ name, image }) {
+module.exports = function ({ name }) {
   const members = new Map() // members are connected users
   let chatHistory = [] // this is an array of added messages
 
