@@ -10,15 +10,15 @@ class MessageBar extends Component {
       // <footer className="chatbar">
       <div className="columns">
         <div className="column">
-          <div class="field">
-            <div class="control">
+          <div className="field">
+            <div className="control">
               <span>BOB</span>
             </div>
           </div>
         </div>
         <div className="column is-three-quarters">
-          <div class="field">
-            <div class="control">
+          <div className="field">
+            <div className="control">
               <input className="input is-primary" name="inputMessage" type="text"
                   placeholder="Type a message and hit ENTER"/>
             </div>

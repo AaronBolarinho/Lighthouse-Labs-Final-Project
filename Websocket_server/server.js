@@ -30,7 +30,12 @@ io.on('connection', function (client) {
 
   client.on('leave', handleLeave)
 
-  client.on('message', handleMessage)
+  client.on('message', function (data) {
+    let incomingmsg = JSON.parse(data)
+    console.log("RECIEVED : ", data);
+    incomingmsg.tag = "serverMessage"
+    client.broadcast.emit('message', JSON.stringify(incomingmsg))
+  });
 
   client.on('chatrooms', handleGetChatrooms)
 

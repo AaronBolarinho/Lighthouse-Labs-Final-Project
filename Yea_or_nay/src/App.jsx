@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import MessageList from './MessageList.jsx';
 import MessageBar from './MessageBar.jsx';
-// import DebateRoom from '.DebateRoom.jsx';
+import DebateRoom from './DebateRoom.jsx';
 // import ProposedDebate from '.ProposedDebate.jsx';
 // import ProposedDebateList from '.ProposedDebateList.jsx';
 // import ActiveDebateList from '.ActiveDebateList.jsx';
@@ -41,7 +41,7 @@ class App extends Component {
                       <h4 className="subtitle is-4">Join A Debate:</h4>
                       <div className="control">
                         <ul>
-                          <li>This is our very long debate title<input class="button" type="submit" value="Wea or Nay"/></li>
+                          <li>This is our very long debate title<input className="button" type="submit" value="Wea or Nay"/></li>
                         </ul>
                       </div>
                     </div>
@@ -50,19 +50,20 @@ class App extends Component {
 
               </div>
                <div className="column is-three-quarters">
-                <div class="field">
-                  <div class="control">
+                <div className="field">
+                  <div className="control">
                     {/* include the MessageList component to display the messages sent and their sender names */}
                     <MessageList/>
                   </div>
                 </div>
-                <div class="field">
-                  <div class="control">
+                <div className="field">
+                  <div className="control">
                      {/* include a Chatbar component with corresponding user names and methods for sending messages to the server and update user names*/}
                     <MessageBar/>
                   </div>
                  </div>
               </div>
+              <DebateRoom/>
             </div>
           </div>
         </div>
