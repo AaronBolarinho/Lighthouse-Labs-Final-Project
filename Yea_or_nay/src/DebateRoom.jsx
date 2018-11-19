@@ -22,7 +22,7 @@ class DebateRoom extends Component {
       id: (this.state.messages.length + 1),
       username: "TestUser",
       content: message,
-      roomName: this.state.debateRoom
+      roomName: this.state.debateRoom.name
     };
     console.log("SENT : ", newMessage)
     socket.emit("message", JSON.stringify(newMessage));
@@ -35,9 +35,9 @@ class DebateRoom extends Component {
   }
 
   componentDidMount() {
-    console.log(`${this.state.debateRoom} MOUNTED`)
+    console.log(`${this.state.debateRoom.name} MOUNTED`)
     // Should join the room here
-    let room = this.state.debateRoom
+    let room = this.state.debateRoom.name
     console.log("ROOM", room)
     socket.emit('subscribe', room)
     socket.on ('message', data => {

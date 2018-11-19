@@ -53,7 +53,11 @@ renderDebateRoom(debateRoom) {
                         <Route
                           exact
                           path="/"
-                          component={Home}
+                          render={
+                            props => (
+                          <Home debateRooms={this.state.debateRooms} />
+                          )
+                          }
                         />
                         {this.state.debateRooms.map(debateRoom => (
                           <Route
@@ -61,7 +65,7 @@ renderDebateRoom(debateRoom) {
                             exact
                             path={`/${debateRoom.name}`}
                             render={
-                              props => this.renderDebateRoom(debateRoom.name)
+                              props => this.renderDebateRoom(debateRoom)
                             }
                           /> ))
                         }

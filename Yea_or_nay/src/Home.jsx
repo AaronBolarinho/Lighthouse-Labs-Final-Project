@@ -12,14 +12,12 @@ import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom'
 const io = require('socket.io-client')
 const socket = io.connect('http://localhost:3001')
 
-class App extends Component {
+class Home extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      user: null,
-      client: socket,
-      debateRooms: [{name: "Room1"}, {name:"Room2"}, {name:"Room3"}]
+      debateRooms: this.props.debateRooms
     }
   }
 
@@ -49,7 +47,7 @@ renderDebateRoom(debateRoom) {
                 <div className="field">
                   <div className="control">
                     {/* include the MessageList component to display the messages sent and their sender names */}
-                    <DebateRoom debateRoom="mainroom"/>
+                    <DebateRoom debateRoom={{name:"mainroom"}}/>
                   </div>
                 </div>
                   <li>
@@ -70,4 +68,4 @@ renderDebateRoom(debateRoom) {
     );
   }
 }
-export default App;
+export default Home;
