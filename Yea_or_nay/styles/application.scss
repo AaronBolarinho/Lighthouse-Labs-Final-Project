@@ -1,2 +1,49 @@
 // This is the top-level scss file. Import all other files in here.
 @import 'home';
+
+.level {
+  height: 50px;
+  margin: 10px;
+  background-color: black;
+
+}
+
+.level-item {
+  padding: 10px;
+  margin: 5px;
+  color: white;
+}
+
+.section {
+  margin: 2rem;
+  padding: 0;
+}
+
+.subtitle {
+  margin-bottom: 0.5rem;
+  color: white;
+  font-weight: bold;
+}
+
+.input {
+  margin: 0.5rem 0 0.5rem 0;
+}
+
+#messageList {
+  height: 300%;
+}
+
+body {
+  background-image: url("/images/background.jpg");
+    background-repeat: no-repeat, repeat;
+    background-size: cover;
+}
+
+#logo {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.box {
+  background-color: #DCDCDC;
+}

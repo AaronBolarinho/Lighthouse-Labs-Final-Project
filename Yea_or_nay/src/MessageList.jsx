@@ -14,8 +14,8 @@ function MessageList () {
     return (
       //displays all the messages, notifications, and images
       <main className="messages">
-        <h4 className="subtitle is-4">Debate Topic</h4>
-        <div className="box">
+        <h5 className="subtitle is-5">Debate Topic</h5>
+        <div className="box" id="messageList">
          MessageList
         </div>
       </main>
