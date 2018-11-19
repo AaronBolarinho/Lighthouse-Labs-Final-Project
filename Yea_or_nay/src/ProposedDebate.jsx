@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+const uuid = require('uuid/v4')
 
 const io = require('socket.io-client')
 const socket = io.connect('http://localhost:3001')
@@ -6,30 +7,26 @@ const socket = io.connect('http://localhost:3001')
 class ProposedDebate extends Component {
 
    constructor(props) {
-    super();
-    this.state = {
-     proposedDebate: "",
-     stance: "",
-     currentUser: "TestUser1"
+      super();
+      this.state = {
+       proposedDebate: "",
+       stance: "Yea",
+       currentUser: "TestUser1"
     }
-   this.handleChange = this.handleChange.bind(this)
-   this.handleSubmitNay = this.handleSubmitNay.bind(this)
-   this.handleSubmitYea = this.handleSubmitYea.bind(this)
+     this.handleChange = this.handleChange.bind(this)
+     this.handleSubmit= this.handleSubmit.bind(this)
+     this.handleDropdown = this.handleDropdown.bind(this)
   }
 
-  handleSubmitYea(event) {
+  handleSubmit(event) {
     event.preventDefault();
-    this.setState({supports: "Yea"})
-    const proposal = {id:9, proposingUser:this.state.currentUser, proposedDebate: this.state.proposedDebate, stance: this.state.stance}
+    const proposal = {id: uuid(), proposingUser:this.state.currentUser, proposedDebate: this.state.proposedDebate, stance: this.state.stance}
     socket.emit('proposal', JSON.stringify(proposal))
+    event.target.reset()
   }
 
-  handleSubmitNay(event) {
-    event.preventDefault();
-    this.setState({supports: "Nay"})
-    const proposal = {id:9, proposingUser:this.state.currentUser, proposedDebate: this.state.proposedDebate, stance: this.state.stance}
-    console.log("THIS IS THE FORM Input", this.state.proposedDebate, this.state.stance)
-    socket.emit('proposal', JSON.stringify(proposal))
+  handleDropdown(e){
+    this.setState({stance: e.target.value})
   }
 
   handleChange (e) {
@@ -37,23 +34,24 @@ class ProposedDebate extends Component {
   }
 
   render() {
-
     return (
        <div className="box">
-                  <div className="field">
-                    <div className="control">
-                    <form className="form proposed-debate-form">
-                      <input className="input is-primary" type="text" placeholder="Debate input" onChange={this.handleChange}/>
-                      <div className="buttons has-addons">
-                        <input className="button" type="submit" value="Yea" onClick={this.handleSubmitYea}/>
-                        <input className="button" type="submit" value="Nay" onClick={this.handleSubmitNay}/>
-                      </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
+          <div className="field">
+            <div className="control">
+            <form className="form proposed-debate-form" onSubmit={this.handleSubmit}>
+              <input className="input is-primary" type="text" placeholder="Debate input" onChange={this.handleChange}/>
+              <div className="buttons has-addons">
+              <select onChange={this.handleDropdown}>
+                <option value="Yea"> Yea</option>
+                <option value="Nay"> Nay</option>
+              </select>
+                <input className="button" type="submit" value="Propose!"/>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
     );
-
   }
 }
 

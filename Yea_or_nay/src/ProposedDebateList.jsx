@@ -40,14 +40,14 @@ class ProposedDebateList extends Component {
 
     return (
       <div className="box">
-                    <div className="field">
-                      <div className="control">
-                        <ul>
-                          {this.createTopics()}
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
+        <div className="field">
+          <div className="control">
+            <ul>
+              {this.createTopics()}
+            </ul>
+          </div>
+        </div>
+      </div>
     );
 
   }
