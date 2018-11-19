@@ -3,6 +3,10 @@ import MessageList from './MessageList.jsx';
 import MessageBar from './MessageBar.jsx';
 import DebateRoom from './DebateRoom.jsx';
 import Message from './Message.jsx'
+import '../node_modules/bulma-extensions/bulma-carousel/dist/js/bulma-carousel.min.js';
+import '../node_modules/bulma-extensions/bulma-carousel/dist/css/bulma-carousel.min.css';
+
+
 // import ProposedDebate from '.ProposedDebate.jsx';
 // import ProposedDebateList from '.ProposedDebateList.jsx';
 // import ActiveDebateList from '.ActiveDebateList.jsx';
@@ -127,11 +131,40 @@ renderDebateRoom(debateRoom) {
           </div>
         </div>
         <footer className="footer has-background-white">
-          <div className="content has-text-centered">
-            <p>
-              <strong>ActiveDebateList</strong>
-            </p>
-          </div>
+              <div className='carousel carousel-animated carousel-animate-slide' data-size="5">
+              <div className='carousel-container'>
+                <div className='carousel-item is-active'>
+                  <figure className="image is-2by1"><img src="https://bulma.io/images/placeholders/640x320.png"/></figure>
+                </div>
+                <div className='carousel-item'>
+                  <figure className="image is-2by1"><img src="https://bulma.io/images/placeholders/640x320.png"/></figure>
+                </div>
+                <div className='carousel-item'>
+                  <figure className="image is-2by1"><img src="https://bulma.io/images/placeholders/640x320.png"/></figure>
+                </div>
+                <div className='carousel-item'>
+                  <figure className="image is-2by1"><img src="https://bulma.io/images/placeholders/640x320.png"/></figure>
+                </div>
+                <div className='carousel-item'>
+                  <figure className="image is-2by1"><img src="https://bulma.io/images/placeholders/640x320.png"/></figure>
+                </div>
+                <div className='carousel-item'>
+                  <figure className="image is-2by1"><img src="https://bulma.io/images/placeholders/640x320.png"/></figure>
+                </div>
+                <div className='carousel-item'>
+                  <figure className="image is-2by1"><img src="https://bulma.io/images/placeholders/640x320.png"/></figure>
+                </div>
+              </div>
+              <div className="carousel-navigation is-centered">
+                <div className="carousel-nav-left">
+                  <i className="fa fa-chevron-left" aria-hidden="true"></i>
+                </div>
+                <div className="carousel-nav-right">
+                  <i className="fa fa-chevron-right" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+
         </footer>
       </div>
       </BrowserRouter>
