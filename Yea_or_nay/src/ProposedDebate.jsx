@@ -23,6 +23,7 @@ class ProposedDebate extends Component {
     const proposal = {id: uuid(), proposingUser:this.state.currentUser, proposedDebate: this.state.proposedDebate, stance: this.state.stance}
     socket.emit('proposal', JSON.stringify(proposal))
     event.target.reset()
+    this.setState({stance: "Yea"})
   }
 
   handleDropdown(e){
