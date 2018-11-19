@@ -30,8 +30,6 @@ io.on('connection', function (client) {
     console.log("RECIEVED Join for room: ", data, "by client", client.id)
     client.join(data)
   })
-  // client.on('join', handleJoin)
-  client.on('leave', handleLeave)
 
   client.on('message', function (data) {
     let incomingmsg = JSON.parse(data)
@@ -39,6 +37,13 @@ io.on('connection', function (client) {
     io.in(incomingmsg.roomName).emit('message', JSON.stringify(incomingmsg))
     console.log("SENT ", incomingmsg, "To hopefully only", incomingmsg.roomName)
   });
+
+  client.on('proposal', function  (data) {
+    console.log("RECIEVED proposal", data)
+    let incomingProposal = JSON.parse(data)
+    io.emit('proposal', JSON.stringify(incomingProposal))
+    console.log("SEND BACK", incomingProposal)
+  })
 
   client.on('chatrooms', handleGetChatrooms)
 

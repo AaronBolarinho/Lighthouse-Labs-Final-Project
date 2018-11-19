@@ -33,12 +33,12 @@ renderDebateRoom(debateRoom) {
       <div>
         {/* create a nav component which includes a logo and a span element for displaying the viewer avatar and profile */}
         <nav className="level">
-          <div claName="level-left">
+          <div className="level-left">
             <div className="level-item has-text-centered">
               <p id="logo">YEA or NAY</p>
             </div>
           </div>
-          <div claName="level-left">
+          <div className="level-left">
             <div className="level-item">
               <span className="navbar-users">Viewer</span>
             </div>
