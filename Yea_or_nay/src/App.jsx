@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import MessageList from './MessageList.jsx';
 import MessageBar from './MessageBar.jsx';
 import DebateRoom from './DebateRoom.jsx';
-import Message from './Message.jsx'
+import Home from './Home.jsx';
 // import ProposedDebate from '.ProposedDebate.jsx';
 // import ProposedDebateList from '.ProposedDebateList.jsx';
 // import ActiveDebateList from '.ActiveDebateList.jsx';
@@ -47,83 +47,27 @@ renderDebateRoom(debateRoom) {
 
         <div className="section">
           <div className="container">
-            <div className="columns">
-
-              <div className="column">
-               <h5 className="subtitle is-5">Propose Debate:</h5>
-                <div className="box">
-                  <div className="field">
-                    <div className="control">
-                      <input className="input is-primary" type="text" placeholder="Debate input"/>
-                      <div className="buttons has-addons">
-                        <span className="button">YEA</span>
-                        <span className="button">NAY</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                  <h5 className="subtitle is-5">Join Debate:</h5>
-                  <div className="box">
-                    <div className="field">
-                      <div className="control">
-                        <ul>
-                          <li>This is our very long debate title<input className="button" type="submit" value="Yea or Nay"/></li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-
-
-              </div>
-               <div className="column is-three-quarters">
                 <div className="field">
                   <div className="control">
-                    {/* include the MessageList component to display the messages sent and their sender names */}
-                    <MessageList/>
-                  </div>
-                </div>
-                <div className="field">
-                  <div className="control">
-                     {/* include a Chatbar component with corresponding user names and methods for sending messages to the server and update user names*/}
-                    <MessageBar/>
-                  </div>
-                 </div>
-              </div>
-              <li>
-              <Link to ="/Room1">Room1</Link>
-              </li>
-              <li>
-              <Link to ="/Room2">Room2</Link>
-              </li>
-              <li>
-              <Link to ="/Room3">Room3</Link>
-              </li>
-              {/*this.state.debateRooms.map(debateRoom => (
-                <div>
-                <DebateRoom key={debateRoom.name} debateRoom={debateRoom}/>
-                <li>
-                <Link to={`/${debateRoom.name}`}> {debateRoom.name} </Link>
-                <Link to="/test"> Test </Link>
-                </li>
-                </div>))*/}
-                <Switch>
-                <Route
-                  exact
-                  path="/"
-                  component={Message}
-                  />
-                      {this.state.debateRooms.map(debateRoom => (
+                     <Switch>
                         <Route
-                          key={debateRoom.name}
                           exact
-                          path={`/${debateRoom.name}`}
-                          render={
-                            props => this.renderDebateRoom(debateRoom.name)
-                          }
-                        /> ))
-                    }
-                </Switch>
-            </div>
+                          path="/"
+                          component={Home}
+                        />
+                        {this.state.debateRooms.map(debateRoom => (
+                          <Route
+                            key={debateRoom.name}
+                            exact
+                            path={`/${debateRoom.name}`}
+                            render={
+                              props => this.renderDebateRoom(debateRoom.name)
+                            }
+                          /> ))
+                        }
+                      </Switch>
+                  </div>
+                </div>
           </div>
         </div>
         <footer className="footer has-background-white">

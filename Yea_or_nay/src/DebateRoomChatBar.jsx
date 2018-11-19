@@ -10,9 +10,14 @@ function DebateRoomChatBar ({sendMessage}) {
    }
 
     return (
-      <footer className="debate-chatbar">
-        <input className="input is-primary" onKeyDown={keyPressMessage} placeholder="Type a message and hit ENTER" />
-      </footer>
+
+      <div className="field">
+        <div className="control">
+          <footer className="debate-chatbar">
+            <input className="input is-primary" onKeyDown={keyPressMessage} placeholder="Type a message and hit ENTER" />
+          </footer>
+        </div>
+      </div>
     )
 }
 

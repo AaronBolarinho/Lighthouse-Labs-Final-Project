@@ -50,12 +50,10 @@ class DebateRoom extends Component {
   render() {
     return (
       <div className = "debate-room">
-        <div className="column is-three-quarters">
-          <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} />
-          <div className="field">
-            <div className="control">
-              <DebateRoomChatBar sendMessage={this.sendMessage} />
-            </div>
+        <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} />
+        <div className="field">
+          <div className="control">
+            <DebateRoomChatBar sendMessage={this.sendMessage} />
           </div>
         </div>
       </div>
