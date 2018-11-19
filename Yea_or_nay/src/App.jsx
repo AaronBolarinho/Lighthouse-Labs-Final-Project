@@ -2,10 +2,11 @@ import React, {Component} from 'react';
 import MessageList from './MessageList.jsx';
 import MessageBar from './MessageBar.jsx';
 import DebateRoom from './DebateRoom.jsx';
+import Message from './Message.jsx'
 // import ProposedDebate from '.ProposedDebate.jsx';
 // import ProposedDebateList from '.ProposedDebateList.jsx';
 // import ActiveDebateList from '.ActiveDebateList.jsx';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom'
 const io = require('socket.io-client')
 const socket = io.connect('http://localhost:3001')
 
@@ -16,20 +17,20 @@ class App extends Component {
     this.state = {
       user: null,
       client: socket,
-      debateRooms: [{name: "Room1"}, {name:"Room2"}]
+      debateRooms: [{name: "Room1"}, {name:"Room2"}, {name:"Room3"}]
     }
   }
 
-// renderDebateRoom(debateRoom) {
-//     return (
-//       <DebateRoom debateRoom={debateRoom}/>
-//     )
-//   }
+renderDebateRoom(debateRoom) {
+    return (
+      <DebateRoom debateRoom={debateRoom}/>
+    )
+  }
 
   render() {
     return (
+      <BrowserRouter>
       <div>
-
         {/* create a nav component which includes a logo and a span element for displaying the viewer avatar and profile */}
         <nav className="level">
           <div claName="level-left">
@@ -88,19 +89,30 @@ class App extends Component {
                   </div>
                  </div>
               </div>
-              {this.state.debateRooms.map(debateRoom => (
-                <DebateRoom key={debateRoom.name} debateRoom={debateRoom}/> ))}
-              {/*<BrowserRouter>
+              <li>
+              <Link to ="/Room1">Room1</Link>
+              </li>
+              <li>
+              <Link to ="/Room2">Room2</Link>
+              </li>
+              <li>
+              <Link to ="/Room3">Room3</Link>
+              </li>
+              {/*this.state.debateRooms.map(debateRoom => (
+                <div>
+                <DebateRoom key={debateRoom.name} debateRoom={debateRoom}/>
+                <li>
+                <Link to={`/${debateRoom.name}`}> {debateRoom.name} </Link>
+                <Link to="/test"> Test </Link>
+                </li>
+                </div>))*/}
                 <Switch>
                 <Route
                   exact
                   path="/"
-                  render={
-                    props => this.renderDebateRoom("Room1")
-                  }
+                  component={Message}
                   />
-              {
-                      this.state.debateRooms.map(debateRoom => (
+                      {this.state.debateRooms.map(debateRoom => (
                         <Route
                           key={debateRoom.name}
                           exact
@@ -108,11 +120,9 @@ class App extends Component {
                           render={
                             props => this.renderDebateRoom(debateRoom.name)
                           }
-                        />
-                      ))
+                        /> ))
                     }
                 </Switch>
-              </BrowserRouter> */}
             </div>
           </div>
         </div>
@@ -124,6 +134,7 @@ class App extends Component {
           </div>
         </footer>
       </div>
+      </BrowserRouter>
     );
   }
 }
