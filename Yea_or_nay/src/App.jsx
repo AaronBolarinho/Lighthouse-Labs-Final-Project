@@ -118,7 +118,7 @@ renderDebateRoom(debateRoom) {
                           exact
                           path={`/${debateRoom.name}`}
                           render={
-                            props => this.renderDebateRoom(debateRoom.name)
+                            props => this.renderDebateRoom(debateRoom)
                           }
                         /> ))
                     }
