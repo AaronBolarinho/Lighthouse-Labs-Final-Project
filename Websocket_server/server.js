@@ -39,16 +39,11 @@ io.on('connection', function (client) {
     let incomingmsg = JSON.parse(data)
 
     checkMessage(incomingmsg.content).then(function(result){
-      //console.log(incomingmsg.content + result);
-      //let score = result//incomingmsg.content = result;
+
       incomingmsg.content = incomingmsg.content + result;
-
-
-    //incomingmsg.content = incomingmsg.content + systemMessage;
-
-    console.log("RECIEVED : ", incomingmsg, "from", incomingmsg.roomName);
-    io.in(incomingmsg.roomName).emit('message', JSON.stringify(incomingmsg))
-    console.log("SENT ", incomingmsg, "To hopefully only", incomingmsg.roomName)
+      console.log("RECIEVED : ", incomingmsg, "from", incomingmsg.roomName);
+      io.in(incomingmsg.roomName).emit('message', JSON.stringify(incomingmsg))
+      console.log("SENT ", incomingmsg, "To hopefully only", incomingmsg.roomName)
     })
   });
 
