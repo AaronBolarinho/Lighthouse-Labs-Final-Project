@@ -5,12 +5,8 @@ import DebateRoom from './DebateRoom.jsx';
 import Message from './Message.jsx';
 import ProposedDebate from './ProposedDebate.jsx';
 import ProposedDebateList from './ProposedDebateList.jsx';
-// import ProposedDebate from '.ProposedDebate.jsx';
-// import ProposedDebateList from '.ProposedDebateList.jsx';
-// import ActiveDebateList from '.ActiveDebateList.jsx';
 import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom'
-const io = require('socket.io-client')
-const socket = io.connect('http://localhost:3001')
+
 
 class Home extends Component {
   constructor(props) {
@@ -20,15 +16,16 @@ class Home extends Component {
     }
   }
 
-  componentDidMount() {
-    socket.on('newRoom', data => {
-    const serverMsg = JSON.parse(data)
-    serverMsg.name = "Room" + (this.props.debateRooms.length + 1)
-    this.shouldRedirect(serverMsg.name)
-    })
-  }
   shouldRedirect(room) {
     this.setState({shouldRedirect: {should: true, room: room}})
+  }
+
+  componentDidMount() {
+    this.props.socket.on('redirect', data => {
+    const serverMsg = JSON.parse(data)
+    serverMsg.name = "Room" + (this.props.debateRooms.length)
+    this.shouldRedirect(serverMsg.name)
+    })
   }
 
   render() {
@@ -44,9 +41,9 @@ class Home extends Component {
 
               <div className="column">
                 <h5 className="subtitle is-5">Propose Debate:</h5>
-                <ProposedDebate />
+                <ProposedDebate socket={this.props.socket}/>
                 <h5 className="subtitle is-5">Join Debate:</h5>
-                <ProposedDebateList/>
+                <ProposedDebateList socket={this.props.socket}/>
 
 
               </div>

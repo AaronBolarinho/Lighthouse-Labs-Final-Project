@@ -7,13 +7,14 @@ import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom'
 const io = require('socket.io-client')
 const socket = io.connect('http://localhost:3001')
 
+
 class App extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       user: null,
-      client: socket,
+      socket: socket,
       debateRooms: [{id: 1, name: "Room1", proposedDebate:"Bananas are blue", debator1:"testUser1", debator2: "testUser2"}, {id: 2, name: "Room2", proposedDebate:"The sky is blue", debator1:"testUser3", debator2: "testUser4"}]
     }
     this.addDebateRoom = this.addDebateRoom.bind(this)
@@ -35,9 +36,7 @@ class App extends Component {
     socket.on('newRoom', data => {
     const serverMsg = JSON.parse(data)
     serverMsg.name = "Room" + (this.state.debateRooms.length + 1)
-    console.log("received addRoom: ", serverMsg)
     this.addDebateRoom(serverMsg)
-    console.log("ROOMS ARE NOW", this.state.debateRooms)
     })
   }
 
@@ -69,7 +68,7 @@ class App extends Component {
                           path="/"
                           render={
                             props => (
-                          <Home debateRooms={this.state.debateRooms} />
+                          <Home debateRooms={this.state.debateRooms} socket={this.state.socket} />
                           )
                           }
                         />

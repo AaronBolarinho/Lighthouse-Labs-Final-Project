@@ -49,7 +49,7 @@ io.on('connection', function (client) {
     console.log("RECIEVED newRoom", data)
     let incomingRoom = JSON.parse(data)
     io.emit('newRoom', JSON.stringify(incomingRoom))
-    console.log("SEND BACK", incomingRoom)
+    client.emit('redirect', JSON.stringify(incomingRoom))
   })
 
   client.on('chatrooms', handleGetChatrooms)
