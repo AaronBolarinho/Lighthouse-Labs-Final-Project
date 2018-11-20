@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import DebateRoomChatBar from './DebateRoomChatBar.jsx';
 import DebateMessageList from './DebateMessageList.jsx';
+import { Link } from 'react-router-dom'
 
 const io = require('socket.io-client')
 const socket = io.connect('http://localhost:3001')
@@ -56,6 +57,7 @@ class DebateRoom extends Component {
             <DebateRoomChatBar sendMessage={this.sendMessage} />
           </div>
         </div>
+        <Link to="/"> Return Home </Link>
       </div>
     );
   }
