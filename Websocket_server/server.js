@@ -3,6 +3,9 @@ var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
+const Perspective = require('perspective-api-client');
+const perspective = new Perspective({apiKey: 'AIzaSyCeUyBTSJsMQpqr_fgmipvQePk7Vx9iIc8' });
+
 // app.get('/Room1', function (req, res) {
 //   res.sendFile(__dirname + '/index.html');
 // });
@@ -32,10 +35,21 @@ io.on('connection', function (client) {
   })
 
   client.on('message', function (data) {
+
     let incomingmsg = JSON.parse(data)
+
+    checkMessage(incomingmsg.content).then(function(result){
+      //console.log(incomingmsg.content + result);
+      //let score = result//incomingmsg.content = result;
+      incomingmsg.content = incomingmsg.content + result;
+
+
+    //incomingmsg.content = incomingmsg.content + systemMessage;
+
     console.log("RECIEVED : ", incomingmsg, "from", incomingmsg.roomName);
     io.in(incomingmsg.roomName).emit('message', JSON.stringify(incomingmsg))
     console.log("SENT ", incomingmsg, "To hopefully only", incomingmsg.roomName)
+    })
   });
 
   client.on('proposal', function  (data) {
@@ -56,6 +70,25 @@ io.on('connection', function (client) {
     console.log('received error from client:', client.id)
     console.log(err)
   })
+
+  const checkMessage = async (text) => {
+     // const text = incomingmsg.content;
+      let systemMessage = "";
+      const result = await perspective.analyze(text);
+      const score = result.attributeScores.TOXICITY.summaryScore.value;
+    //  console.log(score);
+     // return score;
+      if (score >= 0.9){
+        systemMessage = "-- Message is offensive!"
+      }
+      else if (score >= 0.7){
+        systemMessage = "--Please watch your comment"
+      }
+     // console.log(systemMessage);
+      return systemMessage;
+   }
+
+
 })
 
 server.listen(3001, function (err) {
