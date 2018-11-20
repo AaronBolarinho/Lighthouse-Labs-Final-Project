@@ -4,6 +4,7 @@
   "description": "",
   "main": "Chatroom.js",
   "dependencies": {
+    "dotenv": "^6.1.0",
     "express": "^4.16.4",
     "perspective-api-client": "^3.0.0",
     "socket.io": "^2.1.1"

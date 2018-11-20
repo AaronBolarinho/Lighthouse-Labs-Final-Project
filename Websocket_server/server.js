@@ -2,9 +2,10 @@
 var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+require('dotenv').config()
 
 const Perspective = require('perspective-api-client');
-const perspective = new Perspective({apiKey: 'AIzaSyCeUyBTSJsMQpqr_fgmipvQePk7Vx9iIc8' });
+const perspective = new Perspective({apiKey: process.env.PERSPECTIVE_API_KEY });
 
 // app.get('/Room1', function (req, res) {
 //   res.sendFile(__dirname + '/index.html');
