@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 const uuid = require('uuid/v4')
 
-const io = require('socket.io-client')
-const socket = io.connect('http://localhost:3001')
-
 class ProposedDebate extends Component {
 
    constructor(props) {
@@ -21,8 +18,11 @@ class ProposedDebate extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const proposal = {id: uuid(), proposingUser:this.state.currentUser, proposedDebate: this.state.proposedDebate, stance: this.state.stance}
-    socket.emit('proposal', JSON.stringify(proposal))
+    this.props.socket.emit('proposal', JSON.stringify(proposal))
+    const newRoom = {id: uuid(), name: "", proposedDebate:this.state.proposedDebate, debator1:this.state.currentUser, debator2: null}
     event.target.reset()
+    this.setState({stance: "Yea"})
+    this.props.socket.emit('newRoom', JSON.stringify(newRoom))
   }
 
   handleDropdown(e){

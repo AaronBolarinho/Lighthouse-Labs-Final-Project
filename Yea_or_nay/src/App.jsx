@@ -3,12 +3,10 @@ import MessageList from './MessageList.jsx';
 import MessageBar from './MessageBar.jsx';
 import DebateRoom from './DebateRoom.jsx';
 import Home from './Home.jsx';
-// import ProposedDebate from '.ProposedDebate.jsx';
-// import ProposedDebateList from '.ProposedDebateList.jsx';
-// import ActiveDebateList from '.ActiveDebateList.jsx';
 import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom'
 const io = require('socket.io-client')
 const socket = io.connect('http://localhost:3001')
+
 
 class App extends Component {
   constructor(props) {
@@ -16,15 +14,30 @@ class App extends Component {
 
     this.state = {
       user: null,
-      client: socket,
-      debateRooms: [{name: "Room1"}, {name:"Room2"}, {name:"Room3"}]
+      socket: socket,
+      debateRooms: [{id: 1, name: "Room1", proposedDebate:"Bananas are blue", debator1:"testUser1", debator2: "testUser2"}, {id: 2, name: "Room2", proposedDebate:"The sky is blue", debator1:"testUser3", debator2: "testUser4"}]
     }
+    this.addDebateRoom = this.addDebateRoom.bind(this)
   }
 
-renderDebateRoom(debateRoom) {
+  renderDebateRoom(debateRoom) {
     return (
       <DebateRoom debateRoom={debateRoom}/>
     )
+  }
+
+  addDebateRoom(newDebateRoom) {
+    let oldDebateRooms = this.state.debateRooms;
+    let newDebateRooms = [...oldDebateRooms, newDebateRoom];
+    this.setState({ debateRooms: newDebateRooms });
+  }
+
+  componentDidMount() {
+    socket.on('newRoom', data => {
+    const serverMsg = JSON.parse(data)
+    serverMsg.name = "Room" + (this.state.debateRooms.length + 1)
+    this.addDebateRoom(serverMsg)
+    })
   }
 
   render() {
@@ -55,7 +68,7 @@ renderDebateRoom(debateRoom) {
                           path="/"
                           render={
                             props => (
-                          <Home debateRooms={this.state.debateRooms} />
+                          <Home debateRooms={this.state.debateRooms} socket={this.state.socket} />
                           )
                           }
                         />

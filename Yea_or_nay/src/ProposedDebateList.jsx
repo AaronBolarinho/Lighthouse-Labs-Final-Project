@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
 import ProposedDebateListItem from './ProposedDebateListItem.jsx'
 
-const io = require('socket.io-client')
-const socket = io.connect('http://localhost:3001')
-
 class ProposedDebateList extends Component {
 
   constructor(props) {
     super(props)
 
     this.state = {
-      topics: [{id: 1, proposingUser: "TestUser1", proposedDebate: "Aardvarks are superior to narwhales", stance:"Yea"}, {id: 2, proposingUser: "TestUser2", topicStatement: "Avocados are good for exfoliation", stance:"Nay"}],
+      topics: [{id: 1, proposingUser: "TestUser1", proposedDebate: "Aardvarks are superior to narwhales", stance:"Yea"}, {id: 2, proposingUser: "TestUser2", proposedDebate: "Avocados are good for exfoliation", stance:"Nay"}],
     }
   }
 
@@ -30,14 +27,13 @@ class ProposedDebateList extends Component {
   }
 
   componentDidMount() {
-    socket.on('proposal', data => {
+    this.props.socket.on('proposal', data => {
     const serverMsg = JSON.parse(data)
-    console.log("received : ", serverMsg)
     this.updateTopics(serverMsg)
     })
   }
-  render() {
 
+  render() {
     return (
       <div className="box">
         <div className="field">

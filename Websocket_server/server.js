@@ -54,6 +54,13 @@ io.on('connection', function (client) {
     console.log("SEND BACK", incomingProposal)
   })
 
+   client.on('newRoom', function  (data) {
+    console.log("RECIEVED newRoom", data)
+    let incomingRoom = JSON.parse(data)
+    io.emit('newRoom', JSON.stringify(incomingRoom))
+    client.emit('redirect', JSON.stringify(incomingRoom))
+  })
+
   client.on('chatrooms', handleGetChatrooms)
 
   client.on('disconnect', function () {
