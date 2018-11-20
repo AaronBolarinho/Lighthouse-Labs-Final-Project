@@ -41,9 +41,9 @@ class Home extends Component {
 
               <div className="column">
                 <h5 className="subtitle is-5">Propose Debate:</h5>
-                <ProposedDebate socket={this.props.socket}/>
+                <ProposedDebate socket={this.props.socket} currentUser={this.props.currentUser}/>
                 <h5 className="subtitle is-5">Join Debate:</h5>
-                <ProposedDebateList socket={this.props.socket}/>
+                <ProposedDebateList socket={this.props.socket} debateRooms={this.props.debateRooms} currentUser={this.props.currentUser}/>
 
 
               </div>

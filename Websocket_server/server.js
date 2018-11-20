@@ -48,12 +48,12 @@ io.on('connection', function (client) {
     })
   });
 
-  client.on('proposal', function  (data) {
-    console.log("RECIEVED proposal", data)
-    let incomingProposal = JSON.parse(data)
-    io.emit('proposal', JSON.stringify(incomingProposal))
-    console.log("SEND BACK", incomingProposal)
-  })
+  // client.on('proposal', function  (data) {
+  //   console.log("RECIEVED proposal", data)
+  //   let incomingProposal = JSON.parse(data)
+  //   io.emit('proposal', JSON.stringify(incomingProposal))
+  //   console.log("SEND BACK", incomingProposal)
+  // })
 
    client.on('newRoom', function  (data) {
     console.log("RECIEVED newRoom", data)
@@ -61,6 +61,12 @@ io.on('connection', function (client) {
     io.emit('newRoom', JSON.stringify(incomingRoom))
     client.emit('redirect', JSON.stringify(incomingRoom))
   })
+
+   client.on('joinDebate', function (data) {
+    console.log("RECIEVED JOIN DEBATE")
+    let incomingRoom = JSON.parse(data)
+    client.emit('redirect', JSON.stringify(incomingRoom))
+   })
 
   client.on('chatrooms', handleGetChatrooms)
 

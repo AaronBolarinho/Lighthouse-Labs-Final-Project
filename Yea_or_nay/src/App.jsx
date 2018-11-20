@@ -13,9 +13,9 @@ class App extends Component {
     super(props)
 
     this.state = {
-      user: null,
+      currentUser: {name:"bob", state:"viewer"},
       socket: socket,
-      debateRooms: [{id: 1, name: "Room1", proposedDebate:"Bananas are blue", debator1:"testUser1", debator2: "testUser2"}, {id: 2, name: "Room2", proposedDebate:"The sky is blue", debator1:"testUser3", debator2: "testUser4"}]
+      debateRooms: [{id: 1, name: "Room1", proposedDebate:"Bananas are blue", debator1:"testUser1", debator2: null, debator1Stance: "Yea"}, {id: 2, name: "Room2", proposedDebate:"The sky is blue", debator1:"testUser3", debator2: "testUser4", debator1stance: "Nay"}]
     }
     this.addDebateRoom = this.addDebateRoom.bind(this)
   }
@@ -68,7 +68,7 @@ class App extends Component {
                           path="/"
                           render={
                             props => (
-                          <Home debateRooms={this.state.debateRooms} socket={this.state.socket} />
+                          <Home debateRooms={this.state.debateRooms} socket={this.state.socket} currentUser={this.state.currentUser} />
                           )
                           }
                         />

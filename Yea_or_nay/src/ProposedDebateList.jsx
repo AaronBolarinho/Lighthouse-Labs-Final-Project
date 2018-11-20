@@ -6,31 +6,32 @@ class ProposedDebateList extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      topics: [{id: 1, proposingUser: "TestUser1", proposedDebate: "Aardvarks are superior to narwhales", stance:"Yea"}, {id: 2, proposingUser: "TestUser2", proposedDebate: "Avocados are good for exfoliation", stance:"Nay"}],
-    }
+    // this.state = {
+    //   topics: [{id: 1, proposingUser: "TestUser1", proposedDebate: "Aardvarks are superior to narwhales", stance:"Yea"}, {id: 2, proposingUser: "TestUser2", proposedDebate: "Avocados are good for exfoliation", stance:"Nay"}],
+    // }
   }
 
   createTopics () {
-    const topicList=this.state.topics.map(topic => {
+    const topicList=this.props.debateRooms.map(debateRoom => {
+      if (!debateRoom.debator2)
       return(
-        <ProposedDebateListItem key={topic.id} topic={topic.proposedDebate} proposingUser={topic.proposingUser} stance={topic.stance} />
+        <ProposedDebateListItem key={debateRoom.id} topic={debateRoom.proposedDebate} proposingUser={debateRoom.debator1} stance={debateRoom.debator1Stance} debateRoom={debateRoom.name} socket={this.props.socket} currentUser={this.props.currentUser}/>
       )
     })
     return topicList
   }
 
   updateTopics (newTopic) {
-    let oldTopics = this.state.topics;
-    let newTopics = [...oldTopics, newTopic];
-    this.setState({ topics: newTopics });
+    // let oldTopics = this.state.topics;
+    // let newTopics = [...oldTopics, newTopic];
+    // this.setState({ topics: newTopics });
   }
 
   componentDidMount() {
-    this.props.socket.on('proposal', data => {
-    const serverMsg = JSON.parse(data)
-    this.updateTopics(serverMsg)
-    })
+    // this.props.socket.on('proposal', data => {
+    // const serverMsg = JSON.parse(data)
+    // this.updateTopics(serverMsg)
+    // })
   }
 
   render() {
