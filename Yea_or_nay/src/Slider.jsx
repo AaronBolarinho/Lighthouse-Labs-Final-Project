@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Slide from './Slide.jsx';
 import LeftArrow from './LeftArrow.jsx';
 import RightArrow from './RightArrow.jsx';
+import {Link } from 'react-router-dom';
 
 export default class Slider extends Component {
   constructor(props) {
@@ -57,7 +58,9 @@ export default class Slider extends Component {
             <ul className='slide-container, justify-content-center'>
               {this.props.debateRooms.map((item, index) => {
                 let computedClass = index === (this.state.currentIndex) ? 'slide active' : 'slide';
-                return <li className={computedClass} key={index}>{item.proposedDebate}</li>
+                return  <li className={computedClass} key={index}>
+                          <Link to={`/${item.name}`}>{item.proposedDebate}</Link>
+                        </li>
               })}
             </ul>
 

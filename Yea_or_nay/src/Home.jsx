@@ -42,16 +42,10 @@ class Home extends Component {
                 <ProposedDebateList socket={this.props.socket} debateRooms={this.props.debateRooms} currentUser={this.props.currentUser}/>
               </div>
 
-               <div className="col-sm-7">
+              <div className="col-sm-7">
                     {/* include the MessageList component to display the messages sent and their sender names */}
                     <DebateRoom debateRoom={{name:"mainroom"}}/>
-                  {this.props.debateRooms.map(debateRoom => (
-                          <li>
-                            <Link to={`/${debateRoom.name}`}> {debateRoom.name}</Link>
-                            <br/> <span> {debateRoom.proposedDebate} </span>
-                          </li>
-                    ))}
-          </div>
+              </div>
 
         </div>
       </div>
