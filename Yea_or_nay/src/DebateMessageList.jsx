@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import DebateRoomMessage from './DebateRoomMessage.jsx';
 
-function DebateMessageList ({messages, debateRoom}) {
+function DebateMessageList ({messages, debateRoom,updateLiked}) {
   const messageList = messages.map(message => {
     return(
-      <DebateRoomMessage key={message.id} message={message.content} username={message.username} />
+      <DebateRoomMessage key={message.id} message={message.content} username={message.username} room={debateRoom.name}  updateLiked={updateLiked}/>
     )
   })
   return (

@@ -3,6 +3,8 @@ import DebateRoomChatBar from './DebateRoomChatBar.jsx';
 import DebateMessageList from './DebateMessageList.jsx';
 import { Link } from 'react-router-dom'
 
+import DebateRoomMessage from './DebateRoomMessage.jsx';
+
 const io = require('socket.io-client')
 const socket = io.connect('http://localhost:3001')
 
@@ -12,10 +14,12 @@ class DebateRoom extends Component {
     this.state = {
       debateRoom: props.debateRoom,
       messages: [{id:1, content:"hello", username:"TestUser1"}, {id:2, content:"hello back", username:"TestUser2"} ],
-      connectedUsers: 2
+      connectedUsers: 2,
+      liked: 0
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.updateMessages = this.updateMessages.bind(this);
+    this.updateLiked = this.updateLiked.bind(this);
   }
 
    sendMessage(message) {
@@ -48,17 +52,24 @@ class DebateRoom extends Component {
     })
   }
 
+  updateLiked(username) {
+    this.state.liked += 1;
+    console.log('Liked' , this.state.liked)
+    console.log(username);
+  }
+
   render() {
     return (
       <div className = "debate-room">
-        <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} />
+        <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked}/>
+
         <div className="field">
           <div className="control">
             <DebateRoomChatBar sendMessage={this.sendMessage} />
-          </div>
         </div>
-        <Link to="/"> Return Home </Link>
-      </div>
+        </div>
+          <Link to="/"> Return Home </Link>
+        </div>
     );
   }
 }
