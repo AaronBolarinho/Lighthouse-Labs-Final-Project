@@ -22,6 +22,7 @@ class DebateRoom extends Component {
     this.sendMessage = this.sendMessage.bind(this);
     this.updateMessages = this.updateMessages.bind(this);
     this.updateLiked = this.updateLiked.bind(this);
+    this.leaveRoom = this.leaveRoom.bind(this)
   }
 
    sendMessage(message) {
@@ -43,6 +44,7 @@ class DebateRoom extends Component {
 
   leaveRoom () {
     let room = this.state.debateRoom.name
+    console.log("ROOM TO LEAVE IS ", room)
     socket.emit('leave', room)
   }
 
