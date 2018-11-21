@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import DebateRoomChatBar from './DebateRoomChatBar.jsx';
 import DebateMessageList from './DebateMessageList.jsx';
 import { Link } from 'react-router-dom'
+import Timer from './Timer.jsx';
 
 const io = require('socket.io-client')
 const socket = io.connect('http://localhost:3001')
@@ -12,7 +13,8 @@ class DebateRoom extends Component {
     this.state = {
       debateRoom: props.debateRoom,
       messages: [{id:1, content:"hello", username:"TestUser1"}, {id:2, content:"hello back", username:"TestUser2"} ],
-      connectedUsers: 2
+      connectedUsers: 2,
+      socket: socket
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.updateMessages = this.updateMessages.bind(this);
@@ -33,6 +35,11 @@ class DebateRoom extends Component {
      let oldMessages = this.state.messages;
      let newMessages = [...oldMessages, newMessage];
      this.setState({ messages: newMessages });
+  }
+
+  leaveRoom () {
+    let room = this.state.debateRoom.name
+    socket.emit('leave', room)
   }
 
   componentDidMount() {
@@ -56,11 +63,14 @@ class DebateRoom extends Component {
           <div className="control">
             <DebateRoomChatBar sendMessage={this.sendMessage} />
           </div>
+          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
         </div>
-        <Link to="/"> Return Home </Link>
+        <Link to="/" onClick={this.leaveRoom}> Return Home </Link>
       </div>
     );
   }
 }
 
 export default DebateRoom;
+
+
