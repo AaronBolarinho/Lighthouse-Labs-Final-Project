@@ -27,7 +27,7 @@ class DebateRoom extends Component {
    sendMessage(message) {
     const newMessage = {
       id: (this.state.messages.length + 1),
-      username: "TestUser",
+      username: this.props.currentUser.name,
       content: message,
       roomName: this.state.debateRoom.name
     };
@@ -36,9 +36,9 @@ class DebateRoom extends Component {
   }
 
   updateMessages(newMessage) {
-     let oldMessages = this.state.messages;
-     let newMessages = [...oldMessages, newMessage];
-     this.setState({ messages: newMessages });
+    let oldMessages = this.state.messages;
+    let newMessages = [...oldMessages, newMessage];
+    this.setState({ messages: newMessages });
   }
 
   leaveRoom () {
@@ -50,7 +50,6 @@ class DebateRoom extends Component {
     console.log(`${this.state.debateRoom.name} MOUNTED`)
     // Should join the room here
     let room = this.state.debateRoom.name
-    console.log("ROOM", room)
     socket.emit('subscribe', room)
     socket.on ('message', data => {
     const serverMsg = JSON.parse(data)
