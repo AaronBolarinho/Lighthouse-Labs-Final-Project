@@ -35,6 +35,7 @@ class ProposedDebateList extends Component {
   }
 
   render() {
+    console.log("DEBATE ROOMS FROM DEBATE LIST ARE ", this.props.debateRooms)
     return (
       <div className="box">
         <div className="field">

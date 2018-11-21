@@ -39,7 +39,6 @@ class DebateRoom extends Component {
     console.log(`${this.state.debateRoom.name} MOUNTED`)
     // Should join the room here
     let room = this.state.debateRoom.name
-    console.log("ROOM", room)
     socket.emit('subscribe', room)
     socket.on ('message', data => {
     const serverMsg = JSON.parse(data)
