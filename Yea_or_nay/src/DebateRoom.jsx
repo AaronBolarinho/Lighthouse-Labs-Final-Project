@@ -69,7 +69,6 @@ class DebateRoom extends Component {
     return (
       <div className = "debate-room">
         <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked}/>
-
         <div className="field">
           <div className="control">
             <DebateRoomChatBar sendMessage={this.sendMessage} />
