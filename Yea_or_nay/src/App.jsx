@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Timer from './Timer.jsx';
 import MessageList from './MessageList.jsx';
 import MessageBar from './MessageBar.jsx';
 import DebateRoom from './DebateRoom.jsx';
@@ -84,7 +85,7 @@ class App extends Component {
                         }
                       </Switch>
                   </div>
-                </div>
+               </div>
           </div>
         </div>
         <footer className="footer has-background-white">

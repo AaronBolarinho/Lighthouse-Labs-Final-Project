@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import DebateRoomChatBar from './DebateRoomChatBar.jsx';
 import DebateMessageList from './DebateMessageList.jsx';
 import { Link } from 'react-router-dom'
+import Timer from './Timer.jsx';
 
 import DebateRoomMessage from './DebateRoomMessage.jsx';
 
@@ -15,7 +16,8 @@ class DebateRoom extends Component {
       debateRoom: props.debateRoom,
       messages: [{id:1, content:"hello", username:"TestUser1"}, {id:2, content:"hello back", username:"TestUser2"} ],
       connectedUsers: 2,
-      liked: 0
+      liked: 0,
+      socket: socket
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.updateMessages = this.updateMessages.bind(this);
@@ -37,6 +39,11 @@ class DebateRoom extends Component {
      let oldMessages = this.state.messages;
      let newMessages = [...oldMessages, newMessage];
      this.setState({ messages: newMessages });
+  }
+
+  leaveRoom () {
+    let room = this.state.debateRoom.name
+    socket.emit('leave', room)
   }
 
   componentDidMount() {
@@ -66,12 +73,15 @@ class DebateRoom extends Component {
         <div className="field">
           <div className="control">
             <DebateRoomChatBar sendMessage={this.sendMessage} />
+          </div>
+          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
         </div>
-        </div>
-          <Link to="/"> Return Home </Link>
-        </div>
+        <Link to="/" onClick={this.leaveRoom}> Return Home </Link>
+      </div>
     );
   }
 }
 
 export default DebateRoom;
+
+

@@ -35,6 +35,11 @@ io.on('connection', function (client) {
     client.join(data)
   })
 
+  client.on('leave', function (data) {
+    console.log("RECIEVED leave: ", data)
+    client.leave(data)
+  })
+
   client.on('message', function (data) {
 
     let incomingmsg = JSON.parse(data)
@@ -73,6 +78,13 @@ io.on('connection', function (client) {
   client.on('disconnect', function () {
     console.log('client disconnect...', client.id)
     handleDisconnect()
+  })
+
+  client.on('timer', function (data) {
+    console.log('received timer', data)
+    let incomingTimerUpdate = JSON.parse(data)
+    console.log("this is the timer update data", incomingTimerUpdate)
+    io.in(incomingTimerUpdate.room).emit('TimerUpdate', JSON.stringify(incomingTimerUpdate))
   })
 
   client.on('error', function (err) {
