@@ -59,7 +59,7 @@ export default class Slider extends Component {
               {this.props.debateRooms.map((item, index) => {
                 let computedClass = index === (this.state.currentIndex) ? 'slide active' : 'slide';
                 return  <li className={computedClass} key={index}>
-                          <Link to={`/${item.name}`}>{item.proposedDebate}</Link>
+                          <Link to={`/${this.props.debateRooms[this.state.currentIndex].name}`}>{item.proposedDebate}</Link>
                         </li>
               })}
             </ul>
