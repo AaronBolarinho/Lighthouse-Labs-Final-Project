@@ -87,7 +87,7 @@ class App extends Component {
           <div className="container mt-3">
 
             <h4>View debates</h4>
-            <Slider/>
+            <Slider debateRooms={this.state.debateRooms}/>
           </div>
 
         </footer>

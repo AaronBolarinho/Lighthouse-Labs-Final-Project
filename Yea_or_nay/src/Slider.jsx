@@ -8,9 +8,6 @@ export default class Slider extends Component {
     super(props)
 
     this.state = {
-      debateRoomList: [
-        'Room 1', 'Room 2', 'Room 3'
-      ],
       currentIndex: 0
     };
 
@@ -25,13 +22,13 @@ export default class Slider extends Component {
       }))
     } else {
       this.setState((prevState) => ({
-        currentIndex: this.state.debateRoomList.length - 1
+        currentIndex: this.props.debateRooms.length - 1
       }))
     };
   }
 
   goToNextSlide() {
-     if (this.state.currentIndex === this.state.debateRoomList.length - 1) {
+     if (this.state.currentIndex === this.props.debateRooms.length - 1) {
       this.setState({
         currentIndex: 0
       })
@@ -58,9 +55,9 @@ export default class Slider extends Component {
           <div className='slideContainer'>
 
             <ul className='slide-container, justify-content-center'>
-              {this.state.debateRoomList.map((item, index) => {
+              {this.props.debateRooms.map((item, index) => {
                 let computedClass = index === (this.state.currentIndex) ? 'slide active' : 'slide';
-                return <li className={computedClass} key={index}>{item}</li>
+                return <li className={computedClass} key={index}>{item.proposedDebate}</li>
               })}
             </ul>
 

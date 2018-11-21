@@ -35,42 +35,22 @@ class Home extends Component {
       <div className='container-fluid'>
         <div className='row'>
 
-              <div className="column">
+              <div className="col-sm-5">
                 <h5 className="subtitle is-5">Propose Debate:</h5>
                 <ProposedDebate socket={this.props.socket} currentUser={this.props.currentUser}/>
                 <h5 className="subtitle is-5">Join Debate:</h5>
                 <ProposedDebateList socket={this.props.socket} debateRooms={this.props.debateRooms} currentUser={this.props.currentUser}/>
-
-
               </div>
-               <div className="column is-three-quarters">
-                <div className="field">
-                  <div className="control">
+
+               <div className="col-sm-7">
                     {/* include the MessageList component to display the messages sent and their sender names */}
                     <DebateRoom debateRoom={{name:"mainroom"}}/>
-                  </div>
-                </div>
                   {this.props.debateRooms.map(debateRoom => (
                           <li>
                             <Link to={`/${debateRoom.name}`}> {debateRoom.name}</Link>
                             <br/> <span> {debateRoom.proposedDebate} </span>
                           </li>
                     ))}
-                  </div>
-
-          <div className='col-sm-7'>
-            {/* include the MessageList component to display the messages sent and their sender names */}
-            <DebateRoom debateRoom={{name:"mainroom"}}/>
-
-            <li>
-            <Link to ="/Room1">Room1</Link>
-            </li>
-            <li>
-            <Link to ="/Room2">Room2</Link>
-            </li>
-            <li>
-            <Link to ="/Room3">Room3</Link>
-            </li>
           </div>
 
         </div>
