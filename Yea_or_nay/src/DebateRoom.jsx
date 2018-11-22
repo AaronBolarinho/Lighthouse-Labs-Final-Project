@@ -19,7 +19,7 @@ class DebateRoom extends Component {
       debator1Liked: 0,
       debator2Liked: 0,
       socket: socket,
-      currentUser: props.currentUser
+      currentUser: props.currentUser,
 
     };
     this.sendMessage = this.sendMessage.bind(this);
@@ -61,6 +61,8 @@ class DebateRoom extends Component {
   }
 
   componentDidMount() {
+    console.log(this.state.connectedUsers)
+
     // Should join the room here
     let room = this.state.debateRoom.name
     socket.emit('subscribe', room)
@@ -73,6 +75,9 @@ class DebateRoom extends Component {
       const serverMsg = JSON.parse(data)
       console.log("received : ", serverMsg)
       this.addConnectedUser(serverMsg)
+      // if (serverMsg.state === 'debator2'){
+      //   this.setState({debateRoom.debator2: serverMsg.username});
+      // }
     })
 
     socket.on('likes', data => {

@@ -83,8 +83,9 @@ io.on('connection', function (client) {
    client.on('addDebator2', function (data) {
     let incomingDebator2 = JSON.parse(data)
     let debator2ToBeAdded = {username: incomingDebator2.username, state: "debator2", stance: incomingDebator2.stance}
+    let appDebator2 = {username: incomingDebator2.username, room: incomingDebator2.room}
     io.in(incomingDebator2.room.name).emit('addUser', JSON.stringify(debator2ToBeAdded))
-    io.emit('addDebator2ToApp', JSON.stringify(incomingDebator2.room))
+    io.emit('addDebator2ToApp', JSON.stringify(appDebator2))
    })
 
 
