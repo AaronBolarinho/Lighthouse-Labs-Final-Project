@@ -14,18 +14,14 @@ class DebateRoom extends Component {
     super();
     this.state = {
       debateRoom: props.debateRoom,
-<<<<<<< HEAD
       connectedUsers: [{username: props.debateRoom.debator1, state: "debator1", stance: props.debateRoom.debator1Stance}],
       messages: [{id:1, content:"hello", username:"TestUser1"}, {id:2, content:"hello back", username:"TestUser2"} ],
-
-
       debator1Liked: 0,
       debator2Liked: 0,
       socket: socket,
       currentUser: props.currentUser
 
     };
-    this.addConnectedUser = this.addConnectedUser.bind(this)
     this.sendMessage = this.sendMessage.bind(this);
     this.updateMessages = this.updateMessages.bind(this);
     this.updateLiked = this.updateLiked.bind(this);
