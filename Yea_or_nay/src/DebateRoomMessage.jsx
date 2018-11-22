@@ -5,7 +5,7 @@ function DebateRoomMessage ({username, message}) {
   return (
       <div className="message" >
         <span className="message-username">{username}: </span>
-        <span className="message-content">{message}  </span>
+        <span className="message-content">{message}</span>
       </div>
   );
 }

@@ -34,7 +34,7 @@ class Home extends Component {
 
       <div className='container'>
         <div className='row'>
-                 <div class="clearfix"></div>
+                 <div className="clearfix"></div>
               <div className="col-sm-5">
                 <h5 className="subtitle">Propose Debate:</h5>
                 <ProposedDebate socket={this.props.socket} currentUser={this.props.currentUser}/>
@@ -46,7 +46,7 @@ class Home extends Component {
                     {/* include the MessageList component to display the messages sent and their sender names */}
                     <DebateRoom debateRoom={{name:"mainroom"}}/>
               </div>
-              <div class="clearfix"></div>
+              <div className="clearfix"></div>
 
         </div>
       </div>
