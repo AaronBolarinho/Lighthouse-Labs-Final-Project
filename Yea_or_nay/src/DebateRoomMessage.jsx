@@ -11,11 +11,7 @@ function DebateRoomMessage ({username, message, room, updateLiked}) {
   return (
       <div className="message" >
         <span className="message-username">{username}: </span>
-
-          <span className="message-content">{message} {room !== 'mainroom' ? <button className='liked' onClick={clickedLike}>LIKE</button>: ''}</span>
-
-
-
+        <span className="message-content">{message} {room !== 'mainroom' ? <button className='liked' onClick={clickedLike}>LIKE</button>: ''}</span>
       </div>
   );
 }

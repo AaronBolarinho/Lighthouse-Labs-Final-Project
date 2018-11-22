@@ -90,7 +90,7 @@ class App extends Component {
       <BrowserRouter>
       <div>
         {/* create a nav component which includes a logo and a span element for displaying the viewer avatar and profile */}
-        <nav className='navbar navbar-expand-sm bg-dark navbar-black'>
+        <nav className='navbar navbar-expand-sm navbar-black'>
           <div className='container'>
             <div className="navbar-brand">
               <p id="logo">YEA or NAY</p>
@@ -103,8 +103,6 @@ class App extends Component {
           </div>
         </nav>
           <div className="container">
-                <div className="field">
-                  <div className="control">
                      <Switch>
                         <Route
                           exact
@@ -126,8 +124,6 @@ class App extends Component {
                           /> ))
                         }
                       </Switch>
-                  </div>
-               </div>
           </div>
         <footer className="footer">
           <div className="container mt-3">

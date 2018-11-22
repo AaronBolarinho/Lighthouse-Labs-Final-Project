@@ -55,7 +55,7 @@ export default class Slider extends Component {
 
           <div className='slideContainer'>
 
-            <ul className='slide-container, justify-content-center'>
+            <ul className='slide-container justify-content-center'>
               {this.props.debateRooms.map((item, index) => {
                 let computedClass = index === (this.state.currentIndex) ? 'slide active' : 'slide';
                 return  <li className={computedClass} key={index}>

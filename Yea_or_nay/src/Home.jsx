@@ -33,15 +33,15 @@ class Home extends Component {
         }
     return (
 
-      <div className='container-fluid'>
         <div className='row'>
-
               <div className="col-sm-5">
+
                 <TestChangeUser changeUsername={this.props.changeUsername}/>
-                <h5 className="subtitle is-5">Propose Debate:</h5>
+                <h5 className="subtitle">Propose Debate:</h5>
                 <ProposedDebate socket={this.props.socket} currentUser={this.props.currentUser} setUserToDebator={this.props.setUserToDebator}/>
-                <h5 className="subtitle is-5">Join Debate:</h5>
+                <h5 className="subtitle">Join Debate:</h5>
                 <ProposedDebateList socket={this.props.socket} debateRooms={this.props.debateRooms} currentUser={this.props.currentUser} setUserToDebator={this.props.setUserToDebator} setDebateRoomDebator2={this.props.setDebateRoomDebator2}/>
+
               </div>
 
               <div className="col-sm-7">
@@ -51,7 +51,6 @@ class Home extends Component {
               </div>
 
         </div>
-      </div>
     );
   }
 }

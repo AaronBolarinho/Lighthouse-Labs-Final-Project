@@ -19,7 +19,10 @@ function ProposedDebateListItem (props) {
   }
 
     return (
-      <li>{props.proposingUser} proposes: {props.topic} in {props.debateRoom.name}<Link to={`/${props.debateRoom.name}`} onClick={makeDebator}><input className="button" value={checkSupportStatus()}/></Link></li>
+      <div>
+        <li className='proposed-debate-li'>{props.proposingUser} proposes: {props.topic} in {props.debateRoom.name}<Link to={`/${props.debateRoom.name}`} onClick={makeDebator}>
+        <input className="button input-sm btn float-right button-join-debate btn-dark" value={checkSupportStatus()}/></Link></li>
+      </div>
     );
 }
 

@@ -6,32 +6,15 @@
   color: black;
 }
 
-.level {
-  height: 50px;
-  margin: 10px;
-  background-color: black;
-
-}
-
-.level-item {
-  padding: 10px;
-  margin: 5px;
-  color: white;
-}
-
-.section {
-  margin: 2rem;
-  padding: 0;
-}
-
 .subtitle {
   margin-bottom: 0.5rem;
   color: white;
   font-weight: bold;
 }
 
-.input {
+.input-lg {
   margin: 0.5rem 0 0.5rem 0;
+  width: 100%;
 }
 
 #messageList {
@@ -55,6 +38,7 @@ body {
 
 .navbar {
   color: white;
+  background-color: black;
 }
 
 .footer {
@@ -97,8 +81,88 @@ body {
 
 ul {
   list-style-type: none;
+  padding-left: 0;
 }
 
 li {
   color: white;
+}
+
+.proposed-debate {
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.proposed-debate-li {
+  color: black;
+  list-style-position: inside;
+  padding-left: none;
+  border-width: 2px;
+  margin-bottom: 10px;
+}
+
+.col-sm-5 {
+  padding-top: 4rem;
+  display: inline-block;
+  float: none;
+}
+
+.col-sm-7 {
+  display: inline-block;
+  float: none;
+}
+
+.form {
+  padding: 20px;
+  margin-bottom: 40px;
+  background-color: lightgrey;
+  border-radius: 3%;
+  color: black;
+  border-color: darkgrey;
+  border-style: solid;
+
+}
+
+.button-propose {
+  margin-bottom: 1rem;
+}
+
+.button-join-debate {
+  width: 60px;
+  color: #fff;
+  background-color: #343a40;
+  border-color: #343a40;
+  height: 30px;
+}
+
+.container-message-list {
+  padding: 20px;
+  margin-bottom: 10px;
+  background-color: lightgrey;
+  border-radius: 3%;
+  border-style: solid;
+  border-width: 2px;
+  border-color: darkgrey;
+}
+
+.message {
+  background-color: white;
+  margin-bottom: 5px;
+  padding: 5px;
+}
+
+.room-name {
+  color: white;
+}
+
+.input-debate-chatbar {
+  border-radius: 5%;
+  border-color: darkgrey;
+  border-style: solid;
+  padding: 10px;
+}
+
+.debate-room {
+  margin-top: 20px;
 }
