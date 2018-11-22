@@ -46,7 +46,8 @@ io.on('connection', function (client) {
 
     checkMessage(incomingmsg.content).then(function(result){
 
-      incomingmsg.content = incomingmsg.content + result;
+      incomingmsg.content = incomingmsg.content + result.systemMessage;
+      incomingmsg.flag = result.flag;
       console.log("RECIEVED : ", incomingmsg, "from", incomingmsg.roomName);
       io.in(incomingmsg.roomName).emit('message', JSON.stringify(incomingmsg))
       console.log("SENT ", incomingmsg, "To hopefully only", incomingmsg.roomName)
@@ -80,6 +81,13 @@ io.on('connection', function (client) {
     handleDisconnect()
   })
 
+  client.on('likes', function (data) {
+    //console.log('received timer', data)
+    let incomingMsg = JSON.parse(data)
+   // console.log("this is the timer update data", incomingTimerUpdate)
+    io.in(incomingMsg.room).emit('likes', JSON.stringify(incomingMsg))
+  })
+
   client.on('timer', function (data) {
     console.log('received timer', data)
     let incomingTimerUpdate = JSON.parse(data)
@@ -87,26 +95,33 @@ io.on('connection', function (client) {
     io.in(incomingTimerUpdate.room).emit('TimerUpdate', JSON.stringify(incomingTimerUpdate))
   })
 
+
   client.on('error', function (err) {
     console.log('received error from client:', client.id)
     console.log(err)
   })
 
+
+
   const checkMessage = async (text) => {
      // const text = incomingmsg.content;
-      let systemMessage = "";
+      let message = {
+                      systemMessage : "",
+                      flag: false};
+
       const result = await perspective.analyze(text);
       const score = result.attributeScores.TOXICITY.summaryScore.value;
     //  console.log(score);
      // return score;
       if (score >= 0.9){
-        systemMessage = "-- Message is offensive!"
+        message.systemMessage = "-- Message is offensive!"
+        message.flag = true;
       }
       else if (score >= 0.7){
-        systemMessage = "--Please watch your comment"
+        message.systemMessage = "--Please watch your comment"
       }
      // console.log(systemMessage);
-      return systemMessage;
+      return message;
    }
 
 

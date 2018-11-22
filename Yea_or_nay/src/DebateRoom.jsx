@@ -69,6 +69,18 @@ class DebateRoom extends Component {
       console.log("received : ", serverMsg)
       this.addConnectedUser(serverMsg)
     })
+
+    socket.on('likes', data => {
+      const serverMsg = JSON.parse(data)
+    //  console.log("received : ", serverMsg)
+      this.setState({debator1Liked:serverMsg.debator1Liked});
+      this.setState({debator2Liked:serverMsg.debator2Liked});
+      console.log(this.props.debateRoom.debator1, "has been liked= ",this.state.debator1Liked);
+      console.log(this.props.debateRoom.debator2, "has been liked= ",this.state.debator2Liked);
+
+    })
+
+
   }
 
   updateLiked(username) {
@@ -76,10 +88,17 @@ class DebateRoom extends Component {
      this.state.debator1Liked += 1;
     } else {
       this.state.debator2Liked += 1;
-
     }
-    console.log(this.state.debateRoom.debator1, "has been liked= ",this.state.debator1Liked);
-    console.log(this.state.debateRoom.debator2, "has been liked= ",this.state.debator2Liked);
+
+    const newMessage = {
+
+      debator1Liked: this.state.debator1Liked,
+      debator2Liked: this.state.debator2Liked,
+      room: this.state.debateRoom.name
+    }
+    socket.emit("likes", JSON.stringify(newMessage));
+   // console.log(this.state.debateRoom.debator1, "has been liked= ",this.state.debator1Liked);
+   // console.log(this.state.debateRoom.debator2, "has been liked= ",this.state.debator2Liked);
    // console.log(this.state.userState.state);
 
   }
@@ -94,7 +113,7 @@ class DebateRoom extends Component {
           <div className="control">
           {this.state.debateRoom.name === 'mainroom' || this.state.currentUser.state !== 'viewer' ? < DebateRoomChatBar sendMessage={this.sendMessage} /> : ''}
           </div>
-          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
+          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' && this.state.currentUser.state !== 'viewer' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
         </div>
         {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
 

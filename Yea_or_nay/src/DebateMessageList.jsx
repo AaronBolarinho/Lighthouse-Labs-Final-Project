@@ -4,7 +4,7 @@ import DebateRoomMessage from './DebateRoomMessage.jsx';
 function DebateMessageList ({messages, debateRoom,updateLiked, userState}) {
   const messageList = messages.map(message => {
     return(
-      <DebateRoomMessage key={message.id} message={message.content} username={message.username} room={debateRoom.name}  updateLiked={updateLiked} state={userState}/>
+      <DebateRoomMessage key={message.id} message={message.content} username={message.username} room={debateRoom.name}  updateLiked={updateLiked} state={userState} flag={message.flag}/>
     )
   })
   return (
