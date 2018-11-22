@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import Timer from './Timer.jsx';
-import MessageList from './MessageList.jsx';
-import MessageBar from './MessageBar.jsx';
 import DebateRoom from './DebateRoom.jsx';
 import Home from './Home.jsx';
-import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom'
-const io = require('socket.io-client')
-const socket = io.connect('http://localhost:3001')
+import Slider from './Slider.jsx';
+import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom';
+const io = require('socket.io-client');
+const socket = io.connect('http://localhost:3001');
 
 
 class App extends Component {
@@ -84,23 +83,19 @@ class App extends Component {
       <BrowserRouter>
       <div>
         {/* create a nav component which includes a logo and a span element for displaying the viewer avatar and profile */}
-        <nav className="level">
-          <div className="level-left">
-            <div className="level-item has-text-centered">
+        <nav className='navbar navbar-expand-sm navbar-black'>
+          <div className='container'>
+            <div className="navbar-brand">
               <p id="logo">YEA or NAY</p>
             </div>
-          </div>
-          <div className="level-left">
-            <div className="level-item">
-              <span className="navbar-users">Viewer</span>
+            <div className="navbar-nav navbar-right">
+              <div className="nav-item">
+                <span className="navbar-users">Viewer</span>
+              </div>
             </div>
           </div>
         </nav>
-
-        <div className="section">
           <div className="container">
-                <div className="field">
-                  <div className="control">
                      <Switch>
                         <Route
                           exact
@@ -122,16 +117,14 @@ class App extends Component {
                           /> ))
                         }
                       </Switch>
-                  </div>
-               </div>
           </div>
-        </div>
-        <footer className="footer has-background-white">
-          <div className="content has-text-centered">
-            <p>
-              <strong>ActiveDebateList</strong>
-            </p>
+        <footer className="footer">
+          <div className="container mt-3">
+
+            <h4>View debates</h4>
+            <Slider debateRooms={this.state.debateRooms}/>
           </div>
+
         </footer>
       </div>
       </BrowserRouter>

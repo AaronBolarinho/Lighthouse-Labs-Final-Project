@@ -8,17 +8,13 @@ function DebateMessageList ({messages, debateRoom,updateLiked}) {
     )
   })
   return (
-    <div className="field">
-      <div className="control">
         <main className="messages">
-          <h4 className="subtitle is-4">{debateRoom.name}</h4>
-          <h6 className="subtitle is-4">{debateRoom.proposedDebate} </h6>
-          <div className="box">
-            {messageList}
+          <h4 className='room-name'>{debateRoom.name}</h4>
+          <h4 className='room-name'>{debateRoom.proposedDebate} </h4>
+          <div className='container-message-list'>
+              {messageList}
           </div>
         </main>
-      </div>
-    </div>
   )
 }
 

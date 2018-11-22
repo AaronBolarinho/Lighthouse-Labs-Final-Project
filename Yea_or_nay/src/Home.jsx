@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
-import MessageList from './MessageList.jsx';
-import MessageBar from './MessageBar.jsx';
 import DebateRoom from './DebateRoom.jsx';
-import Message from './Message.jsx';
 import ProposedDebate from './ProposedDebate.jsx';
 import ProposedDebateList from './ProposedDebateList.jsx';
 import TestChangeUser from './TestChangeUser.jsx'
@@ -33,6 +30,7 @@ class Home extends Component {
     serverMsg.name = "Room" + (this.props.debateRooms.length)
     this.shouldRedirect(serverMsg.name)
     })
+
   }
 
   render() {
@@ -41,40 +39,32 @@ class Home extends Component {
         }
         let currentUser = this.props.currentUser
     return (
-      <div>
 
-        <div className="section">
-          <div className="container">
-            <div className="columns">
+        <div className='row'>
+          <div className="col-sm-5">
 
-              <div className="column">
-                <TestChangeUser changeUsername={this.props.changeUsername}/>
-                <h5 className="subtitle is-5">Propose Debate:</h5>
-                <ProposedDebate socket={this.props.socket} currentUser={this.props.currentUser} setUserToDebator={this.props.setUserToDebator}/>
-                <h5 className="subtitle is-5">Join Debate:</h5>
-                <ProposedDebateList socket={this.props.socket} debateRooms={this.props.debateRooms} currentUser={this.props.currentUser} setUserToDebator={this.props.setUserToDebator} setDebateRoomDebator2={this.props.setDebateRoomDebator2}/>
+            <TestChangeUser changeUsername={this.props.changeUsername}/>
+            <h5 className="subtitle">Propose Debate:</h5>
+            <ProposedDebate socket={this.props.socket} currentUser={this.props.currentUser} setUserToDebator={this.props.setUserToDebator}/>
+            <h5 className="subtitle">Join Debate:</h5>
+            <ProposedDebateList socket={this.props.socket} debateRooms={this.props.debateRooms} currentUser={this.props.currentUser} setUserToDebator={this.props.setUserToDebator} setDebateRoomDebator2={this.props.setDebateRoomDebator2}/>
 
-              </div>
-               <div className="column is-three-quarters">
-                <div className="field">
-                  <div className="control">
-                    {/* include the MessageList component to display the messages sent and their sender names */}
-                    <DebateRoom debateRoom={{name:"mainroom"}} currentUser={this.props.currentUser}/>
-                  </div>
-                </div>
-                  {this.props.debateRooms.map(debateRoom => (
-                          <li>
-                            <Link to={`/${debateRoom.name}`} onClick={() =>{this.addUserToRoom({currentUser}, {debateRoom})}}> {debateRoom.name}</Link>
-                            <br/> <span> {debateRoom.proposedDebate} </span>
-                          </li>
-                    ))}
-                  </div>
+          </div>
 
-            </div>
+          <div className="col-sm-7">
+            <DebateRoom debateRoom={{name:"mainroom"}} currentUser={this.props.currentUser}/>
+          </div>
+          <div>
+              {this.props.debateRooms.map(debateRoom => (
+                      <li>
+                        <Link to={`/${debateRoom.name}`} onClick={() =>{this.addUserToRoom({currentUser}, {debateRoom})}}> {debateRoom.name}</Link>
+                        <br/> <span> {debateRoom.proposedDebate} </span>
+                      </li>
+                ))}
           </div>
         </div>
-      </div>
     );
   }
 }
+
 export default Home;
