@@ -8,13 +8,13 @@ function DebateMessageList ({messages, debateRoom,updateLiked, userState}) {
     )
   })
   return (
-        <main className="messages">
+        <div className="messages">
           <h4 className='room-name'>{debateRoom.name}</h4>
           <h4 className='room-name'>{debateRoom.proposedDebate} </h4>
-          <div className='container-message-list'>
+          <div className='container message-list'>
               {messageList}
           </div>
-        </main>
+        </div>
   )
 }
 
