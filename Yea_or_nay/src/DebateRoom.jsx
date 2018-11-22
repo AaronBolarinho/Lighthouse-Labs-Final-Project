@@ -52,11 +52,7 @@ class DebateRoom extends Component {
     return (
       <div className = "debate-room">
         <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} />
-        <div className="field">
-          <div className="control">
-            <DebateRoomChatBar sendMessage={this.sendMessage} />
-          </div>
-        </div>
+        <DebateRoomChatBar sendMessage={this.sendMessage} />
         <Link to="/"> Return Home </Link>
       </div>
     );

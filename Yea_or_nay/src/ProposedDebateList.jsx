@@ -36,15 +36,11 @@ class ProposedDebateList extends Component {
 
   render() {
     return (
-      <div className="box">
-        <div className="field">
-          <div className="control">
+          <form className="form">
             <ul>
               {this.createTopics()}
             </ul>
-          </div>
-        </div>
-      </div>
+          </form>
     );
 
   }

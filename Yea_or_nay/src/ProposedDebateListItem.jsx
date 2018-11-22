@@ -23,7 +23,10 @@ class ProposedDebateListItem extends Component {
   render() {
 
     return (
-      <li>{this.props.proposingUser} proposes: {this.props.topic} in {this.props.debateRoom}<Link to={`/${this.props.debateRoom}`} onClick={this.makeDebator}><input className="button" value={this.checkSupportStatus()}/></Link></li>
+      <div>
+        <li className='proposed-debate-li'>{this.props.proposingUser} proposes: {this.props.topic} in {this.props.debateRoom}<Link to={`/${this.props.debateRoom}`} onClick={this.makeDebator}>
+        <input className="input-sm btn float-right button-join-debate" btn-dark value={this.checkSupportStatus()}/></Link></li>
+      </div>
     );
   }
 }

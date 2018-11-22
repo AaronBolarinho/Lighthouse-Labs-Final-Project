@@ -35,23 +35,18 @@ class ProposedDebate extends Component {
 
   render() {
     return (
-       <div className="box">
-          <div className="field">
-            <div className="control">
-            <form className="form proposed-debate-form" onSubmit={this.handleSubmit}>
-              <input className="input is-primary" type="text" placeholder="Debate input" onChange={this.handleChange}/>
-              <div className="buttons has-addons">
-              <select onChange={this.handleDropdown}>
-                <option value="Yea"> Yea</option>
-                <option value="Nay"> Nay</option>
-              </select>
-                <input className="button" type="submit" value="Propose!"/>
-              </div>
-              </form>
-            </div>
-          </div>
+
+      <form className="form" onSubmit={this.handleSubmit}>
+        <input className='input-lg form-control' type="text" placeholder="Debate input" onChange={this.handleChange}/>
+
+        <div className="buttons has-addons">
+          <select onChange={this.handleDropdown}>
+            <option value="Yea"> Yea</option>
+            <option value="Nay"> Nay</option>
+          </select>
+          <button type="submit" class="float-right btn btn-dark button-propose">Propose!</button>
         </div>
-    );
+      </form>    );
   }
 }
 
