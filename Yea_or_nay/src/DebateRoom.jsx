@@ -26,8 +26,15 @@ class DebateRoom extends Component {
     this.updateMessages = this.updateMessages.bind(this);
     this.updateLiked = this.updateLiked.bind(this);
     this.leaveRoom = this.leaveRoom.bind(this)
+    this.addConnectedUser = this.addConnectedUser.bind(this)
   }
 
+  addConnectedUser(newUser) {
+    let oldUsers = this.state.connectedUsers;
+    let newUsers = [...oldUsers, newUser];
+    this.setState({ connectedUsers: newUsers });
+    console.log("CONNECTED USERS ARE", this.state.connectedUsers)
+  }
 
 
   sendMessage(message) {
@@ -55,7 +62,6 @@ class DebateRoom extends Component {
   }
 
   componentDidMount() {
-    console.log(`${this.state.debateRoom.name} MOUNTED`)
     // Should join the room here
     let room = this.state.debateRoom.name
     socket.emit('subscribe', room)
@@ -92,7 +98,7 @@ class DebateRoom extends Component {
 
         <div className="field">
           <div className="control">
-          {this.state.debateRoom.name === 'mainroom' || this.state.currentUser.state !== 'viewer' ? < DebateRoomChatBar sendMessage={this.sendMessage} /> : ''}
+          {this.state.debateRoom.name === 'mainroom' || this.state.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage} /> : ""}
           </div>
           <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
         </div>

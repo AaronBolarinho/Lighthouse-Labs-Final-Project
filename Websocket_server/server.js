@@ -73,6 +73,14 @@ io.on('connection', function (client) {
     client.emit('redirect', JSON.stringify(incomingRoom))
    })
 
+   client.on('addViewer', function (data) {
+    console.log("RECIEVED Viewer")
+    let incomingViewer = JSON.parse(data)
+    let viewerToBeAdded = {username: incomingViewer.username, state: "viewer", stance: null}
+    io.in(incomingViewer.room).emit('addUser', JSON.stringify(viewerToBeAdded))
+    console.log("viewerToBeAdded is", incomingViewer )
+   })
+
   client.on('chatrooms', handleGetChatrooms)
 
   client.on('disconnect', function () {

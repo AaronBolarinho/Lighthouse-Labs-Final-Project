@@ -14,11 +14,17 @@ export default class Slider extends Component {
 
     this.goToPrevSlide=this.goToPrevSlide.bind(this);
     this.goToNextSlide=this.goToNextSlide.bind(this);
-    this.addUserToRoom=this.addUserToRoom.bind(this);
+    this.addViewerToRoom=this.addViewerToRoom.bind(this);
   }
-  addUserToRoom(user, room) {
-    console.log("USER TO BE ADDED ", user)
+
+  addViewerToRoom(user, room) {
+    console.log("USER TO BE ADDED ", user.currentUser.name)
     console.log("IN ROOM ", room.debateRoom.name)
+    console.log(this.props)
+
+    let viewer = {username:user.currentUser.name, stance: null, room: room.debateRoom.name}
+    this.props.socket.emit('addViewer', JSON.stringify(viewer))
+
     //THIS WILL SEND MESSAGE TO SEVER TO ADD USER TO DEBATE ROOM COMPONENT
   }
 
@@ -71,7 +77,7 @@ export default class Slider extends Component {
                 let debateRoom = this.props.debateRooms[this.state.currentIndex]
                 let computedClass = index === (this.state.currentIndex) ? 'slide active' : 'slide';
                 return  <li className={computedClass} key={index}>
-                          <Link to={`/${debateRoom.name}`} onClick={() =>{this.addUserToRoom({currentUser}, {debateRoom})}}>{item.proposedDebate}</Link>
+                          <Link to={`/${debateRoom.name}`} onClick={() =>{this.addViewerToRoom({currentUser}, {debateRoom})}}>{item.proposedDebate}</Link>
                         </li>
               })}
             </ul>
