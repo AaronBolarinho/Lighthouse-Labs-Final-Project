@@ -14,10 +14,12 @@ class DebateRoom extends Component {
     super();
     this.state = {
       debateRoom: props.debateRoom,
-      messages: [{id:1, content:"hello", username:"TestUser1"}, {id:2, content:"hello back", username:"TestUser2"} ],
+      messages: [{id:1, content:"hello", username:"testUser1"}, {id:2, content:"hello back", username:"TestUser2"} ],
       connectedUsers: 2,
-      liked: 0,
-      socket: socket
+      debator1Liked: 0,
+      debator2Liked: 0,
+      socket: socket,
+      currentUser: props.currentUser
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.updateMessages = this.updateMessages.bind(this);
@@ -61,19 +63,26 @@ class DebateRoom extends Component {
   }
 
   updateLiked(username) {
-    this.state.liked += 1;
-    console.log('Liked' , this.state.liked)
-    console.log(username);
+    if (username === this.state.debateRoom.debator1){
+     this.state.debator1Liked += 1;
+    } else {
+      this.state.debator2Liked += 1;
+
+    }
+    console.log(this.state.debateRoom.debator1, "has been liked= ",this.state.debator1Liked);
+    console.log(this.state.debateRoom.debator2, "has been liked= ",this.state.debator2Liked);
+   // console.log(this.state.userState.state);
+
   }
 
   render() {
     return (
       <div className = "debate-room">
-        <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked}/>
+        <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.state.currentUser.state}/>
 
         <div className="field">
           <div className="control">
-            <DebateRoomChatBar sendMessage={this.sendMessage} />
+          {this.state.currentUser.state !== 'viewer' ? < DebateRoomChatBar sendMessage={this.sendMessage} /> : ''}
           </div>
           <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
         </div>
