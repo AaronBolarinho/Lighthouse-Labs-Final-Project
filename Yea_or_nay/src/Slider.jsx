@@ -76,10 +76,11 @@ export default class Slider extends Component {
               {this.props.debateRooms.map((item, index) => {
                 let debateRoom = this.props.debateRooms[this.state.currentIndex]
                 let computedClass = index === (this.state.currentIndex) ? 'slide active' : 'slide';
-                return  <li className={computedClass} key={index}>
+                if (debateRoom.debator1 && debateRoom.debator2) {
+                  return ( <li className={computedClass} key={index}>
                           <Link to={`/${debateRoom.name}`} onClick={() =>{this.addViewerToRoom({currentUser}, {debateRoom})}}>{item.proposedDebate}</Link>
-                        </li>
-              })}
+                        </li>)
+              }})}
             </ul>
 
 

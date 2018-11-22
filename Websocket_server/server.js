@@ -74,12 +74,18 @@ io.on('connection', function (client) {
    })
 
    client.on('addViewer', function (data) {
-    console.log("RECIEVED Viewer")
     let incomingViewer = JSON.parse(data)
     let viewerToBeAdded = {username: incomingViewer.username, state: "viewer", stance: null}
     io.in(incomingViewer.room).emit('addUser', JSON.stringify(viewerToBeAdded))
-    console.log("viewerToBeAdded is", incomingViewer )
    })
+
+   client.on('addDebator2', function (data) {
+    let incomingDebator2 = JSON.parse(data)
+    let debator2ToBeAdded = {username: incomingDebator2.username, state: "debator2", stance: incomingDebator2.stance}
+    io.in(incomingDebator2.room.name).emit('addUser', JSON.stringify(debator2ToBeAdded))
+    io.emit('addDebator2ToApp', JSON.stringify(incomingDebator2.room))
+   })
+
 
   client.on('chatrooms', handleGetChatrooms)
 

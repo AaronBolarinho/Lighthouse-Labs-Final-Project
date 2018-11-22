@@ -36,7 +36,6 @@ class DebateRoom extends Component {
     console.log("CONNECTED USERS ARE", this.state.connectedUsers)
   }
 
-
   sendMessage(message) {
     const newMessage = {
       id: (this.state.messages.length + 1),
