@@ -15,7 +15,7 @@ class ProposedDebateList extends Component {
     const topicList=this.props.debateRooms.map(debateRoom => {
       if (!debateRoom.debator2)
       return(
-        <ProposedDebateListItem key={debateRoom.id} topic={debateRoom.proposedDebate} proposingUser={debateRoom.debator1} stance={debateRoom.debator1Stance} debateRoom={debateRoom.name} socket={this.props.socket} currentUser={this.props.currentUser}/>
+        <ProposedDebateListItem key={debateRoom.id} topic={debateRoom.proposedDebate} proposingUser={debateRoom.debator1} stance={debateRoom.debator1Stance} debateRoom={debateRoom} socket={this.props.socket} currentUser={this.props.currentUser} setUserToDebator={this.props.setUserToDebator} setDebateRoomDebator2={this.props.setDebateRoomDebator2}/>
       )
     })
     return topicList
@@ -35,6 +35,7 @@ class ProposedDebateList extends Component {
   }
 
   render() {
+    console.log("DEBATE ROOMS FROM DEBATE LIST ARE ", this.props.debateRooms)
     return (
       <div className="box">
         <div className="field">
