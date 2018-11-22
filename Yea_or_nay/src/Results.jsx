@@ -2,12 +2,13 @@ import React, {Component} from 'react';
 import DebateRoomChatBar from './DebateRoomChatBar.jsx';
 import DebateMessageList from './DebateMessageList.jsx';
 import { Link } from 'react-router-dom'
+import Timer from './Timer.jsx';
 
-class Timer extends React.Component {
+class Results extends React.Component {
   constructor(props) {
     super();
-
     this.state = {
+      endSequence : false,
       time: {},
       seconds: 10,
       debateRoom: props.debateRoom
@@ -18,6 +19,7 @@ class Timer extends React.Component {
     this.countDown = this.countDown.bind(this);
     this.updateComponant = this.updateComponant.bind(this);
 
+    this.displayResults = this.displayResults.bind(this);
   }
 
   secondsToTime(secs){
@@ -38,8 +40,8 @@ class Timer extends React.Component {
   }
 
   updateComponant(data) {
-    console.log("received Timer update: ", data)
-    console.log("what is this", data.timeLeft)
+    console.log("Results Timer update componant: ", data)
+    console.log("Results update componant time left", data.timeLeft)
 
     // Remove one second, set state so a re-render happens.
     let seconds = data.timeLeft - 1;
@@ -53,21 +55,34 @@ class Timer extends React.Component {
     if (seconds == 0) {
       clearInterval(this.timer);
       let room = this.state.debateRoom.name
-      this.props.socket.emit('debateEnded', room)
+      this.props.socket.emit('closeDebate', room)
     }
 }
 
+  displayResults () {
+    this.setState({
+      endSequence : true,
+    });
+
+    this.startTimer()
+  }
+
   componentDidMount() {
+
     let timeLeftVar = this.secondsToTime(this.state.seconds);
     this.setState({ time: timeLeftVar });
-    console.log("this is th timer props", this.props.socket)
-    this.props.socket.on ('TimerUpdate', data => {
-      let timer = JSON.parse(data)
-        console.log("received Timer update jkjkdfdfdf: ", data)
-      this.updateComponant(timer)
+
+    this.props.socket.on ('displayResultsTo:', data => {
+      console.log("received displayResults: ", data)
+       this.displayResults()
     })
 
-}
+    this.props.socket.on ('ResultsTimerUpdate', data => {
+      let timer = JSON.parse(data)
+        console.log("received  Results Timer update: ", data)
+      this.updateComponant(timer)
+    })
+  }
 
   startTimer() {
     if (this.timer == 0 && this.state.seconds > 0) {
@@ -87,26 +102,25 @@ class Timer extends React.Component {
     // Should join the room here
     console.log("ROOM Timer", roomTime)
     console.log(this.props)
-    this.props.socket.emit('timer', JSON.stringify(roomTime))
+    this.props.socket.emit('ResultsTimer', JSON.stringify(roomTime))
   }
 
-
-
   render() {
-    console.log(this.state.time.m)
+    if (this.state.endSequence === true || this.state.seconds !== 10) {
 
-    if (this.state.time.m !== 5) {
-          return (<div>
-        <button onClick={this.startTimer}>Start</button>
+      return(
+        <div className="level-item">
+          <span className="navbar-users">Results!</span>
           m: {this.state.time.m} s: {this.state.time.s}
-      </div>)
-        } else {
-    return(
-      <div>
-        <button onClick={this.startTimer}>Start</button>
-      </div>
-    )};
+        </div>
+      )} else {
+
+        return(
+          <div className="level-item">
+          </div>
+        )}
+
   }
 }
 
-export default Timer;
+export default Results;

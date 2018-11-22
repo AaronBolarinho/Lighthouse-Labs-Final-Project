@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import DebateRoomChatBar from './DebateRoomChatBar.jsx';
 import DebateMessageList from './DebateMessageList.jsx';
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import Timer from './Timer.jsx';
+import Results from './Results.jsx';
 
 import DebateRoomMessage from './DebateRoomMessage.jsx';
 
@@ -17,12 +18,17 @@ class DebateRoom extends Component {
       messages: [{id:1, content:"hello", username:"TestUser1"}, {id:2, content:"hello back", username:"TestUser2"} ],
       connectedUsers: 2,
       liked: 0,
-      socket: socket
+      socket: socket,
+      shouldRedirect: false
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.updateMessages = this.updateMessages.bind(this);
     this.updateLiked = this.updateLiked.bind(this);
     this.leaveRoom = this.leaveRoom.bind(this)
+  }
+
+  shouldRedirect() {
+    this.setState({shouldRedirect:true})
   }
 
    sendMessage(message) {
@@ -58,6 +64,11 @@ class DebateRoom extends Component {
     console.log("received : ", serverMsg)
     this.updateMessages(serverMsg)
     })
+
+    socket.on('GoBackHome', data => {
+      console.log("recieved final redirect")
+    this.shouldRedirect()
+    })
   }
 
   updateLiked(username) {
@@ -66,7 +77,16 @@ class DebateRoom extends Component {
     console.log(username);
   }
 
+  // redirectToHome(data) {
+  //   this.state.liked += 1;
+  //   console.log('Liked' , this.state.liked)
+  //   console.log(username);
+  // }
+
   render() {
+    if (this.state.shouldRedirect) {
+         return (<Redirect to="/" />)
+        }
     return (
       <div className = "debate-room">
         <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked}/>
@@ -75,6 +95,7 @@ class DebateRoom extends Component {
             <DebateRoomChatBar sendMessage={this.sendMessage} />
           </div>
           <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
+          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Results debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
         </div>
         <Link to="/" onClick={this.leaveRoom}> Return Home </Link>
       </div>
