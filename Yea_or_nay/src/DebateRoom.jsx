@@ -14,10 +14,16 @@ class DebateRoom extends Component {
     super();
     this.state = {
       debateRoom: props.debateRoom,
+<<<<<<< HEAD
       connectedUsers: [{username: props.debateRoom.debator1, state: "debator1", stance: props.debateRoom.debator1Stance}],
       messages: [{id:1, content:"hello", username:"TestUser1"}, {id:2, content:"hello back", username:"TestUser2"} ],
-      liked: 0,
-      socket: socket
+
+
+      debator1Liked: 0,
+      debator2Liked: 0,
+      socket: socket,
+      currentUser: props.currentUser
+
     };
     this.addConnectedUser = this.addConnectedUser.bind(this)
     this.sendMessage = this.sendMessage.bind(this);
@@ -26,11 +32,7 @@ class DebateRoom extends Component {
     this.leaveRoom = this.leaveRoom.bind(this)
   }
 
-  addConnectedUser(newUser) {
-    let oldUsers = this.state.connectedUsers;
-    let newUsers = [...oldUsers, newUser]
-    this.setState({ connectedUsers: newUsers });
-  }
+
 
   sendMessage(message) {
     const newMessage = {
@@ -74,18 +76,32 @@ class DebateRoom extends Component {
   }
 
   updateLiked(username) {
-    this.state.liked += 1;
-    console.log('Liked' , this.state.liked)
-    console.log(username);
+    if (username === this.state.debateRoom.debator1){
+     this.state.debator1Liked += 1;
+    } else {
+      this.state.debator2Liked += 1;
+
+    }
+    console.log(this.state.debateRoom.debator1, "has been liked= ",this.state.debator1Liked);
+    console.log(this.state.debateRoom.debator2, "has been liked= ",this.state.debator2Liked);
+   // console.log(this.state.userState.state);
+
   }
 
   render() {
     return (
       <div className = "debate-room">
-        <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked}/>
-        <DebateRoomChatBar sendMessage={this.sendMessage} />
-        <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
+
+        <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.state.currentUser.state}/>
+
+        <div className="field">
+          <div className="control">
+          {this.state.currentUser.state !== 'viewer' ? < DebateRoomChatBar sendMessage={this.sendMessage} /> : ''}
+          </div>
+          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
+        </div>
         {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
+
       </div>
     );
   }
