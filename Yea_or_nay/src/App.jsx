@@ -118,14 +118,6 @@ class App extends Component {
                         }
                       </Switch>
           </div>
-        <footer className="footer">
-          <div className="container mt-3">
-
-            <h4>View debates</h4>
-            <Slider debateRooms={this.state.debateRooms}/>
-          </div>
-
-        </footer>
       </div>
       </BrowserRouter>
     );

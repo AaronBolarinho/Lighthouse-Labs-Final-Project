@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom'
 
 function ProposedDebateListItem (props) {
-  console.log(props)
 
   function checkSupportStatus () {
     let supports = "Nay"

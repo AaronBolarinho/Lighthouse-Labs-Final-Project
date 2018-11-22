@@ -4,6 +4,7 @@ import ProposedDebate from './ProposedDebate.jsx';
 import ProposedDebateList from './ProposedDebateList.jsx';
 import TestChangeUser from './TestChangeUser.jsx'
 import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom'
+import Slider from './Slider.jsx';
 
 
 class Home extends Component {
@@ -37,7 +38,6 @@ class Home extends Component {
         if (this.state.shouldRedirect.should) {
          return (<Redirect to={`/${this.state.shouldRedirect.room}`} />)
         }
-        let currentUser = this.props.currentUser
     return (
 
         <div className='row'>
@@ -54,14 +54,7 @@ class Home extends Component {
           <div className="col-sm-7">
             <DebateRoom debateRoom={{name:"mainroom"}} currentUser={this.props.currentUser}/>
           </div>
-          <div>
-              {this.props.debateRooms.map(debateRoom => (
-                      <li>
-                        <Link to={`/${debateRoom.name}`} onClick={() =>{this.addUserToRoom({currentUser}, {debateRoom})}}> {debateRoom.name}</Link>
-                        <br/> <span> {debateRoom.proposedDebate} </span>
-                      </li>
-                ))}
-          </div>
+          <Slider debateRooms={this.props.debateRooms} currentUser={this.props.currentUser}/>
         </div>
     );
   }

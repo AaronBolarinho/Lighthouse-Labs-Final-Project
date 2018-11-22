@@ -85,7 +85,7 @@ class DebateRoom extends Component {
         <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked}/>
         <DebateRoomChatBar sendMessage={this.sendMessage} />
         <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
-        <Link to="/" onClick={this.leaveRoom}> Return Home </Link>
+        {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
       </div>
     );
   }
