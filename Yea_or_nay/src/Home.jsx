@@ -15,10 +15,16 @@ class Home extends Component {
     this.state = {
       shouldRedirect:{should: false, room: null}
     }
+    this.addUserToRoom = this.addUserToRoom.bind(this)
   }
 
   shouldRedirect(room) {
     this.setState({shouldRedirect: {should: true, room: room}})
+  }
+  addUserToRoom(user, room) {
+    console.log("USER TO BE ADDED ", user)
+    console.log("IN ROOM ", room.debateRoom.name)
+    //THIS WILL SEND MESSAGE TO SEVER TO ADD USER TO DEBATE ROOM COMPONENT
   }
 
   componentDidMount() {
@@ -33,6 +39,7 @@ class Home extends Component {
         if (this.state.shouldRedirect.should) {
          return (<Redirect to={`/${this.state.shouldRedirect.room}`} />)
         }
+        let currentUser = this.props.currentUser
     return (
       <div>
 
@@ -57,7 +64,7 @@ class Home extends Component {
                 </div>
                   {this.props.debateRooms.map(debateRoom => (
                           <li>
-                            <Link to={`/${debateRoom.name}`}> {debateRoom.name}</Link>
+                            <Link to={`/${debateRoom.name}`} onClick={() =>{this.addUserToRoom({currentUser}, {debateRoom})}}> {debateRoom.name}</Link>
                             <br/> <span> {debateRoom.proposedDebate} </span>
                           </li>
                     ))}

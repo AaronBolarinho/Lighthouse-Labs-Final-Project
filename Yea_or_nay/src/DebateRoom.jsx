@@ -14,18 +14,25 @@ class DebateRoom extends Component {
     super();
     this.state = {
       debateRoom: props.debateRoom,
-      connectedUsers: [],
+      connectedUsers: [{username: props.debateRoom.debator1, state: "debator1", stance: props.debateRoom.debator1Stance}],
       messages: [{id:1, content:"hello", username:"TestUser1"}, {id:2, content:"hello back", username:"TestUser2"} ],
       liked: 0,
       socket: socket
     };
+    this.addConnectedUser = this.addConnectedUser.bind(this)
     this.sendMessage = this.sendMessage.bind(this);
     this.updateMessages = this.updateMessages.bind(this);
     this.updateLiked = this.updateLiked.bind(this);
     this.leaveRoom = this.leaveRoom.bind(this)
   }
 
-   sendMessage(message) {
+  addConnectedUser(newUser) {
+    let oldUsers = this.state.connectedUsers;
+    let newUsers = [...oldUsers, newUser]
+    this.setState({ connectedUsers: newUsers });
+  }
+
+  sendMessage(message) {
     const newMessage = {
       id: (this.state.messages.length + 1),
       username: this.props.currentUser.name,
@@ -58,6 +65,11 @@ class DebateRoom extends Component {
     const serverMsg = JSON.parse(data)
     console.log("received : ", serverMsg)
     this.updateMessages(serverMsg)
+    })
+    socket.on('addUser', data => {
+      const serverMsg = JSON.parse(data)
+      console.log("received : ", serverMsg)
+      this.addConnectedUser(serverMsg)
     })
   }
 
