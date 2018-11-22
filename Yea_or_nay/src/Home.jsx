@@ -13,16 +13,10 @@ class Home extends Component {
     this.state = {
       shouldRedirect:{should: false, room: null}
     }
-    this.addUserToRoom = this.addUserToRoom.bind(this)
   }
 
   shouldRedirect(room) {
     this.setState({shouldRedirect: {should: true, room: room}})
-  }
-  addUserToRoom(user, room) {
-    console.log("USER TO BE ADDED ", user)
-    console.log("IN ROOM ", room.debateRoom.name)
-    //THIS WILL SEND MESSAGE TO SEVER TO ADD USER TO DEBATE ROOM COMPONENT
   }
 
   componentDidMount() {
@@ -31,7 +25,6 @@ class Home extends Component {
     serverMsg.name = "Room" + (this.props.debateRooms.length)
     this.shouldRedirect(serverMsg.name)
     })
-
   }
 
   render() {
@@ -54,7 +47,7 @@ class Home extends Component {
           <div className="col-sm-7">
             <DebateRoom debateRoom={{name:"mainroom"}} currentUser={this.props.currentUser}/>
           </div>
-          <Slider debateRooms={this.props.debateRooms} currentUser={this.props.currentUser}/>
+          <Slider debateRooms={this.props.debateRooms} currentUser={this.props.currentUser} socket={this.props.socket}/>
         </div>
     );
   }

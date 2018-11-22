@@ -41,9 +41,12 @@ class App extends Component {
   }
 
   setDebateRoomDebator2(user, debateRoom) {
-    debateRoom.debator2 = user.name
+    debateRoom.debator2 = user
+    console.log("USER.NAME IN SET DEBATE ROOM 2", user)
 
     const index = this.findDebateRoomById(debateRoom.id)
+    console.log("INDEX IS DEBATOR 2", index)
+    console.log("DEBATE ROOM IS", debateRoom)
 
     this.setState({debateRooms: [
       ...this.state.debateRooms.slice(0, index), debateRoom, ...this.state.debateRooms.slice(index + 1)
@@ -75,6 +78,13 @@ class App extends Component {
     const serverMsg = JSON.parse(data)
     serverMsg.name = "Room" + (this.state.debateRooms.length + 1)
     this.addDebateRoom(serverMsg)
+    })
+    socket.on('addDebator2ToApp', data => {
+    const serverMsg = JSON.parse(data)
+    console.log("SERVER MESSAGE FROM ADD DEBATOR 2", serverMsg )
+    const currentUser = this.state.currentUser.name
+    console.log("CURRENT USER IS ", currentUser)
+    this.setDebateRoomDebator2(currentUser, serverMsg)
     })
   }
 
