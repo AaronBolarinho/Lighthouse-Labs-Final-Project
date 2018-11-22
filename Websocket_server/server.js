@@ -40,6 +40,17 @@ io.on('connection', function (client) {
     client.leave(data)
   })
 
+  client.on('debateEnded', function (data) {
+    console.log("RECIEVED DebateEnded: ", data)
+    io.in(data).emit('displayResultsTo:', data)
+  })
+
+  client.on('closeDebate', function (data) {
+    console.log("RECIEVED closeDebate: ", data)
+    client.emit('GoBackHome', data)
+    // io.in(data).emit('closeRoom:', data)
+  })
+
   client.on('message', function (data) {
 
     let incomingmsg = JSON.parse(data)
@@ -85,6 +96,13 @@ io.on('connection', function (client) {
     let incomingTimerUpdate = JSON.parse(data)
     console.log("this is the timer update data", incomingTimerUpdate)
     io.in(incomingTimerUpdate.room).emit('TimerUpdate', JSON.stringify(incomingTimerUpdate))
+  })
+
+  client.on('ResultsTimer', function (data) {
+    console.log('received Results timer', data)
+    let incomingResultsTimerUpdate = JSON.parse(data)
+    console.log("Results timer update data", incomingResultsTimerUpdate)
+    io.in(incomingResultsTimerUpdate.room).emit('ResultsTimerUpdate', JSON.stringify(incomingResultsTimerUpdate))
   })
 
   client.on('error', function (err) {
