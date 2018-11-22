@@ -92,7 +92,7 @@ class DebateRoom extends Component {
 
         <div className="field">
           <div className="control">
-          {this.state.currentUser.state !== 'viewer' ? < DebateRoomChatBar sendMessage={this.sendMessage} /> : ''}
+          {this.state.debateRoom.name === 'mainroom' || this.state.currentUser.state !== 'viewer' ? < DebateRoomChatBar sendMessage={this.sendMessage} /> : ''}
           </div>
           <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
         </div>
