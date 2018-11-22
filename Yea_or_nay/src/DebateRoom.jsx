@@ -14,8 +14,8 @@ class DebateRoom extends Component {
     super();
     this.state = {
       debateRoom: props.debateRoom,
+      connectedUsers: [],
       messages: [{id:1, content:"hello", username:"TestUser1"}, {id:2, content:"hello back", username:"TestUser2"} ],
-      connectedUsers: 2,
       liked: 0,
       socket: socket
     };
@@ -46,6 +46,7 @@ class DebateRoom extends Component {
     let room = this.state.debateRoom.name
     console.log("ROOM TO LEAVE IS ", room)
     socket.emit('leave', room)
+    this.props.setUserToViewer()
   }
 
   componentDidMount() {

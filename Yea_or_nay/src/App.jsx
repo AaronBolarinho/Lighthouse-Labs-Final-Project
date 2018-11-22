@@ -23,6 +23,7 @@ class App extends Component {
     this.findDebateRoomById = this.findDebateRoomById.bind(this)
     this.setDebateRoomDebator2 = this.setDebateRoomDebator2.bind(this)
     this.addDebateRoom = this.addDebateRoom.bind(this)
+    this.setUserToViewer = this.setUserToViewer.bind(this)
 
   }
 
@@ -33,30 +34,22 @@ class App extends Component {
   setUserToDebator(debator) {
     console.log(`Setting ${this.state.currentUser.name} to ${debator}`)
     this.setState({currentUser: {name: this.state.currentUser.name, state: debator}});
-    console.log(this.state.currentUser)
+  }
+
+  setUserToViewer() {
+    console.log(`Setting ${this.state.currentUser.name} to Viewer`)
+    this.setState({currentUser: {name: this.state.currentUser.name, state: "viewer"}});
   }
 
   setDebateRoomDebator2(user, debateRoom) {
     debateRoom.debator2 = user.name
-    console.log("new room is", debateRoom)
-    // console.log(findDebateRoomById(debateRoom.id))
-    /// NEED TO SET STATE OF JUST THE CORRESPONDING ROOM IN ARRAY FROM NULL TO USER
-    const index = this.findDebateRoomById(debateRoom.id)
-    console.log(...this.state.debateRooms.slice(0, index))
-    // const afterIndex = ...this.state.debateRooms.slice(index.1)
-    // slice 0 index
 
-    // console.log("index is", index)
-    // console.log("beforeIndex, ", beforeIndex)
-    // console.log("afterIndex ", afterIndex)
+    const index = this.findDebateRoomById(debateRoom.id)
 
     this.setState({debateRooms: [
       ...this.state.debateRooms.slice(0, index), debateRoom, ...this.state.debateRooms.slice(index + 1)
       ]})
 
-    console.log("NEW DEBATEROOMS ARE ", this.state.debaterooms)
-    // console.log("hello", user, debateRoom)
-    // console.log(`Setting ${user.name} to debator2 in room ${debateRoom.name}`)
   }
 
   findDebateRoomById(id) {
@@ -68,7 +61,7 @@ class App extends Component {
 
   renderDebateRoom(debateRoom) {
     return (
-      <DebateRoom debateRoom={debateRoom} currentUser={this.state.currentUser}/>
+      <DebateRoom debateRoom={debateRoom} currentUser={this.state.currentUser} setUserToViewer={this.setUserToViewer}/>
     )
   }
 
@@ -114,7 +107,7 @@ class App extends Component {
                           path="/"
                           render={
                             props => (
-                          <Home debateRooms={this.state.debateRooms} socket={this.state.socket} currentUser={this.state.currentUser} changeUsername={this.changeUsername} setUserToDebator={this.setUserToDebator} setDebateRoomDebator2={this.setDebateRoomDebator2}/>
+                          <Home debateRooms={this.state.debateRooms} socket={this.state.socket} currentUser={this.state.currentUser} changeUsername={this.changeUsername} setUserToDebator={this.setUserToDebator} setDebateRoomDebator2={this.setDebateRoomDebator2} setUserToViewer={this.setUserToViewer}/>
                           )
                           }
                         />
