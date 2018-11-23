@@ -14,7 +14,9 @@ class DebateRoom extends Component {
     super();
     this.state = {
       debateRoom: props.debateRoom,
-      connectedUsers: [{username: props.debateRoom.debator1, state: "debator1", stance: props.debateRoom.debator1Stance}],
+      connectedUsers: {
+        1 : {username: props.debateRoom.debator1, state: "debator1", stance: props.debateRoom.debator1Stance},
+        },
       messages: [{id:1, content:"hello", username:"TestUser1"}, {id:2, content:"hello back", username:"TestUser2"} ],
       debator1Liked: 0,
       debator2Liked: 0,
@@ -27,6 +29,7 @@ class DebateRoom extends Component {
     this.updateLiked = this.updateLiked.bind(this);
     this.leaveRoom = this.leaveRoom.bind(this)
     this.addConnectedUser = this.addConnectedUser.bind(this)
+    // this.updateUserState = this.updateUserState.bind(this)
   }
 
   addConnectedUser(newUser) {
@@ -37,6 +40,7 @@ class DebateRoom extends Component {
   }
 
   sendMessage(message) {
+    // this.updateUserState("yea")
     const newMessage = {
       id: (this.state.messages.length + 1),
       username: this.props.currentUser.name,
@@ -59,9 +63,22 @@ class DebateRoom extends Component {
     socket.emit('leave', room)
     this.props.setUserToViewer()
   }
+///MAKE CONNECTED USERS AN OBJECT MAYBE... THIS FUNCTION DOES WORK BUT TO UPDATE STATE WILL BE A PAIN
+//FUNCTION IS BEING CALLED ON NEW MESSAGE JUST TO TEST
+  // updateUserState (newState) {
+  //   console.log("CALLED")
+  //    this.state.connectedUsers.forEach(user => {
+  //     console.log(this.state.currentUser.name)
+  //     console.log(this.state.connectedUsers)
+  //     if (user.username === this.state.currentUser.name) {
+  //       console.log("FOUND HIM", user)
+  //       console.log("NEW STATE", newState)
+  //     }
+  //   })
+  // }
 
   componentDidMount() {
-    // Should join the room here
+    console.log("CONNECTED USERS ARE", this.state.connectedUsers)
     let room = this.state.debateRoom.name
     socket.emit('subscribe', room)
     socket.on ('message', data => {
@@ -71,7 +88,7 @@ class DebateRoom extends Component {
     })
     socket.on('addUser', data => {
       const serverMsg = JSON.parse(data)
-      console.log("received : ", serverMsg)
+      console.log("receivedADDDD : ", serverMsg)
       this.addConnectedUser(serverMsg)
     })
   }
