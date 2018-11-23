@@ -13,10 +13,23 @@ class Home extends Component {
     this.state = {
       shouldRedirect:{should: false, room: null}
     }
+    // this.leaveRoom = this.leaveRoom.bind(this)
+    this.closeMainRoomSocket = this.closeMainRoomSocket.bind(this)
+  }
+
+  closeMainRoomSocket(){
+    console.log("mainroom socket about to close!")
+    let mainRoomleave = "mainroom"
+    console.log("Home ROOM TO LEAVE IS ", mainRoomleave)
+    this.props.socket.emit('leave', mainRoomleave)
   }
 
   shouldRedirect(room) {
     this.setState({shouldRedirect: {should: true, room: room}})
+    console.log("mainroomRedirectgotcalled :", true)
+    let mainRoomleave = "mainroom"
+    console.log("Home ROOM TO LEAVE IS ", mainRoomleave)
+    this.props.socket.emit('leave', mainRoomleave)
   }
 
   componentDidMount() {
@@ -40,10 +53,8 @@ class Home extends Component {
             <h5 className="subtitle">Propose Debate:</h5>
             <ProposedDebate socket={this.props.socket} debateRooms={this.props.debateRooms} currentUser={this.props.currentUser} setUserToDebator={this.props.setUserToDebator}/>
             <h5 className="subtitle">Join Debate:</h5>
-            <ProposedDebateList socket={this.props.socket} debateRooms={this.props.debateRooms} currentUser={this.props.currentUser} setUserToDebator={this.props.setUserToDebator} setDebateRoomDebator2={this.props.setDebateRoomDebator2}/>
-
+            <ProposedDebateList socket={this.props.socket} debateRooms={this.props.debateRooms} currentUser={this.props.currentUser} setUserToDebator={this.props.setUserToDebator} setDebateRoomDebator2={this.props.setDebateRoomDebator2} closeMainRoomSocket={this.closeMainRoomSocket}/>
           </div>
-
           <div className="col-sm-7">
             <DebateRoom debateRoom={{name:"mainroom"}} currentUser={this.props.currentUser}/>
           </div>

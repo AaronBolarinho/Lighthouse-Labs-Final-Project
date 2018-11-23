@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ProposedDebateListItem from './ProposedDebateListItem.jsx'
+import Home from './Home.jsx';
 
 class ProposedDebateList extends Component {
 
@@ -12,10 +13,12 @@ class ProposedDebateList extends Component {
   }
 
   createTopics () {
+    // console.log("This is the proposed debate props", this.props)
+    // this.props.closeMainRoomSocket()
     const topicList=this.props.debateRooms.map(debateRoom => {
       if (!debateRoom.debator2)
       return(
-        <ProposedDebateListItem key={debateRoom.id} topic={debateRoom.proposedDebate} proposingUser={debateRoom.debator1} stance={debateRoom.debator1Stance} debateRoom={debateRoom} socket={this.props.socket} currentUser={this.props.currentUser} setUserToDebator={this.props.setUserToDebator} setDebateRoomDebator2={this.props.setDebateRoomDebator2}/>
+        <ProposedDebateListItem key={debateRoom.id} topic={debateRoom.proposedDebate} proposingUser={debateRoom.debator1} stance={debateRoom.debator1Stance} debateRoom={debateRoom} socket={this.props.socket} currentUser={this.props.currentUser} setUserToDebator={this.props.setUserToDebator} setDebateRoomDebator2={this.props.setDebateRoomDebator2} closeMainRoomSocket={this.props.closeMainRoomSocket}/>
       )
     })
     return topicList

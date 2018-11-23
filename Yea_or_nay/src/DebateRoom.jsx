@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
 import DebateRoomChatBar from './DebateRoomChatBar.jsx';
 import DebateMessageList from './DebateMessageList.jsx';
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import Timer from './Timer.jsx';
+<<<<<<< HEAD
 import ChooseASide from './ChooseASide.jsx';
+=======
+import Results from './Results.jsx';
+>>>>>>> feature/results
 
 import DebateRoomMessage from './DebateRoomMessage.jsx';
 
@@ -23,7 +27,7 @@ class DebateRoom extends Component {
       debator2Liked: 0,
       socket: socket,
       currentUser: props.currentUser,
-
+      shouldRedirect: false,
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.updateMessages = this.updateMessages.bind(this);
@@ -44,8 +48,15 @@ class DebateRoom extends Component {
     console.log("CONNECTED USERS ARE", this.state.connectedUsers)
   }
 
-  sendMessage(message) {
-    // this.updateUserState("yea")
+  shouldRedirect() {
+    let room = this.state.debateRoom.id
+    console.log("This is the destroy room", room)
+    this.setState({shouldRedirect:true})
+    this.leaveRoom()
+    socket.emit('destroyRoom', room)
+  }
+
+   sendMessage(message) {
     const newMessage = {
       id: (this.state.messages.length + 1),
       username: this.props.currentUser.name,
@@ -64,7 +75,7 @@ class DebateRoom extends Component {
 
   leaveRoom () {
     let room = this.state.debateRoom.name
-    console.log("ROOM TO LEAVE IS ", room)
+    console.log("Debate ROOM TO LEAVE IS ", room)
     socket.emit('leave', room)
     this.props.setUserToViewer()
   }
@@ -79,6 +90,7 @@ class DebateRoom extends Component {
     console.log("received : ", serverMsg)
     this.updateMessages(serverMsg)
     })
+
     socket.on('addUser', data => {
       const serverMsg = JSON.parse(data)
       this.addConnectedUser(serverMsg)
@@ -97,7 +109,10 @@ class DebateRoom extends Component {
 
     })
 
-
+    socket.on('GoBackHome', data => {
+      console.log("recieved final redirect")
+    this.shouldRedirect()
+    })
   }
 
   updateLiked(username) {
@@ -124,13 +139,23 @@ class DebateRoom extends Component {
 
   }
 
+  // redirectToHome(data) {
+  //   this.state.liked += 1;
+  //   console.log('Liked' , this.state.liked)
+  //   console.log(username);
+  // }
+
   render() {
+    if (this.state.shouldRedirect) {
+         return (<Redirect to="/" />)
+        }
     return (
       <div className = "container debate-room">
         <div className="container message-container">
           <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.state.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked}/>
-\          {this.state.debateRoom.name === 'mainroom' || this.state.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> : <ChooseASide updateSide={this.updateSide}/>}
+          {this.state.debateRoom.name === 'mainroom' || this.state.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> : <ChooseASide updateSide={this.updateSide}/>}
           <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' && this.state.currentUser.state !== 'viewer' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
+          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Results debateRoom={this.state.debateRoom} socket={this.state.socket} leaveRoom={this.leaveRoom}/> : ""}</span>
           {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
         </div>
       </div>

@@ -40,6 +40,26 @@ io.on('connection', function (client) {
     client.leave(data)
   })
 
+  client.on('debateEnded', function (data) {
+    console.log("RECIEVED DebateEnded: ", data)
+    io.in(data).emit('displayResultsTo:', data)
+  })
+
+  client.on('closeDebate', function (data) {
+    console.log("RECIEVED closeDebate: ", data)
+    client.emit('GoBackHome', data)
+    // io.emit('closeRoom', data)
+  })
+
+  client.on('destroyRoom', function (data) {
+    // if( data !== "mainroom") {
+    //   console.log("RECIEVED destroyRoom: ", data)
+    //   // io.emit('destroyRoom', data)
+    // }
+    console.log("Does the server get the destroy COMMAND")
+    io.emit('destroyRoom', data)
+  })
+
   client.on('message', function (data) {
 
     let incomingmsg = JSON.parse(data)
@@ -117,6 +137,12 @@ io.on('connection', function (client) {
     io.in(incomingTimerUpdate.room).emit('TimerUpdate', JSON.stringify(incomingTimerUpdate))
   })
 
+  client.on('ResultsTimer', function (data) {
+    console.log('received Results timer', data)
+    let incomingResultsTimerUpdate = JSON.parse(data)
+    console.log("Results timer update data", incomingResultsTimerUpdate)
+    io.in(incomingResultsTimerUpdate.room).emit('ResultsTimerUpdate', JSON.stringify(incomingResultsTimerUpdate))
+  })
 
   client.on('error', function (err) {
     console.log('received error from client:', client.id)
