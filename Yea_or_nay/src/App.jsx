@@ -4,6 +4,7 @@ import DebateRoom from './DebateRoom.jsx';
 import Home from './Home.jsx';
 import Slider from './Slider.jsx';
 import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom';
+const uuid = require('uuid/v4')
 const io = require('socket.io-client');
 const socket = io.connect('http://localhost:3001');
 
@@ -13,7 +14,7 @@ class App extends Component {
     super(props)
 
     this.state = {
-      currentUser: {name:"bob", state:"viewer"},
+      currentUser: {id: uuid(), name:"bob", state:"viewer"},
       socket: socket,
       debateRooms: [{id: 1, name: "Room1", proposedDebate:"Bananas are blue", debator1:"testUser1", debator2: null, debator1Stance: "Yea"}, {id: 2, name: "Room2", proposedDebate:"The sky is blue", debator1:"testUser3", debator2: "testUser4", debator1stance: "Nay"}]
     }
@@ -27,31 +28,25 @@ class App extends Component {
   }
 
   changeUsername(newUsername) {
-    this.setState({currentUser: {name: newUsername, state: this.state.currentUser.state}});
+    this.setState({currentUser: {id: this.state.currentUser.id, name: newUsername, state: this.state.currentUser.state}});
   }
 
   setUserToDebator(debator) {
     console.log(`Setting ${this.state.currentUser.name} to ${debator}`)
-    this.setState({currentUser: {name: this.state.currentUser.name, state: debator}});
+    this.setState({currentUser: {id: this.state.currentUser.id, name: this.state.currentUser.name, state: debator}});
   }
 
   setUserToViewer() {
     console.log(`Setting ${this.state.currentUser.name} to Viewer`)
-    this.setState({currentUser: {name: this.state.currentUser.name, state: "viewer"}});
+    this.setState({currentUser: {id: this.state.currentUser.id, name: this.state.currentUser.name, state: "viewer"}});
   }
 
   setDebateRoomDebator2(user, debateRoom) {
     debateRoom.debator2 = user
-    console.log("USER.NAME IN SET DEBATE ROOM 2", user)
-
     const index = this.findDebateRoomById(debateRoom.id)
-    console.log("INDEX IS DEBATOR 2", index)
-    console.log("DEBATE ROOM IS", debateRoom)
-
     this.setState({debateRooms: [
       ...this.state.debateRooms.slice(0, index), debateRoom, ...this.state.debateRooms.slice(index + 1)
       ]})
-
   }
 
   findDebateRoomById(id) {
@@ -73,6 +68,7 @@ class App extends Component {
     let oldDebateRooms = this.state.debateRooms;
     let newDebateRooms = [...oldDebateRooms, newDebateRoom];
     this.setState({ debateRooms: newDebateRooms });
+    console.log("NEW DEBATE ROOM added", newDebateRoom)
   }
 
   componentDidMount() {

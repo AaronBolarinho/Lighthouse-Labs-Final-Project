@@ -15,7 +15,9 @@ class DebateRoom extends Component {
     super();
     this.state = {
       debateRoom: props.debateRoom,
-      connectedUsers: [{username: props.debateRoom.debator1, state: "debator1", stance: props.debateRoom.debator1Stance}],
+      connectedUsers: {
+        1 : {username: props.debateRoom.debator1, state: "debator1", stance: props.debateRoom.debator1Stance, id: props.currentUser.id}
+        },
       messages: [{id:1, content:"hello", username:"TestUser1"}, {id:2, content:"hello back", username:"TestUser2"} ],
       debator1Liked: 0,
       debator2Liked: 0,
@@ -32,13 +34,18 @@ class DebateRoom extends Component {
   }
 
   addConnectedUser(newUser) {
+    console.log("NEW USER IS", newUser)
+    console.log("NEWUSER ID", newUser.id)
     let oldUsers = this.state.connectedUsers;
-    let newUsers = [...oldUsers, newUser];
-    this.setState({ connectedUsers: newUsers });
+    console.log("EARLY OLD USERS", oldUsers)
+    oldUsers[newUser.id] = newUser
+    console.log("OLD USERS IS with new user ", oldUsers)
+    this.setState({'connectedUsers': oldUsers})
     console.log("CONNECTED USERS ARE", this.state.connectedUsers)
   }
 
   sendMessage(message) {
+    // this.updateUserState("yea")
     const newMessage = {
       id: (this.state.messages.length + 1),
       username: this.props.currentUser.name,
@@ -62,10 +69,9 @@ class DebateRoom extends Component {
     this.props.setUserToViewer()
   }
 
-  componentDidMount() {
-    console.log(this.state.connectedUsers)
 
-    // Should join the room here
+  componentDidMount() {
+    console.log("STATE", this.state)
     let room = this.state.debateRoom.name
     socket.emit('subscribe', room)
     socket.on ('message', data => {
@@ -75,7 +81,6 @@ class DebateRoom extends Component {
     })
     socket.on('addUser', data => {
       const serverMsg = JSON.parse(data)
-      console.log("received : ", serverMsg)
       this.addConnectedUser(serverMsg)
       // if (serverMsg.state === 'debator2'){
       //   this.setState({debateRoom.debator2: serverMsg.username});

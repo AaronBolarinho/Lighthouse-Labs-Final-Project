@@ -12,9 +12,9 @@ function ProposedDebateListItem (props) {
   }
 
   function makeDebator () {
+    console.log("MAKE DEBATOR", props.debateRoom)
     props.setUserToDebator("debator2")
-    let debator2 = {username:props.currentUser.name, stance:checkSupportStatus(), room:props.debateRoom}
-    console.log("DEBATOR 2 ", debator2)
+    let debator2 = {id: props.currentUser.id, username:props.currentUser.name, stance:checkSupportStatus(), room:props.debateRoom}
     props.socket.emit("addDebator2", JSON.stringify(debator2))
   }
 
