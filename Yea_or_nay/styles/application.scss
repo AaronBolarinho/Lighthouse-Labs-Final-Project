@@ -103,14 +103,14 @@ li {
 }
 
 .col-sm-7 {
-  margin-top: -170px;
+  margin-top: -100px;
 }
 
 .form {
   padding: 20px;
   margin-bottom: 40px;
   background-color: lightgrey;
-  border-radius: 3%;
+  border-radius: 5px;
   color: black;
   border-color: darkgrey;
   border-style: solid;
@@ -134,7 +134,7 @@ li {
   margin-bottom: 10px;
   height: 120px;
   background-color: lightgrey;
-  border-radius: 3%;
+  border-radius: 5px;
   border-style: solid;
   border-width: 2px;
   border-color: darkgrey;
@@ -163,7 +163,7 @@ li {
 
 .input-debate-chatbar {
   margin-top: 20px;
-  border-radius: 5%;
+  border-radius: 5px;
   border-color: darkgrey;
   border-style: solid;
   padding: 10px;
@@ -173,6 +173,65 @@ li {
   margin-top: 20px;
 }
 
+.debator-name1, .debator-name2 {
+  color: white;
+  display:inline-block;
+}
+
+.debator-name1 {
+  float:left;
+}
+
+.debator-name2 {
+  float:right;
+}
+
 .row {
   margin-bottom: 50px;
+}
+
+
+
+.progress-bar-container {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 20px;
+    outline: none;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    border-radius: 5px;
+}
+
+.progress-bar:hover {
+    opacity: 1;
+}
+
+.progress-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 40px;
+    background: purple;
+    cursor: pointer;
+    border-radius: 35%;
+}
+
+.progress-bar::-moz-range-thumb {
+    width: 25px;
+    height: 40px;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+#grad {
+  background-image: linear-gradient(to right, white , red);
+}
+
+.timer {
+  color: white;
 }
