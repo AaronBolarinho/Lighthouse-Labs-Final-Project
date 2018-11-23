@@ -63,7 +63,9 @@ class App extends Component {
 
   renderDebateRoom(debateRoom) {
     return (
-      <DebateRoom debateRoom={debateRoom} currentUser={this.state.currentUser} setUserToViewer={this.setUserToViewer}/>
+      <div>
+        <DebateRoom debateRoom={debateRoom} currentUser={this.state.currentUser} setUserToViewer={this.setUserToViewer}/>
+      </div>
     )
   }
 
