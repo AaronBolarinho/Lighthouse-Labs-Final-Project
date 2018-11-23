@@ -43,14 +43,10 @@ class App extends Component {
 
   setDebateRoomDebator2(user, debateRoom) {
     debateRoom.debator2 = user
-
-    console.log("THIS IS FROM SET DEBATROOM DEBATOR 2 ", debateRoom)
-
     const index = this.findDebateRoomById(debateRoom.id)
     this.setState({debateRooms: [
       ...this.state.debateRooms.slice(0, index), debateRoom, ...this.state.debateRooms.slice(index + 1)
       ]})
-
   }
 
   findDebateRoomById(id) {
@@ -70,6 +66,7 @@ class App extends Component {
     let oldDebateRooms = this.state.debateRooms;
     let newDebateRooms = [...oldDebateRooms, newDebateRoom];
     this.setState({ debateRooms: newDebateRooms });
+    console.log("NEW DEBATE ROOM added", newDebateRoom)
   }
 
   componentDidMount() {

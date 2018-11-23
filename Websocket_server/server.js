@@ -61,11 +61,17 @@ io.on('connection', function (client) {
   //   console.log("SEND BACK", incomingProposal)
   // })
 
-   client.on('newRoom', function  (data) {
+  client.on('newRoom', function  (data) {
     console.log("RECIEVED newRoom", data)
     let incomingRoom = JSON.parse(data)
+    let debator1ToBeAdded = {id:incomingRoom.debator1Id, username: incomingRoom.debator1, state: "debator1", stance: incomingRoom.debator1Stance}
+    delete incomingRoom.debator1Id
     io.emit('newRoom', JSON.stringify(incomingRoom))
+    console.log("incomingRoom", incomingRoom)
     client.emit('redirect', JSON.stringify(incomingRoom))
+    // client.join(incomingRoom.name)
+    console.log("DEBATOR1 to be added", debator1ToBeAdded, "to room", incomingRoom.name)
+    io.in(incomingRoom.name).emit('addUser', JSON.stringify(debator1ToBeAdded))
   })
 
    client.on('joinDebate', function (data) {
@@ -83,8 +89,9 @@ io.on('connection', function (client) {
 
    client.on('addDebator2', function (data) {
     let incomingDebator2 = JSON.parse(data)
-    let debator2ToBeAdded = {username: incomingDebator2.username, state: "debator2", stance: incomingDebator2.stance}
-    let appDebator2 = {username: incomingDebator2.username, room: incomingDebator2.room}
+    console.log("DEBATOR 2", incomingDebator2)
+    let debator2ToBeAdded = {id: incomingDebator2.id, username: incomingDebator2.username, state: "debator2", stance: incomingDebator2.stance}
+    let appDebator2 = {id: incomingDebator2.id, username: incomingDebator2.username, room: incomingDebator2.room}
     io.in(incomingDebator2.room.name).emit('addUser', JSON.stringify(debator2ToBeAdded))
     io.emit('addDebator2ToApp', JSON.stringify(appDebator2))
    })
@@ -115,8 +122,6 @@ io.on('connection', function (client) {
     console.log('received error from client:', client.id)
     console.log(err)
   })
-
-
 
   const checkMessage = async (text) => {
      // const text = incomingmsg.content;

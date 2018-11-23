@@ -15,7 +15,7 @@ class DebateRoom extends Component {
     this.state = {
       debateRoom: props.debateRoom,
       connectedUsers: {
-        1 : {username: props.debateRoom.debator1, state: "debator1", stance: props.debateRoom.debator1Stance},
+        1 : {username: props.debateRoom.debator1, state: "debator1", stance: props.debateRoom.debator1Stance, id: props.currentUser.id}
         },
       messages: [{id:1, content:"hello", username:"TestUser1"}, {id:2, content:"hello back", username:"TestUser2"} ],
       debator1Liked: 0,
@@ -33,9 +33,13 @@ class DebateRoom extends Component {
   }
 
   addConnectedUser(newUser) {
+    console.log("NEW USER IS", newUser)
+    console.log("NEWUSER ID", newUser.id)
     let oldUsers = this.state.connectedUsers;
-    let newUsers = [...oldUsers, newUser];
-    this.setState({ connectedUsers: newUsers });
+    console.log("EARLY OLD USERS", oldUsers)
+    oldUsers[newUser.id] = newUser
+    console.log("OLD USERS IS with new user ", oldUsers)
+    this.setState({'connectedUsers': oldUsers})
     console.log("CONNECTED USERS ARE", this.state.connectedUsers)
   }
 
@@ -63,21 +67,10 @@ class DebateRoom extends Component {
     socket.emit('leave', room)
     this.props.setUserToViewer()
   }
-///MAKE CONNECTED USERS AN OBJECT MAYBE... THIS FUNCTION DOES WORK BUT TO UPDATE STATE WILL BE A PAIN
-//FUNCTION IS BEING CALLED ON NEW MESSAGE JUST TO TEST
-  // updateUserState (newState) {
-  //   console.log("CALLED")
-  //    this.state.connectedUsers.forEach(user => {
-  //     console.log(this.state.currentUser.name)
-  //     console.log(this.state.connectedUsers)
-  //     if (user.username === this.state.currentUser.name) {
-  //       console.log("FOUND HIM", user)
-  //       console.log("NEW STATE", newState)
-  //     }
-  //   })
-  // }
+
 
   componentDidMount() {
+    console.log("STATE", this.state)
     let room = this.state.debateRoom.name
     socket.emit('subscribe', room)
     socket.on ('message', data => {
@@ -87,7 +80,6 @@ class DebateRoom extends Component {
     })
     socket.on('addUser', data => {
       const serverMsg = JSON.parse(data)
-      console.log("receivedADDDD : ", serverMsg)
       this.addConnectedUser(serverMsg)
       // if (serverMsg.state === 'debator2'){
       //   this.setState({debateRoom.debator2: serverMsg.username});
