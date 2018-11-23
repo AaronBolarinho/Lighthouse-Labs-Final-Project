@@ -28,7 +28,11 @@ class DebateRoom extends Component {
   }
 
   shouldRedirect() {
+    let room = this.state.debateRoom.id
+    console.log("This is the destroy room", room)
     this.setState({shouldRedirect:true})
+    this.leaveRoom()
+    socket.emit('destroyRoom', room)
   }
 
    sendMessage(message) {
@@ -50,7 +54,7 @@ class DebateRoom extends Component {
 
   leaveRoom () {
     let room = this.state.debateRoom.name
-    console.log("ROOM TO LEAVE IS ", room)
+    console.log("Debate ROOM TO LEAVE IS ", room)
     socket.emit('leave', room)
   }
 
@@ -95,7 +99,7 @@ class DebateRoom extends Component {
             <DebateRoomChatBar sendMessage={this.sendMessage} />
           </div>
           <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
-          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Results debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
+          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Results debateRoom={this.state.debateRoom} socket={this.state.socket} leaveRoom={this.leaveRoom}/> : ""}</span>
         </div>
         <Link to="/" onClick={this.leaveRoom}> Return Home </Link>
       </div>

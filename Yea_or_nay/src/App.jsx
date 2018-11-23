@@ -16,7 +16,12 @@ class App extends Component {
     this.state = {
       currentUser: {name:"bob", state:"viewer"},
       socket: socket,
-      debateRooms: [{id: 1, name: "Room1", proposedDebate:"Bananas are blue", debator1:"testUser1", debator2: null, debator1Stance: "Yea"}, {id: 2, name: "Room2", proposedDebate:"The sky is blue", debator1:"testUser3", debator2: "testUser4", debator1stance: "Nay"}]
+      debateRooms: [{id: 1, name: "Room1", proposedDebate:"Bananas are blue", debator1:"testUser1", debator2: null, debator1Stance: "Yea"}, {id: 2, name: "Room2", proposedDebate:"The sky is blue", debator1:"testUser3", debator2: "testUser4", debator1stance: "Nay"}, {id: 3, name: "Room3", proposedDebate:"The sky is green", debator1:"testUser3", debator2: "testUser4", debator1stance: "Nay"}],
+      // debateRoomsObject: {
+      //   1 : {id: 1, name: "Room1", proposedDebate:"Bananas are blue", debator1:"testUser1", debator2: null, debator1Stance: "Yea"},
+      //   2 : {id: 2, name: "Room2", proposedDebate:"The sky is blue", debator1:"testUser3", debator2: "testUser4", debator1stance: "Nay"},
+      //   3 : {id: 3, name: "Room3", proposedDebate:"The sky is green", debator1:"testUser3", debator2: "testUser4", debator1stance: "Nay"},
+      // }
     }
     this.changeUsername = this.changeUsername.bind(this)
     this.setUserToDebator = this.setUserToDebator.bind(this)
@@ -63,6 +68,7 @@ class App extends Component {
     let room = this.state.debateRooms.findIndex(debateRoom => {
       return debateRoom.id == id
     })
+    console.log("This is the find DEBATE ROOMBY id", room)
     return room
   }
 
@@ -78,7 +84,51 @@ class App extends Component {
     this.setState({ debateRooms: newDebateRooms });
   }
 
+  destroyDebateRoom(id) {
+
+    // console.log("Before Index", ...this.state.debateRooms.slice(0, index))
+    // console.log("After Index", ...this.state.debateRooms.slice(index + 1))
+    // console.log("NEW DEBATEROOMS ARE ", this.state.debaterooms)
+
+    // console.log("I Shall destroy your room!!", id)
+    // console.log("This is the destroy debate index", index)
+
+    const index = this.findDebateRoomById(id)
+
+    console.log("Before Index", ...this.state.debateRooms.slice(0, index))
+    console.log("After Index", ...this.state.debateRooms.slice(index + 1))
+
+    this.setState({debateRooms: [
+      ...this.state.debateRooms.slice(0, index), ...this.state.debateRooms.slice(index + 1)
+      ]})
+
+    console.log("NEW DEBATEROOMS ARE ", this.state.debaterooms)
+
+
+    // let oldState = this.state.debateRooms
+    // console.log("Old oldState", oldState);
+    // delete oldState[id]
+    // console.log("New oldState", oldState)
+    // let newState = oldState
+    // console.log("New NEWState", newState)
+
+
+    //   this.setState({'debateRoomsObject': newState})
+    //   console.log("this is the final state", this.state)
+    // let oldDebateRooms = this.state.debateRooms;
+    // let newDebateRooms = [...oldDebateRooms, newDebateRoom];
+    // this.setState({ debateRooms: newDebateRooms });
+  }
+
   componentDidMount() {
+
+    socket.on('destroyRoom', data => {
+    console.log("app recieved destroy room", data)
+      if (data) {
+        this.destroyDebateRoom(data)
+      }
+    })
+
     socket.on('newRoom', data => {
     const serverMsg = JSON.parse(data)
     serverMsg.name = "Room" + (this.state.debateRooms.length + 1)

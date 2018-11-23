@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom'
+import Home from './Home.jsx';
 
 function ProposedDebateListItem (props) {
   console.log(props)
@@ -13,6 +14,8 @@ function ProposedDebateListItem (props) {
   }
 
   function makeDebator () {
+    console.log("This is the proposeddebatelist props", props)
+    props.closeMainRoomSocket()
     props.setUserToDebator("debator2")
     props.setDebateRoomDebator2(props.currentUser, props.debateRoom)
     console.log("ROOM IS ", props.debateRoom)

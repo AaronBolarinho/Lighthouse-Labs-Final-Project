@@ -48,7 +48,16 @@ io.on('connection', function (client) {
   client.on('closeDebate', function (data) {
     console.log("RECIEVED closeDebate: ", data)
     client.emit('GoBackHome', data)
-    // io.in(data).emit('closeRoom:', data)
+    // io.emit('closeRoom', data)
+  })
+
+  client.on('destroyRoom', function (data) {
+    // if( data !== "mainroom") {
+    //   console.log("RECIEVED destroyRoom: ", data)
+    //   // io.emit('destroyRoom', data)
+    // }
+    console.log("Does the server get the destroy COMMAND")
+    io.emit('destroyRoom', data)
   })
 
   client.on('message', function (data) {

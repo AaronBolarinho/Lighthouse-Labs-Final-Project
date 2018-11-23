@@ -10,7 +10,7 @@ class Results extends React.Component {
     this.state = {
       endSequence : false,
       time: {},
-      seconds: 10,
+      seconds: 3,
       debateRoom: props.debateRoom
     };
 
@@ -56,6 +56,7 @@ class Results extends React.Component {
       clearInterval(this.timer);
       let room = this.state.debateRoom.name
       this.props.socket.emit('closeDebate', room)
+      this.props.leaveRoom()
     }
 }
 
