@@ -3,6 +3,7 @@ import DebateRoomChatBar from './DebateRoomChatBar.jsx';
 import DebateMessageList from './DebateMessageList.jsx';
 import { Link } from 'react-router-dom'
 import Timer from './Timer.jsx';
+import ChooseASide from './ChooseASide.jsx';
 
 import DebateRoomMessage from './DebateRoomMessage.jsx';
 
@@ -27,6 +28,7 @@ class DebateRoom extends Component {
     this.updateLiked = this.updateLiked.bind(this);
     this.leaveRoom = this.leaveRoom.bind(this)
     this.addConnectedUser = this.addConnectedUser.bind(this)
+    this.updateSide = this.updateSide.bind(this);
   }
 
   addConnectedUser(newUser) {
@@ -113,12 +115,16 @@ class DebateRoom extends Component {
 
   }
 
+  updateSide(username) {
+
+  }
+
   render() {
     return (
       <div className = "container debate-room">
         <div className="container message-container">
           <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.state.currentUser.state}/>
-          {this.state.debateRoom.name === 'mainroom' || this.state.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage} /> : ""}
+          {this.state.debateRoom.name === 'mainroom' || this.state.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> : <ChooseASide updateSide={this.updateSide}/>}
           <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' && this.state.currentUser.state !== 'viewer' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
           {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
         </div>
