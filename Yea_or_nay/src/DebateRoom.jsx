@@ -73,7 +73,13 @@ class DebateRoom extends Component {
     let room = this.state.debateRoom.name
     console.log("Debate ROOM TO LEAVE IS ", room)
     socket.emit('leave', room)
+  }
+
+  leaveRoom2 () {
     this.props.setUserToViewer()
+    let room = this.state.debateRoom.name
+    console.log("Debate ROOM TO LEAVE IS ", room)
+    socket.emit('leave', room)
   }
 
 
@@ -152,7 +158,7 @@ class DebateRoom extends Component {
           {this.state.debateRoom.name === 'mainroom' || this.state.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> : <ChooseASide updateSide={this.updateSide}/>}
           <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' && this.state.currentUser.state !== 'viewer' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
           <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Results debateRoom={this.state.debateRoom} socket={this.state.socket} leaveRoom={this.leaveRoom}/> : ""}</span>
-          {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
+          {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom2}> Return Home </Link> : ""}
         </div>
       </div>
     );
