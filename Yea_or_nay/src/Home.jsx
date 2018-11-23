@@ -32,7 +32,7 @@ class Home extends Component {
          return (<Redirect to={`/${this.state.shouldRedirect.room}`} />)
         }
     return (
-
+      <div>
         <div className='row'>
           <div className="col-sm-5">
 
@@ -47,8 +47,9 @@ class Home extends Component {
           <div className="col-sm-7">
             <DebateRoom debateRoom={{name:"mainroom"}} currentUser={this.props.currentUser}/>
           </div>
-          <Slider debateRooms={this.props.debateRooms} currentUser={this.props.currentUser} socket={this.props.socket}/>
         </div>
+         <Slider debateRooms={this.props.debateRooms} currentUser={this.props.currentUser} socket={this.props.socket}/>
+      </div>
     );
   }
 }
