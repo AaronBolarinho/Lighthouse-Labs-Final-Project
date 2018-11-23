@@ -3,12 +3,8 @@ import DebateRoomChatBar from './DebateRoomChatBar.jsx';
 import DebateMessageList from './DebateMessageList.jsx';
 import { Link, Redirect } from 'react-router-dom'
 import Timer from './Timer.jsx';
-<<<<<<< HEAD
 import ChooseASide from './ChooseASide.jsx';
-=======
 import Results from './Results.jsx';
->>>>>>> feature/results
-
 import DebateRoomMessage from './DebateRoomMessage.jsx';
 
 const io = require('socket.io-client')
