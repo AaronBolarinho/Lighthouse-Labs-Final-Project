@@ -93,17 +93,17 @@ class Timer extends React.Component {
   render() {
     console.log(this.state.time.m)
     if (this.state.time.m !== 5) {
-          return (<div>
-        <button onClick={this.startTimer}>Start</button>
-
-          m: {this.state.time.m} s: {this.state.time.s}
-      </div>)
-        } else {
-    return(
-      <div>
-        <button onClick={this.startTimer}>Start</button>
-      </div>
-    )};
+      return (
+        <div>
+          <button onClick={this.startTimer}>Start</button>
+          <span className='timer'>m: {this.state.time.m} s: {this.state.time.s}</span>
+        </div>)
+    } else {
+      return(
+        <div>
+          <button onClick={this.startTimer}>Start</button>
+        </div>
+      )};
   }
 }
 
