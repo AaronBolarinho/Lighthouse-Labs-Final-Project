@@ -81,9 +81,7 @@ class App extends Component {
     socket.on('addDebator2ToApp', data => {
     const serverMsg = JSON.parse(data)
     console.log("SERVER MESSAGE FROM ADD DEBATOR 2", serverMsg )
-    const currentUser = this.state.currentUser.name
-    console.log("CURRENT USER IS ", currentUser)
-    this.setDebateRoomDebator2(currentUser, serverMsg)
+    this.setDebateRoomDebator2(serverMsg.username, serverMsg.room)
     })
   }
 

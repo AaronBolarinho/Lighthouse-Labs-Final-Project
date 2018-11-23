@@ -21,7 +21,7 @@ class DebateRoom extends Component {
       debator1Liked: 0,
       debator2Liked: 0,
       socket: socket,
-      currentUser: props.currentUser
+      currentUser: props.currentUser,
 
     };
     this.sendMessage = this.sendMessage.bind(this);
@@ -78,7 +78,6 @@ class DebateRoom extends Component {
   // }
 
   componentDidMount() {
-    console.log("CONNECTED USERS ARE", this.state.connectedUsers)
     let room = this.state.debateRoom.name
     socket.emit('subscribe', room)
     socket.on ('message', data => {
@@ -90,7 +89,22 @@ class DebateRoom extends Component {
       const serverMsg = JSON.parse(data)
       console.log("receivedADDDD : ", serverMsg)
       this.addConnectedUser(serverMsg)
+      // if (serverMsg.state === 'debator2'){
+      //   this.setState({debateRoom.debator2: serverMsg.username});
+      // }
     })
+
+    socket.on('likes', data => {
+      const serverMsg = JSON.parse(data)
+    //  console.log("received : ", serverMsg)
+      this.setState({debator1Liked:serverMsg.debator1Liked});
+      this.setState({debator2Liked:serverMsg.debator2Liked});
+      console.log(this.props.debateRoom.debator1, "has been liked= ",this.state.debator1Liked);
+      console.log(this.props.debateRoom.debator2, "has been liked= ",this.state.debator2Liked);
+
+    })
+
+
   }
 
   updateLiked(username) {
@@ -98,28 +112,30 @@ class DebateRoom extends Component {
      this.state.debator1Liked += 1;
     } else {
       this.state.debator2Liked += 1;
-
     }
-    console.log(this.state.debateRoom.debator1, "has been liked= ",this.state.debator1Liked);
-    console.log(this.state.debateRoom.debator2, "has been liked= ",this.state.debator2Liked);
+
+    const newMessage = {
+
+      debator1Liked: this.state.debator1Liked,
+      debator2Liked: this.state.debator2Liked,
+      room: this.state.debateRoom.name
+    }
+    socket.emit("likes", JSON.stringify(newMessage));
+   // console.log(this.state.debateRoom.debator1, "has been liked= ",this.state.debator1Liked);
+   // console.log(this.state.debateRoom.debator2, "has been liked= ",this.state.debator2Liked);
    // console.log(this.state.userState.state);
 
   }
 
   render() {
     return (
-      <div className = "debate-room">
-
-        <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.state.currentUser.state}/>
-
-        <div className="field">
-          <div className="control">
+      <div className = "container debate-room">
+        <div className="container message-container">
+          <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.state.currentUser.state}/>
           {this.state.debateRoom.name === 'mainroom' || this.state.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage} /> : ""}
-          </div>
-          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
+          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' && this.state.currentUser.state !== 'viewer' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
+          {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
         </div>
-        {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
-
       </div>
     );
   }

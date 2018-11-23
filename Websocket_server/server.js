@@ -46,7 +46,8 @@ io.on('connection', function (client) {
 
     checkMessage(incomingmsg.content).then(function(result){
 
-      incomingmsg.content = incomingmsg.content + result;
+      incomingmsg.content = incomingmsg.content + result.systemMessage;
+      incomingmsg.flag = result.flag;
       console.log("RECIEVED : ", incomingmsg, "from", incomingmsg.roomName);
       io.in(incomingmsg.roomName).emit('message', JSON.stringify(incomingmsg))
       console.log("SENT ", incomingmsg, "To hopefully only", incomingmsg.roomName)
@@ -82,20 +83,24 @@ io.on('connection', function (client) {
 
    client.on('addDebator2', function (data) {
     let incomingDebator2 = JSON.parse(data)
-    console.log("INCOMINGDEBATOR2", incomingDebator2)
-    let debator2ToBeAdded = {id: incomingDebator2.id, username: incomingDebator2.username, state: "debator2", stance: incomingDebator2.stance}
+    let debator2ToBeAdded = {username: incomingDebator2.username, state: "debator2", stance: incomingDebator2.stance}
+    let appDebator2 = {username: incomingDebator2.username, room: incomingDebator2.room}
     io.in(incomingDebator2.room.name).emit('addUser', JSON.stringify(debator2ToBeAdded))
-    io.emit('addDebator2ToApp', JSON.stringify(incomingDebator2.room))
-    console.log("ADDD DEBATOR 2222")
+    io.emit('addDebator2ToApp', JSON.stringify(appDebator2))
    })
-
-
 
   client.on('chatrooms', handleGetChatrooms)
 
   client.on('disconnect', function () {
     console.log('client disconnect...', client.id)
     handleDisconnect()
+  })
+
+  client.on('likes', function (data) {
+    //console.log('received timer', data)
+    let incomingMsg = JSON.parse(data)
+   // console.log("this is the timer update data", incomingTimerUpdate)
+    io.in(incomingMsg.room).emit('likes', JSON.stringify(incomingMsg))
   })
 
   client.on('timer', function (data) {
@@ -105,26 +110,33 @@ io.on('connection', function (client) {
     io.in(incomingTimerUpdate.room).emit('TimerUpdate', JSON.stringify(incomingTimerUpdate))
   })
 
+
   client.on('error', function (err) {
     console.log('received error from client:', client.id)
     console.log(err)
   })
 
+
+
   const checkMessage = async (text) => {
      // const text = incomingmsg.content;
-      let systemMessage = "";
+      let message = {
+                      systemMessage : "",
+                      flag: false};
+
       const result = await perspective.analyze(text);
       const score = result.attributeScores.TOXICITY.summaryScore.value;
     //  console.log(score);
      // return score;
       if (score >= 0.9){
-        systemMessage = "-- Message is offensive!"
+        message.systemMessage = "-- Message is offensive!"
+        message.flag = true;
       }
       else if (score >= 0.7){
-        systemMessage = "--Please watch your comment"
+        message.systemMessage = "--Please watch your comment"
       }
      // console.log(systemMessage);
-      return systemMessage;
+      return message;
    }
 
 
