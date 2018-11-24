@@ -41,7 +41,7 @@ class ProposedDebate extends Component {
             <option value="Yea"> Yea</option>
             <option value="Nay"> Nay</option>
           </select>
-          <button type="submit" class="float-right btn btn-dark button-propose">Propose!</button>
+          <button type="submit" class="float-right btn btn-dark">Propose!</button>
         </div>
       </form>    );
   }
