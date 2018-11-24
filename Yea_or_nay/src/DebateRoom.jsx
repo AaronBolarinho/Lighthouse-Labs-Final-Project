@@ -18,9 +18,7 @@ class DebateRoom extends Component {
       messages: [{id:1, content:"hello", username:"TestUser1"}, {id:2, content:"hello back", username:"TestUser2"} ],
       debator1Liked: 0,
       debator2Liked: 0,
-      socket: props.socket,
-      currentUser: props.currentUser,
-      shouldRedirect: false,
+      shouldRedirect: false
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.updateMessages = this.updateMessages.bind(this);
@@ -45,7 +43,7 @@ class DebateRoom extends Component {
     let room = this.state.debateRoom.id
     console.log("This is the destroy room from shouldRedirect ", room)
     this.setState({shouldRedirect:true})
-    this.state.socket.emit('destroyRoom', room)
+    this.props.socket.emit('destroyRoom', room)
   }
 
    sendMessage(message) {
@@ -56,7 +54,7 @@ class DebateRoom extends Component {
       roomName: this.state.debateRoom.name
     };
     console.log("SENT : ", newMessage)
-    this.state.socket.emit("message", JSON.stringify(newMessage));
+    this.props.socket.emit("message", JSON.stringify(newMessage));
   }
 
   updateMessages(newMessage) {
@@ -69,27 +67,27 @@ class DebateRoom extends Component {
     this.props.setUserToViewer()
     let room = this.state.debateRoom
     console.log("Debate ROOM TO LEAVE IS ", room.name)
-    this.state.socket.emit('leave', room.name)
+    this.props.socket.emit('leave', room.name)
     //Destroy Room is working fine just gets called wrong during the results
-    //this.state.socket.emit('destroyRoom', room.id)
+    // this.state.socket.emit('destroyRoom', room.id)
   }
 
   componentDidMount() {
     // console.log("STATE", this.state)
     let room = this.state.debateRoom.name
-    this.state.socket.emit('subscribe', room)
-    this.state.socket.on ('message', data => {
+    this.props.socket.emit('subscribe', room)
+    this.props.socket.on ('message', data => {
     const serverMsg = JSON.parse(data)
     console.log("received : ", serverMsg)
     this.updateMessages(serverMsg)
     })
 
-    this.state.socket.on('addUser', data => {
+    this.props.socket.on('addUser', data => {
       const serverMsg = JSON.parse(data)
       this.addConnectedUser(serverMsg)
     })
 
-    this.state.socket.on('likes', data => {
+    this.props.socket.on('likes', data => {
       const serverMsg = JSON.parse(data)
       this.setState({debator1Liked:serverMsg.debator1Liked});
       this.setState({debator2Liked:serverMsg.debator2Liked});
@@ -97,7 +95,7 @@ class DebateRoom extends Component {
       console.log(this.props.debateRoom.debator2, "has been liked= ",this.state.debator2Liked);
     })
 
-    this.state.socket.on('GoBackHome', data => {
+    this.props.socket.on('GoBackHome', data => {
       console.log("recieved GOBACK HOME FROM SERVER IN ", data)
     this.shouldRedirect()
     })
@@ -115,7 +113,7 @@ class DebateRoom extends Component {
       debator2Liked: this.state.debator2Liked,
       room: this.state.debateRoom.name
     }
-    this.state.socket.emit("likes", JSON.stringify(newMessage));
+    this.props.socket.emit("likes", JSON.stringify(newMessage));
    // console.log(this.state.debateRoom.debator1, "has been liked= ",this.state.debator1Liked);
    // console.log(this.state.debateRoom.debator2, "has been liked= ",this.state.debator2Liked);
    // console.log(this.state.userState.state);
@@ -139,10 +137,10 @@ class DebateRoom extends Component {
     return (
       <div className = "container debate-room">
         <div className="container message-container">
-          <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.state.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked}/>
-          {this.state.debateRoom.name === 'mainroom' || this.state.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> : <ChooseASide updateSide={this.updateSide}/>}
-          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' && this.state.currentUser.state !== 'viewer' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
-          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Results debateRoom={this.state.debateRoom} socket={this.state.socket} leaveRoom={this.leaveRoom}/> : ""}</span>
+          <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.props.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked}/>
+          {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> : <ChooseASide updateSide={this.updateSide}/>}
+          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' && this.props.currentUser.state !== 'viewer' ? <Timer debateRoom={this.state.debateRoom} socket={this.props.socket}/> : ""}</span>
+          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Results debateRoom={this.state.debateRoom} socket={this.props.socket} leaveRoom={this.leaveRoom}/> : ""}</span>
           {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
         </div>
       </div>

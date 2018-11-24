@@ -12,7 +12,7 @@ const perspective = new Perspective({apiKey: process.env.PERSPECTIVE_API_KEY });
 // });
 
 let debateRooms = [{id: 1, name: "Room1", proposedDebate:"Bananas are blue", debator1:"testUser1", debator2: null, debator1Stance: "Yea"}, {id: 2, name: "Room2", proposedDebate:"The sky is blue", debator1:"testUser3", debator2: null, debator1stance: "Nay"}, {id: 3, name: "Room3", proposedDebate:"The sky is green", debator1:"testUser3", debator2: "testUser4", debator1stance: "Nay"}]
-
+let debateRoomObject = {}
 function setDebateRoomDebator2(user, debateRoom) {
 
     debateRoom.debator2 = user
@@ -32,17 +32,18 @@ function setDebateRoomDebator2(user, debateRoom) {
     console.log("This is the find DEBATE ROOMBY id at index", roomIndex)
     return roomIndex
   }
-// class DebateRoom {
-//   constructor(debateRoom) {
-//       this.debateRoom: debateRoom,
-//       this.connectedUsers: {
-//         debateRoom.debator1.id : {username: debateRoom.debator1, state: "debator1", stance: debateRoom.debator1Stance, id: debateRoom.debator1.id}
-//         },
-//       this.messages: [],
-//       this.debator1Liked: 0,
-//       this.debator2Liked: 0,
-//   }
-// }
+
+class DebateRoom {
+  constructor(debateRoom) {
+      this.debateRoom = debateRoom,
+      this.connectedUsers = {
+        1: {username: debateRoom.debator1, state: "debator1", stance: debateRoom.debator1Stance, id: debateRoom.debator1Id}
+        },
+      this.debator1Liked = 0,
+      this.debator2Liked = 0,
+      this.shouldRedirect = false
+  }
+}
 
 const ClientManager = require('./ClientManager')
 const ChatroomManager = require('./ChatroomManager')
@@ -129,6 +130,10 @@ io.on('connection', function (client) {
     console.log("SERVRE DebateRooms are", debateRooms)
     console.log("incomingRoom", incomingRoom)
     client.emit('redirect', JSON.stringify(incomingRoom))
+    debateRoomObject[incomingRoom.id] = new DebateRoom(incomingRoom)
+    console.log('DEBATE ROOM OBJECT', debateRoomObject)
+    console.log('Debate room object connected users', debateRoomObject[incomingRoom.id].connectedUsers)
+
     // client.join(incomingRoom.name)
     // console.log("DEBATOR1 to be added", debator1ToBeAdded, "to room", incomingRoom.name)
     // io.in(incomingRoom.name).emit('addUser', JSON.stringify(debator1ToBeAdded))
@@ -149,7 +154,6 @@ io.on('connection', function (client) {
 //NEED TO ADD THIS DEBATOR 2 TO SERVER DEBATE ROOM CONNECTED USERS
    client.on('addDebator2', function (data) {
     let incomingDebator2 = JSON.parse(data)
-    console.log("DEBATOR 2", incomingDebator2)
     let debator2ToBeAdded = {id: incomingDebator2.id, username: incomingDebator2.username, state: "debator2", stance: incomingDebator2.stance}
     let appDebator2 = {id: incomingDebator2.id, username: incomingDebator2.username, room: incomingDebator2.room}
     io.in(incomingDebator2.room.name).emit('addUser', JSON.stringify(debator2ToBeAdded))

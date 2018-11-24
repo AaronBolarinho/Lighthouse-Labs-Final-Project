@@ -48,8 +48,9 @@ class Timer extends React.Component {
     // Check if we're at zero.
     if (seconds == 0) {
       clearInterval(this.timer);
-      let room = this.state.debateRoom.name
-      this.props.socket.emit('debateEnded', room)
+      let room = this.state.debateRoom
+      this.props.socket.emit('debateEnded', room.name)
+      // this.props.socket.emit('destroyRoom', room.id)
     }
 }
 

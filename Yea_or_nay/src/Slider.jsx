@@ -54,7 +54,6 @@ export default class Slider extends Component {
 
    render() {
     let currentUser = this.props.currentUser
-    console.log("HEY", this.props)
 
     // let sliderStyle = {
     //   transform:`translateX(${this.state.activeIndex * -100}%)`,

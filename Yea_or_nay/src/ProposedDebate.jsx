@@ -16,7 +16,7 @@ class ProposedDebate extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const newRoom = {id: uuid(), name: "", proposedDebate:this.state.proposedDebate, debator1:this.props.currentUser.name, debator2: null, debator1Stance: this.state.stance}
+    const newRoom = {id: uuid(), name: "", proposedDebate:this.state.proposedDebate, debator1:this.props.currentUser.name, debator2: null, debator1Stance: this.state.stance, debator1Id: this.props.currentUser.id}
     event.target.reset()
     this.setState({stance: "Yea"})
     this.props.socket.emit('newRoom', JSON.stringify(newRoom))
