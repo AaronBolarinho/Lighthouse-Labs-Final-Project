@@ -33,6 +33,16 @@ function findDebateRoomById(id) {
   return roomIndex
 }
 
+function destroyDebateRoom(id) {
+
+    const index = findDebateRoomById(id)
+
+     debateRooms = [
+    ...debateRooms.slice(0, index), ...debateRooms.slice(index + 1)
+    ]
+
+}
+
 class DebateRoom {
   constructor(debateRoom) {
       this.debateRoom = debateRoom,
@@ -54,7 +64,6 @@ io.on('connection', function (client) {
   console.log('client connected...', client.id)
 
   client.on('getDebateRooms', function (data) {
-    console.log("HELLO")
     client.emit('debateRooms', JSON.stringify(debateRooms))
   })
   client.on('getInitialState', function (data) {
@@ -97,6 +106,7 @@ io.on('connection', function (client) {
     // }
     console.log("Does the server get the destroy COMMAND", data)
     io.emit('destroyRoom', data)
+    destroyDebateRoom(data)
   })
 
   client.on('message', function (data) {
