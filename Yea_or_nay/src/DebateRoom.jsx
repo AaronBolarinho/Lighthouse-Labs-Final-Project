@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import DebateRoomChatBar from './DebateRoomChatBar.jsx';
 import DebateMessageList from './DebateMessageList.jsx';
-import { Link } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import Timer from './Timer.jsx';
 import ChooseASide from './ChooseASide.jsx';
 import Results from './Results.jsx'
@@ -176,6 +176,9 @@ class DebateRoom extends Component {
   }
 
   render() {
+     if (this.state.shouldRedirect) {
+         return (<Redirect to="/" />)
+        }
     return (
       <div className = "container debate-room">
         <div className="container message-container">
