@@ -37,13 +37,15 @@ class ProposedDebateList extends Component {
   render() {
     console.log("DEBATE ROOMS FROM DEBATE LIST ARE ", this.props.debateRooms)
     return (
-          <form className="form">
-            <ul>
-              {this.createTopics()}
-            </ul>
-          </form>
+      <div class="dropdown proposed-debate-list">
+       <button class="dropbtn">Join a Debate</button>
+        <div class="dropdown-content">
+          <ul>
+            {this.createTopics()}
+          </ul>
+        </div>
+      </div>
     );
-
   }
 }
 
