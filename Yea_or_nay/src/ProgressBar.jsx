@@ -20,7 +20,6 @@ class ProgressBar extends Component {
   // }
 
   render() {
-    console.log('this.props.value', this.props.value);
     return (
       <div className="progress-bar-container">
         <input type="range" min="0" max="100" value={this.props.value} className="progress-bar" id="grad" step="1"/>

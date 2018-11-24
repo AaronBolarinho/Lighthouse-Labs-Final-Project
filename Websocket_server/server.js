@@ -36,7 +36,7 @@ io.on('connection', function (client) {
   })
 
   client.on('leave', function (data) {
-    console.log("RECIEVED leave: ", data)
+    console.log("RECIEVED leave for: ", data)
     client.leave(data)
   })
 
@@ -46,8 +46,12 @@ io.on('connection', function (client) {
   })
 
   client.on('closeDebate', function (data) {
-    console.log("RECIEVED closeDebate: ", data)
-    client.emit('GoBackHome', data)
+    console.log("RECIEVED closeDebate:", data)
+    io.in(data).emit('GoBackHome', data)
+    console.log("SENT GO BACK HOME TO", data)
+    client.leave(data)
+    console.log("LEFT ROOM", data)
+    //THIS IS BEING SENT 1 time but RECEIVED TWICE AND I THINK CAUSING THE DISCREPANCY
     // io.emit('closeRoom', data)
   })
 
@@ -56,7 +60,7 @@ io.on('connection', function (client) {
     //   console.log("RECIEVED destroyRoom: ", data)
     //   // io.emit('destroyRoom', data)
     // }
-    console.log("Does the server get the destroy COMMAND")
+    console.log("Does the server get the destroy COMMAND", data)
     io.emit('destroyRoom', data)
   })
 
@@ -74,39 +78,35 @@ io.on('connection', function (client) {
     })
   });
 
-  // client.on('proposal', function  (data) {
-  //   console.log("RECIEVED proposal", data)
-  //   let incomingProposal = JSON.parse(data)
-  //   io.emit('proposal', JSON.stringify(incomingProposal))
-  //   console.log("SEND BACK", incomingProposal)
-  // })
 
+//WILL NEED TO ADD THE NEW ROOM TO SERVER ARRAY
   client.on('newRoom', function  (data) {
     console.log("RECIEVED newRoom", data)
     let incomingRoom = JSON.parse(data)
-    let debator1ToBeAdded = {id:incomingRoom.debator1Id, username: incomingRoom.debator1, state: "debator1", stance: incomingRoom.debator1Stance}
+    //SOME CODE HERE WAS TRYING TO ADD DEBATOR 2 TO DEBATE ROOM LIKE NORMAL, ADD IT HERE SERVER SIDE TO SERVER DEBATE ROOM
+    // let debator1ToBeAdded = {id:incomingRoom.debator1Id, username: incomingRoom.debator1, state: "debator1", stance: incomingRoom.debator1Stance}
     delete incomingRoom.debator1Id
     io.emit('newRoom', JSON.stringify(incomingRoom))
     console.log("incomingRoom", incomingRoom)
     client.emit('redirect', JSON.stringify(incomingRoom))
     // client.join(incomingRoom.name)
-    console.log("DEBATOR1 to be added", debator1ToBeAdded, "to room", incomingRoom.name)
-    io.in(incomingRoom.name).emit('addUser', JSON.stringify(debator1ToBeAdded))
+    // console.log("DEBATOR1 to be added", debator1ToBeAdded, "to room", incomingRoom.name)
+    // io.in(incomingRoom.name).emit('addUser', JSON.stringify(debator1ToBeAdded))
   })
 
    client.on('joinDebate', function (data) {
-    console.log("RECIEVED JOIN DEBATE")
+    console.log("RECIEVED JOIN DEBATE", data)
     let incomingRoom = JSON.parse(data)
     client.emit('redirect', JSON.stringify(incomingRoom))
    })
-
+//NEED TO ADD THIS VIEWER TO SERVER DEBATE ROOM CONNECTED USERS
    client.on('addViewer', function (data) {
     let incomingViewer = JSON.parse(data)
     let viewerToBeAdded = {id: incomingViewer.id, username: incomingViewer.username, state: "viewer", stance: null}
     io.in(incomingViewer.room).emit('addUser', JSON.stringify(viewerToBeAdded))
     console.log("ADD VIEEEEWER")
    })
-
+//NEED TO ADD THIS DEBATOR 2 TO SERVER DEBATE ROOM CONNECTED USERS
    client.on('addDebator2', function (data) {
     let incomingDebator2 = JSON.parse(data)
     console.log("DEBATOR 2", incomingDebator2)
@@ -115,7 +115,7 @@ io.on('connection', function (client) {
     io.in(incomingDebator2.room.name).emit('addUser', JSON.stringify(debator2ToBeAdded))
     io.emit('addDebator2ToApp', JSON.stringify(appDebator2))
    })
-
+//MIGHT NEED TO DO SOMETHING SIMILAR TO THIS
   client.on('chatrooms', handleGetChatrooms)
 
   client.on('disconnect', function () {
@@ -131,14 +131,11 @@ io.on('connection', function (client) {
   })
 
   client.on('timer', function (data) {
-    console.log('received timer', data)
     let incomingTimerUpdate = JSON.parse(data)
-    console.log("this is the timer update data", incomingTimerUpdate)
     io.in(incomingTimerUpdate.room).emit('TimerUpdate', JSON.stringify(incomingTimerUpdate))
   })
 
   client.on('ResultsTimer', function (data) {
-    console.log('received Results timer', data)
     let incomingResultsTimerUpdate = JSON.parse(data)
     console.log("Results timer update data", incomingResultsTimerUpdate)
     io.in(incomingResultsTimerUpdate.room).emit('ResultsTimerUpdate', JSON.stringify(incomingResultsTimerUpdate))
@@ -154,7 +151,6 @@ io.on('connection', function (client) {
       let message = {
                       systemMessage : "",
                       flag: false};
-
       const result = await perspective.analyze(text);
       const score = result.attributeScores.TOXICITY.summaryScore.value;
     //  console.log(score);
@@ -169,7 +165,6 @@ io.on('connection', function (client) {
      // console.log(systemMessage);
       return message;
    }
-
 
 })
 

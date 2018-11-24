@@ -19,17 +19,12 @@ class Home extends Component {
 
   closeMainRoomSocket(){
     console.log("mainroom socket about to close!")
-    let mainRoomleave = "mainroom"
-    console.log("Home ROOM TO LEAVE IS ", mainRoomleave)
-    this.props.socket.emit('leave', mainRoomleave)
+    this.props.socket.emit('leave', "mainroom")
   }
 
   shouldRedirect(room) {
     this.setState({shouldRedirect: {should: true, room: room}})
-    console.log("mainroomRedirectgotcalled :", true)
-    let mainRoomleave = "mainroom"
-    console.log("Home ROOM TO LEAVE IS ", mainRoomleave)
-    this.props.socket.emit('leave', mainRoomleave)
+    this.props.socket.emit('leave', "mainroom")
   }
 
   componentDidMount() {
@@ -56,7 +51,7 @@ class Home extends Component {
             <ProposedDebateList socket={this.props.socket} debateRooms={this.props.debateRooms} currentUser={this.props.currentUser} setUserToDebator={this.props.setUserToDebator} setDebateRoomDebator2={this.props.setDebateRoomDebator2} closeMainRoomSocket={this.closeMainRoomSocket}/>
           </div>
           <div className="col-sm-7">
-            <DebateRoom debateRoom={{name:"mainroom"}} currentUser={this.props.currentUser}/>
+            <DebateRoom debateRoom={{name:"mainroom"}} currentUser={this.props.currentUser} socket={this.props.socket}/>
           </div>
         </div>
          <Slider debateRooms={this.props.debateRooms} currentUser={this.props.currentUser} socket={this.props.socket}/>

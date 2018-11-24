@@ -7,9 +7,6 @@ import ChooseASide from './ChooseASide.jsx';
 import Results from './Results.jsx';
 import DebateRoomMessage from './DebateRoomMessage.jsx';
 
-const io = require('socket.io-client')
-const socket = io.connect('http://localhost:3001')
-
 class DebateRoom extends Component {
   constructor(props) {
     super();
@@ -21,7 +18,7 @@ class DebateRoom extends Component {
       messages: [{id:1, content:"hello", username:"TestUser1"}, {id:2, content:"hello back", username:"TestUser2"} ],
       debator1Liked: 0,
       debator2Liked: 0,
-      socket: socket,
+      socket: props.socket,
       currentUser: props.currentUser,
       shouldRedirect: false,
     };
@@ -46,10 +43,9 @@ class DebateRoom extends Component {
 
   shouldRedirect() {
     let room = this.state.debateRoom.id
-    console.log("This is the destroy room", room)
+    console.log("This is the destroy room from shouldRedirect ", room)
     this.setState({shouldRedirect:true})
-    this.leaveRoom()
-    socket.emit('destroyRoom', room)
+    this.state.socket.emit('destroyRoom', room)
   }
 
    sendMessage(message) {
@@ -60,7 +56,7 @@ class DebateRoom extends Component {
       roomName: this.state.debateRoom.name
     };
     console.log("SENT : ", newMessage)
-    socket.emit("message", JSON.stringify(newMessage));
+    this.state.socket.emit("message", JSON.stringify(newMessage));
   }
 
   updateMessages(newMessage) {
@@ -70,49 +66,39 @@ class DebateRoom extends Component {
   }
 
   leaveRoom () {
-    let room = this.state.debateRoom.name
-    console.log("Debate ROOM TO LEAVE IS ", room)
-    socket.emit('leave', room)
-  }
-
-  leaveRoom2 () {
     this.props.setUserToViewer()
-    let room = this.state.debateRoom.name
-    console.log("Debate ROOM TO LEAVE IS ", room)
-    socket.emit('leave', room)
+    let room = this.state.debateRoom
+    console.log("Debate ROOM TO LEAVE IS ", room.name)
+    this.state.socket.emit('leave', room.name)
+    //Destroy Room is working fine just gets called wrong during the results
+    //this.state.socket.emit('destroyRoom', room.id)
   }
-
 
   componentDidMount() {
-    console.log("STATE", this.state)
+    // console.log("STATE", this.state)
     let room = this.state.debateRoom.name
-    socket.emit('subscribe', room)
-    socket.on ('message', data => {
+    this.state.socket.emit('subscribe', room)
+    this.state.socket.on ('message', data => {
     const serverMsg = JSON.parse(data)
     console.log("received : ", serverMsg)
     this.updateMessages(serverMsg)
     })
 
-    socket.on('addUser', data => {
+    this.state.socket.on('addUser', data => {
       const serverMsg = JSON.parse(data)
       this.addConnectedUser(serverMsg)
-      // if (serverMsg.state === 'debator2'){
-      //   this.setState({debateRoom.debator2: serverMsg.username});
-      // }
     })
 
-    socket.on('likes', data => {
+    this.state.socket.on('likes', data => {
       const serverMsg = JSON.parse(data)
-    //  console.log("received : ", serverMsg)
       this.setState({debator1Liked:serverMsg.debator1Liked});
       this.setState({debator2Liked:serverMsg.debator2Liked});
       console.log(this.props.debateRoom.debator1, "has been liked= ",this.state.debator1Liked);
       console.log(this.props.debateRoom.debator2, "has been liked= ",this.state.debator2Liked);
-
     })
 
-    socket.on('GoBackHome', data => {
-      console.log("recieved final redirect")
+    this.state.socket.on('GoBackHome', data => {
+      console.log("recieved GOBACK HOME FROM SERVER IN ", data)
     this.shouldRedirect()
     })
   }
@@ -125,12 +111,11 @@ class DebateRoom extends Component {
     }
 
     const newMessage = {
-
       debator1Liked: this.state.debator1Liked,
       debator2Liked: this.state.debator2Liked,
       room: this.state.debateRoom.name
     }
-    socket.emit("likes", JSON.stringify(newMessage));
+    this.state.socket.emit("likes", JSON.stringify(newMessage));
    // console.log(this.state.debateRoom.debator1, "has been liked= ",this.state.debator1Liked);
    // console.log(this.state.debateRoom.debator2, "has been liked= ",this.state.debator2Liked);
    // console.log(this.state.userState.state);
@@ -158,7 +143,7 @@ class DebateRoom extends Component {
           {this.state.debateRoom.name === 'mainroom' || this.state.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> : <ChooseASide updateSide={this.updateSide}/>}
           <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' && this.state.currentUser.state !== 'viewer' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
           <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Results debateRoom={this.state.debateRoom} socket={this.state.socket} leaveRoom={this.leaveRoom}/> : ""}</span>
-          {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom2}> Return Home </Link> : ""}
+          {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
         </div>
       </div>
     );
