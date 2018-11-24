@@ -3,6 +3,7 @@ import Timer from './Timer.jsx';
 import DebateRoom from './DebateRoom.jsx';
 import Home from './Home.jsx';
 import Slider from './Slider.jsx';
+import TestChangeUser from './TestChangeUser.jsx'
 import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom';
 const uuid = require('uuid/v4')
 const io = require('socket.io-client');
@@ -138,6 +139,9 @@ class App extends Component {
             <div className="navbar-brand">
               <p id="logo">YEA or NAY</p>
             </div>
+
+            <TestChangeUser changeUsername={this.props.changeUsername}/>
+
             <div className="navbar-nav navbar-right">
               <div className="nav-item">
                 <span className="navbar-users">Viewer</span>

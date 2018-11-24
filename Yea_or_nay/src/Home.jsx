@@ -44,8 +44,6 @@ class Home extends Component {
       <div>
         <div className='row'>
           <div className="col-sm-5">
-
-            <TestChangeUser changeUsername={this.props.changeUsername}/>
             <h5 className="subtitle">Propose Debate:</h5>
             <ProposedDebate socket={this.props.socket} debateRooms={this.props.debateRooms} currentUser={this.props.currentUser} setUserToDebator={this.props.setUserToDebator}/>
             <h5 className="subtitle">Join Debate:</h5>
