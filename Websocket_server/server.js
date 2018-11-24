@@ -194,7 +194,10 @@ io.on('connection', function (client) {
 
   client.on('switch', function (data) {
     let incomingMsg = JSON.parse(data)   // console.log("this is the timer update data", incomingTimerUpdate)
+    debateRoomObject[incomingMsg.roomId].debator1Switch = incomingMsg.debator1Switch
+    debateRoomObject[incomingMsg.roomId].debator2Switch = incomingMsg.debator2Switch
     io.in(incomingMsg.room).emit('switch', JSON.stringify(incomingMsg))
+    console.log("DID THE SWITCH UPDATE", debateRoomObject[incomingMsg.roomId] )
   })
 
 
