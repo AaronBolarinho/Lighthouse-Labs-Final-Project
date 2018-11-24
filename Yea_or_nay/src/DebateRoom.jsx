@@ -4,8 +4,8 @@ import DebateMessageList from './DebateMessageList.jsx';
 import { Link } from 'react-router-dom'
 import Timer from './Timer.jsx';
 import ChooseASide from './ChooseASide.jsx';
-
 import DebateRoomMessage from './DebateRoomMessage.jsx';
+import LearnedSomethingNew from './LearnedSomethingNew.jsx';
 
 const io = require('socket.io-client')
 const socket = io.connect('http://localhost:3001')
@@ -160,13 +160,24 @@ class DebateRoom extends Component {
   }
 
   render() {
+
+    let debator
+
     return (
       <div className = "container debate-room">
         <div className="container message-container">
-          <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.state.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked}/>
-          {this.state.debateRoom.name === 'mainroom' || this.state.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> : <ChooseASide updateSide={this.updateSide}/>}
-          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' && this.state.currentUser.state !== 'viewer' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
-          {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
+          <div className='row'>
+            <div className='col-sm-4'>
+              {this.state.debateRoom.name === 'mainroom' || this.state.currentUser.state !== 'viewer' ? '' : <ChooseASide updateSide={this.updateSide}/>}
+              {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
+              <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' && this.state.currentUser.state !== 'viewer' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
+              {this.state.debateRoom.name !== 'mainroom' && this.state.currentUser.state !== 'viewer' ? <LearnedSomethingNew/> : ""}
+            </div>
+            <div className="col-sm-8">
+              <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.state.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked}/>
+              {this.state.debateRoom.name === 'mainroom' || this.state.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> :''}
+            </div>
+          </div>
         </div>
       </div>
     );
