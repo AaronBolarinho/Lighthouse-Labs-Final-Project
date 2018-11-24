@@ -53,7 +53,11 @@ export default class Slider extends Component {
   }
 
    render() {
-    let currentUser = this.props.currentUser
+    let currentUser = this.props.currentUser;
+    console.log('debateRooms: ', this.props.debateRooms);
+    let activeDebateRooms = this.props.debateRooms.filter(item => item.debator1 !== null);
+    // add later in the filter above && item.debator2
+    console.log('activeDebateRooms: ',activeDebateRooms);
 
     // let sliderStyle = {
     //   transform:`translateX(${this.state.activeIndex * -100}%)`,
@@ -73,14 +77,13 @@ export default class Slider extends Component {
           <div className='slideContainer'>
 
             <ul className='slide-container justify-content-center'>
-              {this.props.debateRooms.map((item, index) => {
+              {activeDebateRooms.map((item, index) => {
                 let debateRoom = this.props.debateRooms[this.state.currentIndex]
                 let computedClass = index === (this.state.currentIndex) ? 'slide active' : 'slide';
-                if (debateRoom.debator1 && debateRoom.debator2) {
                   return ( <li className={computedClass} key={index}>
                           <Link to={`/${debateRoom.name}`} onClick={() =>{this.addViewerToRoom({currentUser}, {debateRoom})}}>{item.proposedDebate}</Link>
                         </li>)
-              }})}
+              })}
             </ul>
 
 

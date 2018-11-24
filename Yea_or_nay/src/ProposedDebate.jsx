@@ -37,8 +37,7 @@ class ProposedDebate extends Component {
     return (
 
       <form className="form" onSubmit={this.handleSubmit}>
-        <input className='input-lg form-control' type="text" placeholder="Debate input" onChange={this.handleChange}/>
-
+        <input className='input form-control propose-debate' type="text" placeholder="Debate input" onChange={this.handleChange}/>
         <div className="buttons has-addons">
           <select onChange={this.handleDropdown}>
             <option value="Yea"> Yea</option>
