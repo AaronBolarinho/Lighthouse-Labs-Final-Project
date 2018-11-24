@@ -137,12 +137,20 @@ io.on('connection', function (client) {
     io.in(incomingTimerUpdate.room).emit('TimerUpdate', JSON.stringify(incomingTimerUpdate))
   })
 
+
   client.on('ResultsTimer', function (data) {
     console.log('received Results timer', data)
     let incomingResultsTimerUpdate = JSON.parse(data)
     console.log("Results timer update data", incomingResultsTimerUpdate)
     io.in(incomingResultsTimerUpdate.room).emit('ResultsTimerUpdate', JSON.stringify(incomingResultsTimerUpdate))
   })
+
+  client.on('switch', function (data) {
+    let incomingMsg = JSON.parse(data)   // console.log("this is the timer update data", incomingTimerUpdate)
+    io.in(incomingMsg.room).emit('switch', JSON.stringify(incomingMsg))
+  })
+
+
 
   client.on('error', function (err) {
     console.log('received error from client:', client.id)

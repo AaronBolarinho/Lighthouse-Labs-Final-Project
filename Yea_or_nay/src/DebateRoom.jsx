@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import DebateRoomChatBar from './DebateRoomChatBar.jsx';
 import DebateMessageList from './DebateMessageList.jsx';
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Timer from './Timer.jsx';
 import ChooseASide from './ChooseASide.jsx';
-import Results from './Results.jsx';
+
 import DebateRoomMessage from './DebateRoomMessage.jsx';
 
 const io = require('socket.io-client')
@@ -23,7 +23,10 @@ class DebateRoom extends Component {
       debator2Liked: 0,
       socket: socket,
       currentUser: props.currentUser,
-      shouldRedirect: false,
+      debator1Switch: 0,
+      debator2Switch: 0,
+      userStance: null
+
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.updateMessages = this.updateMessages.bind(this);
@@ -42,17 +45,14 @@ class DebateRoom extends Component {
     console.log("OLD USERS IS with new user ", oldUsers)
     this.setState({'connectedUsers': oldUsers})
     console.log("CONNECTED USERS ARE", this.state.connectedUsers)
+   // console.log('current user', this.state.connectedUsers.newUser.id)
+   for (let one in this.state.connectedUsers){
+      console.log('user', this.state.connectedUsers[one].id)
+    }
   }
 
-  shouldRedirect() {
-    let room = this.state.debateRoom.id
-    console.log("This is the destroy room", room)
-    this.setState({shouldRedirect:true})
-    this.leaveRoom()
-    socket.emit('destroyRoom', room)
-  }
-
-   sendMessage(message) {
+  sendMessage(message) {
+    // this.updateUserState("yea")
     const newMessage = {
       id: (this.state.messages.length + 1),
       username: this.props.currentUser.name,
@@ -71,15 +71,9 @@ class DebateRoom extends Component {
 
   leaveRoom () {
     let room = this.state.debateRoom.name
-    console.log("Debate ROOM TO LEAVE IS ", room)
+    console.log("ROOM TO LEAVE IS ", room)
     socket.emit('leave', room)
-  }
-
-  leaveRoom2 () {
     this.props.setUserToViewer()
-    let room = this.state.debateRoom.name
-    console.log("Debate ROOM TO LEAVE IS ", room)
-    socket.emit('leave', room)
   }
 
 
@@ -92,7 +86,6 @@ class DebateRoom extends Component {
     console.log("received : ", serverMsg)
     this.updateMessages(serverMsg)
     })
-
     socket.on('addUser', data => {
       const serverMsg = JSON.parse(data)
       this.addConnectedUser(serverMsg)
@@ -111,10 +104,17 @@ class DebateRoom extends Component {
 
     })
 
-    socket.on('GoBackHome', data => {
-      console.log("recieved final redirect")
-    this.shouldRedirect()
+    socket.on('switch', data => {
+      const serverMsg = JSON.parse(data)
+    //  console.log("received : ", serverMsg)
+      this.setState({debator1Switch:serverMsg.debator1Switch});
+      this.setState({debator2Switch:serverMsg.debator2Switch});
+      console.log(this.props.debateRoom.debator1, "has been switched= ",this.state.debator1Switch);
+      console.log(this.props.debateRoom.debator2, "has been switched= ",this.state.debator2Switch);
+
     })
+
+
   }
 
   updateLiked(username) {
@@ -137,28 +137,39 @@ class DebateRoom extends Component {
 
   }
 
-  updateSide(username) {
+  updateSide(side) {
+
+   // for (user in this.state.connectedUsers){
+      //if ( this.state.connectedUsers[user].id === this.state.currentUser.id){
+        if (this.state.userStance !== null){
+          if (this.state.debateRoom.debator1Stance === side){
+            this.state.debator1Switch ++;
+          } else{
+            this.state.debator2Switch ++;
+          }
+        }
+        this.setState({userStance : side});
+     // }
+   // }
+
+    const newMessage = {
+
+      debator1Switch: this.state.debator1Switch,
+      debator2Switch: this.state.debator2Switch,
+      room: this.state.debateRoom.name
+    }
+    socket.emit("switch", JSON.stringify(newMessage));
 
   }
 
-  // redirectToHome(data) {
-  //   this.state.liked += 1;
-  //   console.log('Liked' , this.state.liked)
-  //   console.log(username);
-  // }
-
   render() {
-    if (this.state.shouldRedirect) {
-         return (<Redirect to="/" />)
-        }
     return (
       <div className = "container debate-room">
-        <div className="message-container">
+        <div className="container message-container">
           <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.state.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked}/>
           {this.state.debateRoom.name === 'mainroom' || this.state.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> : <ChooseASide updateSide={this.updateSide}/>}
           <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' && this.state.currentUser.state !== 'viewer' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
-          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Results debateRoom={this.state.debateRoom} socket={this.state.socket} leaveRoom={this.leaveRoom}/> : ""}</span>
-          {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom2}> Return Home </Link> : ""}
+          {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
         </div>
       </div>
     );
