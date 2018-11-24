@@ -74,14 +74,12 @@ class DebateRoom extends Component {
     console.log("ROOM TO LEAVE IS ", room)
     socket.emit('leave', room)
     this.props.setUserToViewer()
-<<<<<<< HEAD
-=======
-    let room = this.state.debateRoom
-    console.log("Debate ROOM TO LEAVE IS ", room)
-    socket.emit('leave', room.name)
+
+    // let room = this.state.debateRoom
+    // console.log("Debate ROOM TO LEAVE IS ", room)
+    // socket.emit('leave', room.name)
 
     // socket.emit('destroyRoom', room.id) Destroy room bug still active; waiting
->>>>>>> feature/bugFixesAndMoreScoring
   }
 
 
