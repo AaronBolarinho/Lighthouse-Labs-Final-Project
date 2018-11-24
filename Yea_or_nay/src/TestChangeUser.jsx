@@ -14,7 +14,8 @@ function ChangeUsername ({changeUsername}) {
       <div className="field">
         <div className="control">
           <footer className="debate-chatbar">
-            <input className="input is-primary" onKeyDown={keyPressMessage} placeholder="Type a message and hit ENTER" />
+          <span> Please Choose A Username</span>
+            <input className="input is-primary" onKeyDown={keyPressMessage} placeholder="Ex. PartyParrot99" />
           </footer>
         </div>
       </div>
