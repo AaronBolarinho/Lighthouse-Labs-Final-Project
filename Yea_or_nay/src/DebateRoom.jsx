@@ -139,18 +139,14 @@ class DebateRoom extends Component {
 
   updateSide(side) {
 
-   // for (user in this.state.connectedUsers){
-      //if ( this.state.connectedUsers[user].id === this.state.currentUser.id){
         if (this.state.userStance !== null){
-          if (this.state.debateRoom.debator1Stance === side){
+          if (this.state.debateRoom.debator1Stance.toUpperCase() === side.toUpperCase()){
             this.state.debator1Switch ++;
           } else{
             this.state.debator2Switch ++;
           }
         }
         this.setState({userStance : side});
-     // }
-   // }
 
     const newMessage = {
 
@@ -159,7 +155,6 @@ class DebateRoom extends Component {
       room: this.state.debateRoom.name
     }
     socket.emit("switch", JSON.stringify(newMessage));
-
   }
 
   render() {
