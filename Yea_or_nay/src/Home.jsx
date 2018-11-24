@@ -29,6 +29,7 @@ class Home extends Component {
 
   componentDidMount() {
     this.props.socket.on('redirect', data => {
+      console.log("RECEIVED A REDIRECT IN HOME .JSX")
     const serverMsg = JSON.parse(data)
     serverMsg.name = "Room" + (this.props.debateRooms.length)
     this.shouldRedirect(serverMsg.name)
@@ -51,7 +52,7 @@ class Home extends Component {
             <ProposedDebateList socket={this.props.socket} debateRooms={this.props.debateRooms} currentUser={this.props.currentUser} setUserToDebator={this.props.setUserToDebator} setDebateRoomDebator2={this.props.setDebateRoomDebator2} closeMainRoomSocket={this.closeMainRoomSocket}/>
           </div>
           <div className="col-sm-7">
-            <DebateRoom debateRoom={{name:"mainroom"}} currentUser={this.props.currentUser} socket={this.props.socket}/>
+            {/*<DebateRoom debateRoom={{name:"mainroom"}} currentUser={this.props.currentUser} socket={this.props.socket}/>*/}
           </div>
         </div>
          <Slider debateRooms={this.props.debateRooms} currentUser={this.props.currentUser} socket={this.props.socket}/>

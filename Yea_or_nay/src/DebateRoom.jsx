@@ -125,7 +125,8 @@ class DebateRoom extends Component {
     const newMessage = {
       debator1Liked: this.state.debator1Liked,
       debator2Liked: this.state.debator2Liked,
-      room: this.state.debateRoom.name
+      room: this.state.debateRoom.name,
+      roomId: this.state.debateRoom.id
     }
     this.props.socket.emit("likes", JSON.stringify(newMessage));
    // console.log(this.state.debateRoom.debator1, "has been liked= ",this.state.debator1Liked);
