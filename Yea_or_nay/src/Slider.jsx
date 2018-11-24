@@ -22,7 +22,7 @@ export default class Slider extends Component {
     console.log("IN ROOM ", room.debateRoom.name)
     console.log(this.props)
 
-    let viewer = {id:user.currentUser.id, username:user.currentUser.name, stance: null, room: room.debateRoom.name}
+    let viewer = {id:user.currentUser.id, username:user.currentUser.name, stance: null, room: room.debateRoom.name, roomId: room.debateRoom.id}
     this.props.socket.emit('addViewer', JSON.stringify(viewer))
 
     //THIS WILL SEND MESSAGE TO SEVER TO ADD USER TO DEBATE ROOM COMPONENT

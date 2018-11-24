@@ -11,7 +11,7 @@ const perspective = new Perspective({apiKey: process.env.PERSPECTIVE_API_KEY });
 //   res.sendFile(__dirname + '/index.html');
 // });
 
-let debateRooms = [{id: 1, name: "Room1", proposedDebate:"Bananas are blue", debator1:"testUser1", debator2: null, debator1Stance: "Yea"}, {id: 2, name: "Room2", proposedDebate:"The sky is blue", debator1:"testUser3", debator2: null, debator1stance: "Nay"}, {id: 3, name: "Room3", proposedDebate:"The sky is green", debator1:"testUser3", debator2: "testUser4", debator1stance: "Nay"}]
+let debateRooms = []
 let debateRoomObject = {}
 function setDebateRoomDebator2(user, debateRoom) {
 
@@ -39,9 +39,13 @@ class DebateRoom {
       this.connectedUsers = {
         1: {username: debateRoom.debator1, state: "debator1", stance: debateRoom.debator1Stance, id: debateRoom.debator1Id}
         },
+      this.messages = [{id:1, content:"hello", username:"TestUser1"}, {id:2, content:"hello back", username:"TestUser2"} ],
       this.debator1Liked = 0,
       this.debator2Liked = 0,
-      this.shouldRedirect = false
+      this.shouldRedirect = false,
+      this.debator1Switch = 0,
+      this.debator2Switch = 0,
+      this.userStance = null
   }
 }
 
@@ -67,6 +71,14 @@ io.on('connection', function (client) {
   client.on('getDebateRooms', function (data) {
     console.log("HELLO")
     client.emit('debateRooms', JSON.stringify(debateRooms))
+  })
+  client.on('getInitialState', function (data) {
+    console.log("RECIEVED GET INITIAL STATE FOR DEBATEROOM ", data)
+    let parsedData = JSON.parse(data)
+    console.log("ParsedData is", parsedData)
+    let serverMsg = debateRoomObject[parsedData]
+    console.log("SERVER MESSAGE TO SEND SHOULD BE INITAL STATE", serverMsg)
+    client.emit('getInitialState', JSON.stringify(serverMsg))
   })
 
   client.on('subscribe', function (data) {
@@ -113,7 +125,9 @@ io.on('connection', function (client) {
       incomingmsg.flag = result.flag;
       console.log("RECIEVED : ", incomingmsg, "from", incomingmsg.roomName);
       io.in(incomingmsg.roomName).emit('message', JSON.stringify(incomingmsg))
+      debateRoomObject[incomingmsg.roomId].messages.push(incomingmsg)
       console.log("SENT ", incomingmsg, "To hopefully only", incomingmsg.roomName)
+      console.log("NEW SERVER MESSAGES ARE", debateRoomObject[incomingmsg.roomId].messages)
     })
   });
 
@@ -149,7 +163,9 @@ io.on('connection', function (client) {
     let incomingViewer = JSON.parse(data)
     let viewerToBeAdded = {id: incomingViewer.id, username: incomingViewer.username, state: "viewer", stance: null}
     io.in(incomingViewer.room).emit('addUser', JSON.stringify(viewerToBeAdded))
-    console.log("ADD VIEEEEWER")
+    console.log("ADD VIEEEEWER", incomingViewer)
+    debateRoomObject[incomingViewer.roomId].connectedUsers[incomingViewer.id] = viewerToBeAdded
+    console.log("CONNECTED USERS ARE ", debateRoomObject[incomingViewer.roomId].connectedUsers)
    })
 //NEED TO ADD THIS DEBATOR 2 TO SERVER DEBATE ROOM CONNECTED USERS
    client.on('addDebator2', function (data) {

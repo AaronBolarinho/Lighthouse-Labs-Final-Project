@@ -13,9 +13,8 @@ class DebateRoom extends Component {
     this.state = {
       debateRoom: props.debateRoom,
       connectedUsers: {
-        1 : {username: props.debateRoom.debator1, state: "debator1", stance: props.debateRoom.debator1Stance, id: props.currentUser.id}
         },
-      messages: [{id:1, content:"hello", username:"TestUser1"}, {id:2, content:"hello back", username:"TestUser2"} ],
+      messages: [],
       debator1Liked: 0,
       debator2Liked: 0,
       shouldRedirect: false
@@ -26,7 +25,12 @@ class DebateRoom extends Component {
     this.leaveRoom = this.leaveRoom.bind(this)
     this.addConnectedUser = this.addConnectedUser.bind(this)
     this.updateSide = this.updateSide.bind(this);
+    // this.getInitialState = this.getInitialState.bind(this)
   }
+
+  // getInitialState(initialState) {
+  //   this.setState(initialState)
+  // }
 
   addConnectedUser(newUser) {
     console.log("NEW USER IS", newUser)
@@ -51,7 +55,8 @@ class DebateRoom extends Component {
       id: (this.state.messages.length + 1),
       username: this.props.currentUser.name,
       content: message,
-      roomName: this.state.debateRoom.name
+      roomName: this.state.debateRoom.name,
+      roomId: this.state.debateRoom.id
     };
     console.log("SENT : ", newMessage)
     this.props.socket.emit("message", JSON.stringify(newMessage));
@@ -69,10 +74,13 @@ class DebateRoom extends Component {
     console.log("Debate ROOM TO LEAVE IS ", room.name)
     this.props.socket.emit('leave', room.name)
     //Destroy Room is working fine just gets called wrong during the results
-    // this.state.socket.emit('destroyRoom', room.id)
+    this.props.socket.emit('destroyRoom', room.id)
   }
 
   componentDidMount() {
+    console.log(this.state.debateRoom)
+
+    this.props.socket.emit('getInitialState', JSON.stringify(this.state.debateRoom.id))
     // console.log("STATE", this.state)
     let room = this.state.debateRoom.name
     this.props.socket.emit('subscribe', room)
@@ -93,6 +101,12 @@ class DebateRoom extends Component {
       this.setState({debator2Liked:serverMsg.debator2Liked});
       console.log(this.props.debateRoom.debator1, "has been liked= ",this.state.debator1Liked);
       console.log(this.props.debateRoom.debator2, "has been liked= ",this.state.debator2Liked);
+    })
+
+    this.props.socket.on('getInitialState', data => {
+      const serverMsg = JSON.parse(data)
+      console.log("RECEIVED INITIAL STATE", serverMsg)
+      this.setState(serverMsg)
     })
 
     this.props.socket.on('GoBackHome', data => {

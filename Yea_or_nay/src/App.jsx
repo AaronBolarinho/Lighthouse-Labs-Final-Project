@@ -16,7 +16,7 @@ class App extends Component {
     this.state = {
       currentUser: {id: uuid(), name:"bob", state:"viewer"},
       socket: socket,
-      debateRooms: [{id: 1, name: "Room1", proposedDebate:"Bananas are blue", debator1:"testUser1", debator2: null, debator1Stance: "Yea"}, {id: 2, name: "Room2", proposedDebate:"The sky is blue", debator1:"testUser3", debator2: null, debator1stance: "Nay"}]
+      debateRooms: []
     }
     this.changeUsername = this.changeUsername.bind(this)
     this.setUserToDebator = this.setUserToDebator.bind(this)
