@@ -16,7 +16,7 @@ class App extends Component {
     this.state = {
       currentUser: {id: uuid(), name:"bob", state:"viewer"},
       socket: socket,
-      debateRooms: [{id: 1, name: "Room1", proposedDebate:"Bananas are blue", debator1:"testUser1", debator2: null, debator1Stance: "Yea"}, {id: 2, name: "Room2", proposedDebate:"The sky is blue", debator1:"testUser3", debator2: null, debator1stance: "Nay"}, {id: 3, name: "Room3", proposedDebate:"The sky is green", debator1:"testUser3", debator2: "testUser4", debator1stance: "Nay"}],
+      debateRooms: [{id: 1, name: "Room1", proposedDebate:"Bananas are blue", debator1:"testUser1", debator2: null, debator1Stance: "Yea"}, {id: 2, name: "Room2", proposedDebate:"The sky is blue", debator1:"testUser3", debator2: null, debator1stance: "Nay"}]
     }
     this.changeUsername = this.changeUsername.bind(this)
     this.setUserToDebator = this.setUserToDebator.bind(this)
@@ -24,7 +24,12 @@ class App extends Component {
     this.setDebateRoomDebator2 = this.setDebateRoomDebator2.bind(this)
     this.addDebateRoom = this.addDebateRoom.bind(this)
     this.setUserToViewer = this.setUserToViewer.bind(this)
+    this.getInitialDebateRooms = this.getInitialDebateRooms.bind(this)
+    // this.getInitialDebateRooms()
+  }
 
+  getInitialDebateRooms(debateRooms) {
+    this.setState({debateRooms: debateRooms})
   }
 
   changeUsername(newUsername) {
@@ -99,6 +104,13 @@ class App extends Component {
   }
 
   componentDidMount() {
+    socket.emit('getDebateRooms', "please")
+
+    socket.on('debateRooms', data => {
+      const serverMsg = JSON.parse(data)
+      console.log("RECEIVED debateRooms", serverMsg)
+      this.getInitialDebateRooms(serverMsg)
+    })
 
     socket.on('destroyRoom', data => {
       console.log("app recieved destroy room", data)
@@ -107,7 +119,7 @@ class App extends Component {
     })
     socket.on('newRoom', data => {
       const serverMsg = JSON.parse(data)
-      serverMsg.name = "Room" + (this.state.debateRooms.length + 1)
+      // serverMsg.name = "Room" + (this.state.debateRooms.length + 1)
       this.addDebateRoom(serverMsg)
     })
     socket.on('addDebator2ToApp', data => {
@@ -121,7 +133,6 @@ class App extends Component {
     return (
       <BrowserRouter>
       <div>
-        {/* create a nav component which includes a logo and a span element for displaying the viewer avatar and profile */}
         <nav className='navbar navbar-expand-sm navbar-black'>
           <div className='container'>
             <div className="navbar-brand">

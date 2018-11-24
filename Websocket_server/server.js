@@ -11,6 +11,39 @@ const perspective = new Perspective({apiKey: process.env.PERSPECTIVE_API_KEY });
 //   res.sendFile(__dirname + '/index.html');
 // });
 
+let debateRooms = [{id: 1, name: "Room1", proposedDebate:"Bananas are blue", debator1:"testUser1", debator2: null, debator1Stance: "Yea"}, {id: 2, name: "Room2", proposedDebate:"The sky is blue", debator1:"testUser3", debator2: null, debator1stance: "Nay"}, {id: 3, name: "Room3", proposedDebate:"The sky is green", debator1:"testUser3", debator2: "testUser4", debator1stance: "Nay"}]
+
+function setDebateRoomDebator2(user, debateRoom) {
+
+    debateRoom.debator2 = user
+    const index = findDebateRoomById(debateRoom.id)
+    console.log("index IS ", index)
+    debateRooms = [
+      ...debateRooms.slice(0, index), debateRoom, ...debateRooms.slice(index + 1)
+      ]
+
+      console.log("DEBATE ROOMS AFTER SLICE ARE ", debateRooms)
+  }
+
+  function findDebateRoomById(id) {
+    let roomIndex = debateRooms.findIndex(debateRoom => {
+      return debateRoom.id == id
+    })
+    console.log("This is the find DEBATE ROOMBY id at index", roomIndex)
+    return roomIndex
+  }
+// class DebateRoom {
+//   constructor(debateRoom) {
+//       this.debateRoom: debateRoom,
+//       this.connectedUsers: {
+//         debateRoom.debator1.id : {username: debateRoom.debator1, state: "debator1", stance: debateRoom.debator1Stance, id: debateRoom.debator1.id}
+//         },
+//       this.messages: [],
+//       this.debator1Liked: 0,
+//       this.debator2Liked: 0,
+//   }
+// }
+
 const ClientManager = require('./ClientManager')
 const ChatroomManager = require('./ChatroomManager')
 const makeHandlers = require('./handlers')
@@ -29,6 +62,11 @@ io.on('connection', function (client) {
 
   console.log('client connected...', client.id)
   clientManager.addClient(client)
+
+  client.on('getDebateRooms', function (data) {
+    console.log("HELLO")
+    client.emit('debateRooms', JSON.stringify(debateRooms))
+  })
 
   client.on('subscribe', function (data) {
     console.log("RECIEVED Join for room: ", data, "by client", client.id)
@@ -85,8 +123,10 @@ io.on('connection', function (client) {
     let incomingRoom = JSON.parse(data)
     //SOME CODE HERE WAS TRYING TO ADD DEBATOR 2 TO DEBATE ROOM LIKE NORMAL, ADD IT HERE SERVER SIDE TO SERVER DEBATE ROOM
     // let debator1ToBeAdded = {id:incomingRoom.debator1Id, username: incomingRoom.debator1, state: "debator1", stance: incomingRoom.debator1Stance}
-    delete incomingRoom.debator1Id
+    incomingRoom.name = "Room" + (debateRooms.length + 1)
+    debateRooms.push(incomingRoom)
     io.emit('newRoom', JSON.stringify(incomingRoom))
+    console.log("SERVRE DebateRooms are", debateRooms)
     console.log("incomingRoom", incomingRoom)
     client.emit('redirect', JSON.stringify(incomingRoom))
     // client.join(incomingRoom.name)
@@ -114,9 +154,11 @@ io.on('connection', function (client) {
     let appDebator2 = {id: incomingDebator2.id, username: incomingDebator2.username, room: incomingDebator2.room}
     io.in(incomingDebator2.room.name).emit('addUser', JSON.stringify(debator2ToBeAdded))
     io.emit('addDebator2ToApp', JSON.stringify(appDebator2))
+    console.log("appDebator2 is ", appDebator2)
+    setDebateRoomDebator2(appDebator2.username, appDebator2.room)
    })
 //MIGHT NEED TO DO SOMETHING SIMILAR TO THIS
-  client.on('chatrooms', handleGetChatrooms)
+  // client.on('chatrooms', handleGetChatrooms)
 
   client.on('disconnect', function () {
     console.log('client disconnect...', client.id)

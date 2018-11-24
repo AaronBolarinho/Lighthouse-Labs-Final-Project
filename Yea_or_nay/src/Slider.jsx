@@ -54,6 +54,7 @@ export default class Slider extends Component {
 
    render() {
     let currentUser = this.props.currentUser
+    console.log("HEY", this.props)
 
     // let sliderStyle = {
     //   transform:`translateX(${this.state.activeIndex * -100}%)`,
@@ -64,7 +65,7 @@ export default class Slider extends Component {
       <footer className="footer">
           <div className="container mt-3">
 
-            <h4>View debates</h4>
+             <h4>View debates</h4>
       <div className="slider">
         <div className="d-flex justify-content-center">
 
@@ -82,7 +83,6 @@ export default class Slider extends Component {
                         </li>)
               }})}
             </ul>
-
 
           </div>
 
