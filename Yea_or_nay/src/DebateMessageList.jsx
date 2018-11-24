@@ -18,9 +18,13 @@ function DebateMessageList ({messages, debateRoom,updateLiked, userState, debato
           {debateRoom.name !== 'mainroom' ?  <ProgressBar value={progress_value}/> : ""}
           <h4 className='debator-name1'>{debateRoom.debator1}</h4>
           <h4 className='debator-name2'>{debateRoom.debator2}</h4>
+
+        {debateRoom.name === 'mainroom' || userState !== 'viewer' ?
         <div className='lrnedSomethingNew'>
           <span>Learned Something New! <button className='lrnedSomethingNewButton'>Cool!</button> </span>
-        </div>
+        </div> :
+        <p> You are a debator </p>}
+
           <div className='container message-list'>
             {messageList}
           </div>
