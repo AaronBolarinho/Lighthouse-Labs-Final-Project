@@ -117,6 +117,12 @@ io.on('connection', function (client) {
     io.in(incomingTimerUpdate.room).emit('TimerUpdate', JSON.stringify(incomingTimerUpdate))
   })
 
+  client.on('switch', function (data) {
+    let incomingMsg = JSON.parse(data)   // console.log("this is the timer update data", incomingTimerUpdate)
+    io.in(incomingMsg.room).emit('switch', JSON.stringify(incomingMsg))
+  })
+
+
 
   client.on('error', function (err) {
     console.log('received error from client:', client.id)
