@@ -4,11 +4,9 @@ import DebateMessageList from './DebateMessageList.jsx';
 import { Link } from 'react-router-dom'
 import Timer from './Timer.jsx';
 import ChooseASide from './ChooseASide.jsx';
+import Results from './Results.jsx'
 
 import DebateRoomMessage from './DebateRoomMessage.jsx';
-
-const io = require('socket.io-client')
-const socket = io.connect('http://localhost:3001')
 
 class DebateRoom extends Component {
   constructor(props) {
@@ -16,17 +14,14 @@ class DebateRoom extends Component {
     this.state = {
       debateRoom: props.debateRoom,
       connectedUsers: {
-        1 : {username: props.debateRoom.debator1, state: "debator1", stance: props.debateRoom.debator1Stance, id: props.currentUser.id}
         },
-      messages: [{id:1, content:"hello", username:"TestUser1"}, {id:2, content:"hello back", username:"TestUser2"} ],
+      messages: [],
       debator1Liked: 0,
       debator2Liked: 0,
-      socket: socket,
-      currentUser: props.currentUser,
+      shouldRedirect: false,
       debator1Switch: 0,
       debator2Switch: 0,
       userStance: null
-
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.updateMessages = this.updateMessages.bind(this);
@@ -34,7 +29,12 @@ class DebateRoom extends Component {
     this.leaveRoom = this.leaveRoom.bind(this)
     this.addConnectedUser = this.addConnectedUser.bind(this)
     this.updateSide = this.updateSide.bind(this);
+    // this.getInitialState = this.getInitialState.bind(this)
   }
+
+  // getInitialState(initialState) {
+  //   this.setState(initialState)
+  // }
 
   addConnectedUser(newUser) {
     console.log("NEW USER IS", newUser)
@@ -51,16 +51,23 @@ class DebateRoom extends Component {
     }
   }
 
-  sendMessage(message) {
-    // this.updateUserState("yea")
+  shouldRedirect() {
+    let room = this.state.debateRoom.id
+    console.log("This is the destroy room from shouldRedirect ", room)
+    this.setState({shouldRedirect:true})
+    this.props.socket.emit('destroyRoom', room)
+  }
+
+   sendMessage(message) {
     const newMessage = {
       id: (this.state.messages.length + 1),
       username: this.props.currentUser.name,
       content: message,
-      roomName: this.state.debateRoom.name
+      roomName: this.state.debateRoom.name,
+      roomId: this.state.debateRoom.id
     };
     console.log("SENT : ", newMessage)
-    socket.emit("message", JSON.stringify(newMessage));
+    this.props.socket.emit("message", JSON.stringify(newMessage));
   }
 
   updateMessages(newMessage) {
@@ -70,54 +77,59 @@ class DebateRoom extends Component {
   }
 
   leaveRoom () {
-    let room = this.state.debateRoom.name
-    console.log("ROOM TO LEAVE IS ", room)
-    socket.emit('leave', room)
+
     this.props.setUserToViewer()
-
-    // let room = this.state.debateRoom
-    // console.log("Debate ROOM TO LEAVE IS ", room)
-    // socket.emit('leave', room.name)
-
-    // socket.emit('destroyRoom', room.id) Destroy room bug still active; waiting
+    let room = this.state.debateRoom
+    console.log("Debate ROOM TO LEAVE IS ", room.name)
+    this.props.socket.emit('leave', room.name)
+    //Destroy Room is working fine just gets called wrong during the results
+    //this.props.socket.emit('destroyRoom', room.id)
   }
 
-
   componentDidMount() {
-    console.log("STATE", this.state)
+    console.log(this.state.debateRoom)
+
+    this.props.socket.emit('getInitialState', JSON.stringify(this.state.debateRoom.id))
+    // console.log("STATE", this.state)
     let room = this.state.debateRoom.name
-    socket.emit('subscribe', room)
-    socket.on ('message', data => {
+    this.props.socket.emit('subscribe', room)
+    this.props.socket.on ('message', data => {
     const serverMsg = JSON.parse(data)
     console.log("received : ", serverMsg)
     this.updateMessages(serverMsg)
     })
-    socket.on('addUser', data => {
+
+    this.props.socket.on('addUser', data => {
       const serverMsg = JSON.parse(data)
       this.addConnectedUser(serverMsg)
-      // if (serverMsg.state === 'debator2'){
-      //   this.setState({debateRoom.debator2: serverMsg.username});
-      // }
     })
 
-    socket.on('likes', data => {
+    this.props.socket.on('likes', data => {
       const serverMsg = JSON.parse(data)
-    //  console.log("received : ", serverMsg)
       this.setState({debator1Liked:serverMsg.debator1Liked});
       this.setState({debator2Liked:serverMsg.debator2Liked});
       console.log(this.props.debateRoom.debator1, "has been liked= ",this.state.debator1Liked);
       console.log(this.props.debateRoom.debator2, "has been liked= ",this.state.debator2Liked);
-
     })
 
-    socket.on('switch', data => {
+    this.props.socket.on('getInitialState', data => {
+      const serverMsg = JSON.parse(data)
+      console.log("RECEIVED INITIAL STATE", serverMsg)
+      this.setState(serverMsg)
+    })
+
+    this.props.socket.on('switch', data => {
       const serverMsg = JSON.parse(data)
     //  console.log("received : ", serverMsg)
       this.setState({debator1Switch:serverMsg.debator1Switch});
       this.setState({debator2Switch:serverMsg.debator2Switch});
       console.log(this.props.debateRoom.debator1, "has been switched= ",this.state.debator1Switch);
       console.log(this.props.debateRoom.debator2, "has been switched= ",this.state.debator2Switch);
+    })
 
+    this.props.socket.on('GoBackHome', data => {
+      console.log("recieved GOBACK HOME FROM SERVER IN ", data)
+    this.shouldRedirect()
     })
 
 
@@ -131,12 +143,16 @@ class DebateRoom extends Component {
     }
 
     const newMessage = {
-
       debator1Liked: this.state.debator1Liked,
       debator2Liked: this.state.debator2Liked,
-      room: this.state.debateRoom.name
+      room: this.state.debateRoom.name,
+      roomId: this.state.debateRoom.id
     }
-    socket.emit("likes", JSON.stringify(newMessage));
+
+    this.props.socket.emit("likes", JSON.stringify(newMessage));
+   // console.log(this.state.debateRoom.debator1, "has been liked= ",this.state.debator1Liked);
+   // console.log(this.state.debateRoom.debator2, "has been liked= ",this.state.debator2Liked);
+   // console.log(this.state.userState.state);
   }
 
   updateSide(side) {
@@ -163,9 +179,10 @@ class DebateRoom extends Component {
     return (
       <div className = "container debate-room">
         <div className="container message-container">
-          <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.state.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked}/>
-          {this.state.debateRoom.name === 'mainroom' || this.state.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> : <ChooseASide updateSide={this.updateSide}/>}
-          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' && this.state.currentUser.state !== 'viewer' ? <Timer debateRoom={this.state.debateRoom} socket={this.state.socket}/> : ""}</span>
+          <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.props.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked}/>
+          {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> : <ChooseASide updateSide={this.updateSide}/>}
+          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' && this.props.currentUser.state !== 'viewer' ? <Timer debateRoom={this.state.debateRoom} socket={this.props.socket}/> : ""}</span>
+          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Results debateRoom={this.state.debateRoom} socket={this.props.socket} leaveRoom={this.leaveRoom}/> : ""}</span>
           {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
         </div>
       </div>

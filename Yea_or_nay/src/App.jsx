@@ -16,12 +16,7 @@ class App extends Component {
     this.state = {
       currentUser: {id: uuid(), name:"bob", state:"viewer"},
       socket: socket,
-      debateRooms: [{id: 1, name: "Room1", proposedDebate:"Bananas are blue", debator1:"testUser1", debator2: null, debator1Stance: "Yea"}, {id: 2, name: "Room2", proposedDebate:"The sky is blue", debator1:"testUser3", debator2: "testUser4", debator1stance: "Nay"}, {id: 3, name: "Room3", proposedDebate:"The sky is green", debator1:"testUser3", debator2: "testUser4", debator1stance: "Nay"}],
-      // debateRoomsObject: {
-      //   1 : {id: 1, name: "Room1", proposedDebate:"Bananas are blue", debator1:"testUser1", debator2: null, debator1Stance: "Yea"},
-      //   2 : {id: 2, name: "Room2", proposedDebate:"The sky is blue", debator1:"testUser3", debator2: "testUser4", debator1stance: "Nay"},
-      //   3 : {id: 3, name: "Room3", proposedDebate:"The sky is green", debator1:"testUser3", debator2: "testUser4", debator1stance: "Nay"},
-      // }
+      debateRooms: []
     }
     this.changeUsername = this.changeUsername.bind(this)
     this.setUserToDebator = this.setUserToDebator.bind(this)
@@ -29,7 +24,12 @@ class App extends Component {
     this.setDebateRoomDebator2 = this.setDebateRoomDebator2.bind(this)
     this.addDebateRoom = this.addDebateRoom.bind(this)
     this.setUserToViewer = this.setUserToViewer.bind(this)
+    this.getInitialDebateRooms = this.getInitialDebateRooms.bind(this)
+    // this.getInitialDebateRooms()
+  }
 
+  getInitialDebateRooms(debateRooms) {
+    this.setState({debateRooms: debateRooms})
   }
 
   changeUsername(newUsername) {
@@ -55,17 +55,17 @@ class App extends Component {
   }
 
   findDebateRoomById(id) {
-    let room = this.state.debateRooms.findIndex(debateRoom => {
+    let roomIndex = this.state.debateRooms.findIndex(debateRoom => {
       return debateRoom.id == id
     })
-    console.log("This is the find DEBATE ROOMBY id", room)
-    return room
+    console.log("This is the find DEBATE ROOMBY id at index", roomIndex)
+    return roomIndex
   }
 
   renderDebateRoom(debateRoom) {
     return (
       <div>
-        <DebateRoom debateRoom={debateRoom} currentUser={this.state.currentUser} setUserToViewer={this.setUserToViewer}/>
+        <DebateRoom debateRoom={debateRoom} currentUser={this.state.currentUser} setUserToViewer={this.setUserToViewer} socket={this.state.socket}/>
       </div>
     )
   }
@@ -79,15 +79,9 @@ class App extends Component {
 
   destroyDebateRoom(id) {
 
-    // console.log("Before Index", ...this.state.debateRooms.slice(0, index))
-    // console.log("After Index", ...this.state.debateRooms.slice(index + 1))
-    // console.log("NEW DEBATEROOMS ARE ", this.state.debaterooms)
-
-    // console.log("I Shall destroy your room!!", id)
-    // console.log("This is the destroy debate index", index)
-
     const index = this.findDebateRoomById(id)
-
+    console.log("ALL ROOMS ARE", this.state.debateRooms)
+    console.log("ROOM TO DESTROY IS AT INDEX IS", index)
     console.log("Before Index", ...this.state.debateRooms.slice(0, index))
     console.log("After Index", ...this.state.debateRooms.slice(index + 1))
 
@@ -95,16 +89,12 @@ class App extends Component {
       ...this.state.debateRooms.slice(0, index), ...this.state.debateRooms.slice(index + 1)
       ]})
 
-    console.log("NEW DEBATEROOMS ARE ", this.state.debaterooms)
-
-
     // let oldState = this.state.debateRooms
     // console.log("Old oldState", oldState);
     // delete oldState[id]
     // console.log("New oldState", oldState)
     // let newState = oldState
     // console.log("New NEWState", newState)
-
 
     //   this.setState({'debateRoomsObject': newState})
     //   console.log("this is the final state", this.state)
@@ -114,23 +104,28 @@ class App extends Component {
   }
 
   componentDidMount() {
+    socket.emit('getDebateRooms', "please")
+
+    socket.on('debateRooms', data => {
+      const serverMsg = JSON.parse(data)
+      console.log("RECEIVED debateRooms", serverMsg)
+      this.getInitialDebateRooms(serverMsg)
+    })
 
     socket.on('destroyRoom', data => {
-    console.log("app recieved destroy room", data)
-      if (data) {
+      console.log("app recieved destroy room", data)
         this.destroyDebateRoom(data)
-      }
-    })
 
+    })
     socket.on('newRoom', data => {
-    const serverMsg = JSON.parse(data)
-    serverMsg.name = "Room" + (this.state.debateRooms.length + 1)
-    this.addDebateRoom(serverMsg)
+      const serverMsg = JSON.parse(data)
+      // serverMsg.name = "Room" + (this.state.debateRooms.length + 1)
+      this.addDebateRoom(serverMsg)
     })
     socket.on('addDebator2ToApp', data => {
-    const serverMsg = JSON.parse(data)
-    console.log("SERVER MESSAGE FROM ADD DEBATOR 2", serverMsg )
-    this.setDebateRoomDebator2(serverMsg.username, serverMsg.room)
+      const serverMsg = JSON.parse(data)
+      console.log("SERVER MESSAGE FROM ADD DEBATOR 2", serverMsg )
+      this.setDebateRoomDebator2(serverMsg.username, serverMsg.room)
     })
   }
 
@@ -138,7 +133,6 @@ class App extends Component {
     return (
       <BrowserRouter>
       <div>
-        {/* create a nav component which includes a logo and a span element for displaying the viewer avatar and profile */}
         <nav className='navbar navbar-expand-sm navbar-black'>
           <div className='container'>
             <div className="navbar-brand">
@@ -152,27 +146,27 @@ class App extends Component {
           </div>
         </nav>
           <div className="container">
-                     <Switch>
-                        <Route
-                          exact
-                          path="/"
-                          render={
-                            props => (
-                          <Home debateRooms={this.state.debateRooms} socket={this.state.socket} currentUser={this.state.currentUser} changeUsername={this.changeUsername} setUserToDebator={this.setUserToDebator} setDebateRoomDebator2={this.setDebateRoomDebator2} setUserToViewer={this.setUserToViewer}/>
-                          )
-                          }
-                        />
-                        {this.state.debateRooms.map(debateRoom => (
-                          <Route
-                            key={debateRoom.name}
-                            exact
-                            path={`/${debateRoom.name}`}
-                            render={
-                              props => this.renderDebateRoom(debateRoom)
-                            }
-                          /> ))
-                        }
-                      </Switch>
+           <Switch>
+              <Route
+                exact
+                path="/"
+                render={
+                  props => (
+                <Home debateRooms={this.state.debateRooms} socket={this.state.socket} currentUser={this.state.currentUser} changeUsername={this.changeUsername} setUserToDebator={this.setUserToDebator} setDebateRoomDebator2={this.setDebateRoomDebator2} setUserToViewer={this.setUserToViewer}/>
+                )
+                }
+              />
+              {this.state.debateRooms.map(debateRoom => (
+                <Route
+                  key={debateRoom.name}
+                  exact
+                  path={`/${debateRoom.name}`}
+                  render={
+                    props => this.renderDebateRoom(debateRoom)
+                  }
+                /> ))
+              }
+            </Switch>
           </div>
       </div>
       </BrowserRouter>

@@ -40,12 +40,9 @@ class Results extends React.Component {
   }
 
   updateComponant(data) {
-    console.log("Results Timer update componant: ", data)
-    console.log("Results update componant time left", data.timeLeft)
 
     // Remove one second, set state so a re-render happens.
     let seconds = data.timeLeft - 1;
-    console.log("WHAT IS THIS SECONDS", seconds)
     this.setState({
       time: this.secondsToTime(seconds),
       seconds: seconds,
@@ -56,7 +53,6 @@ class Results extends React.Component {
       clearInterval(this.timer);
       let room = this.state.debateRoom.name
       this.props.socket.emit('closeDebate', room)
-      this.props.leaveRoom()
     }
 }
 
@@ -80,7 +76,6 @@ class Results extends React.Component {
 
     this.props.socket.on ('ResultsTimerUpdate', data => {
       let timer = JSON.parse(data)
-        console.log("received  Results Timer update: ", data)
       this.updateComponant(timer)
     })
   }
@@ -93,16 +88,11 @@ class Results extends React.Component {
 
   countDown() {
 
-    console.log(`${this.state.debateRoom.name} MOUNTED`)
-    console.log(`${this.state.seconds} TIMER MOUNTED`)
     let room = this.state.debateRoom.name
     let timeLeft = this.state.seconds
     let roomTime = { room : room,
                      timeLeft : timeLeft
     }
-    // Should join the room here
-    console.log("ROOM Timer", roomTime)
-    console.log(this.props)
     this.props.socket.emit('ResultsTimer', JSON.stringify(roomTime))
   }
 

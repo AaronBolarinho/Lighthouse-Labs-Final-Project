@@ -38,12 +38,8 @@ class Timer extends React.Component {
   }
 
   updateComponant(data) {
-    console.log("received Timer update: ", data)
-    console.log("what is this", data.timeLeft)
-
     // Remove one second, set state so a re-render happens.
     let seconds = data.timeLeft - 1;
-    console.log("WHAT IS THIS SECONDS", seconds)
     this.setState({
       time: this.secondsToTime(seconds),
       seconds: seconds,
@@ -52,18 +48,17 @@ class Timer extends React.Component {
     // Check if we're at zero.
     if (seconds == 0) {
       clearInterval(this.timer);
-      let room = this.state.debateRoom.name
-      this.props.socket.emit('debateEnded', room)
+      let room = this.state.debateRoom
+      this.props.socket.emit('debateEnded', room.name)
+      // this.props.socket.emit('destroyRoom', room.id)
     }
 }
 
   componentDidMount() {
     let timeLeftVar = this.secondsToTime(this.state.seconds);
     this.setState({ time: timeLeftVar });
-    console.log("this is th timer props", this.props.socket)
     this.props.socket.on ('TimerUpdate', data => {
       let timer = JSON.parse(data)
-        console.log("received Timer update jkjkdfdfdf: ", data)
       this.updateComponant(timer)
     })
 
@@ -77,24 +72,19 @@ class Timer extends React.Component {
 
   countDown() {
 
-    console.log(`${this.state.debateRoom.name} MOUNTED`)
-    console.log(`${this.state.seconds} TIMER MOUNTED`)
     let room = this.state.debateRoom.name
     let timeLeft = this.state.seconds
     let roomTime = { room : room,
                      timeLeft : timeLeft
     }
     // Should join the room here
-    console.log("ROOM Timer", roomTime)
-    console.log(this.props)
+
     this.props.socket.emit('timer', JSON.stringify(roomTime))
   }
 
 
 
   render() {
-    console.log(this.state.time.m)
-
     if (this.state.time.m !== 5) {
       return (
         <div>
