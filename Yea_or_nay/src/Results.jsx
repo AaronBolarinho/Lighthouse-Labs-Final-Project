@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import DebateRoomChatBar from './DebateRoomChatBar.jsx';
 import DebateMessageList from './DebateMessageList.jsx';
 import { Link } from 'react-router-dom'
-import Timer from './Timer.jsx';
+// import Timer from './Timer.jsx';
 
 class Results extends React.Component {
   constructor(props) {

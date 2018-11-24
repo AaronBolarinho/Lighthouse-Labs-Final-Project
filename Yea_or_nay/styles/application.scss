@@ -251,8 +251,6 @@ li {
   margin-bottom: 50px;
 }
 
-
-
 .progress-bar-container {
   width: 100%;
   margin-bottom: 20px;
@@ -316,4 +314,14 @@ li {
   display: inline-block;
   transform: translate(-50%, -50%);
   color: white;
+
+.lrnedSomethingNew {
+  position: absolute;
+  display: flex;
+  color: white;
+  margin-left: 28%;
+}
+
+.lrnedSomethingNewButton {
+  display: inline;
 }

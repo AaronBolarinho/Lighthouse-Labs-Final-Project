@@ -74,6 +74,14 @@ class DebateRoom extends Component {
     console.log("ROOM TO LEAVE IS ", room)
     socket.emit('leave', room)
     this.props.setUserToViewer()
+<<<<<<< HEAD
+=======
+    let room = this.state.debateRoom
+    console.log("Debate ROOM TO LEAVE IS ", room)
+    socket.emit('leave', room.name)
+
+    // socket.emit('destroyRoom', room.id) Destroy room bug still active; waiting
+>>>>>>> feature/bugFixesAndMoreScoring
   }
 
 
@@ -131,10 +139,6 @@ class DebateRoom extends Component {
       room: this.state.debateRoom.name
     }
     socket.emit("likes", JSON.stringify(newMessage));
-   // console.log(this.state.debateRoom.debator1, "has been liked= ",this.state.debator1Liked);
-   // console.log(this.state.debateRoom.debator2, "has been liked= ",this.state.debator2Liked);
-   // console.log(this.state.userState.state);
-
   }
 
   updateSide(side) {
