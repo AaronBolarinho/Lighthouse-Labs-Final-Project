@@ -170,9 +170,11 @@ class DebateRoom extends Component {
 
       debator1Switch: this.state.debator1Switch,
       debator2Switch: this.state.debator2Switch,
-      room: this.state.debateRoom.name
+      room: this.state.debateRoom.name,
+      roomId: this.state.debateRoom.id
+
     }
-    socket.emit("switch", JSON.stringify(newMessage));
+    this.props.socket.emit("switch", JSON.stringify(newMessage));
   }
 
   render() {
