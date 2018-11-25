@@ -10,7 +10,7 @@ class Results extends React.Component {
     this.state = {
       endSequence : false,
       time: {},
-      seconds: 60,
+      seconds: 3,
       debateRoom: props.debateRoom
     };
 
@@ -51,7 +51,7 @@ class Results extends React.Component {
     // Check if we're at zero.
     if (seconds == 0) {
       clearInterval(this.timer);
-      let room = this.state.debateRoom.name
+      let room = this.state.debateRoom.id
       this.props.socket.emit('closeDebate', room)
     }
 }
@@ -88,7 +88,7 @@ class Results extends React.Component {
 
   countDown() {
 
-    let room = this.state.debateRoom.name
+    let room = this.state.debateRoom.id
     let timeLeft = this.state.seconds
     let roomTime = { room : room,
                      timeLeft : timeLeft

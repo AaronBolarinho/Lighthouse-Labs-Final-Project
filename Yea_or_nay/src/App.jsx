@@ -7,7 +7,7 @@ import TestChangeUser from './TestChangeUser.jsx'
 import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom';
 const uuid = require('uuid/v4')
 const io = require('socket.io-client');
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://172.46.1.35:3001');
 
 
 class App extends Component {
@@ -120,7 +120,7 @@ class App extends Component {
     })
     socket.on('newRoom', data => {
       const serverMsg = JSON.parse(data)
-      // serverMsg.name = "Room" + (this.state.debateRooms.length + 1)
+      // serverMsg.name = "Room" + uuid()
       this.addDebateRoom(serverMsg)
     })
     socket.on('addDebator2ToApp', data => {
@@ -162,9 +162,9 @@ class App extends Component {
               />
               {this.state.debateRooms.map(debateRoom => (
                 <Route
-                  key={debateRoom.name}
+                  key={debateRoom.id}
                   exact
-                  path={`/${debateRoom.name}`}
+                  path={`/${debateRoom.id}`}
                   render={
                     props => this.renderDebateRoom(debateRoom)
                   }

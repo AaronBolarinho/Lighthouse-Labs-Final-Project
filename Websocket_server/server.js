@@ -3,6 +3,7 @@ var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 require('dotenv').config()
+const uuid = require('uuid/v4')
 
 const Perspective = require('perspective-api-client');
 const perspective = new Perspective({apiKey: process.env.PERSPECTIVE_API_KEY });
@@ -36,42 +37,45 @@ function findDebateRoomById(id) {
 
 function destroyDebateRoom(id) {
 
-    const index = findDebateRoomById(id)
+  const index = findDebateRoomById(id)
+  let debateroom = debateRooms[index]
+  console.log("debateRoomObject before", debateRoomObject)
 
-     debateRooms = [
-    ...debateRooms.slice(0, index), ...debateRooms.slice(index + 1)
-    ]
-
+  if (index !== -1) {
+    console.log("RUNNING DESTROY SLICE")
+    debateRooms = [...debateRooms.slice(0, index), ...debateRooms.slice(index + 1)]
+    delete debateRoomObject[debateroom.id]
+  }
+  console.log("debateRoomObject after", debateRoomObject)
 }
 
 class DebateRoom {
   constructor(debateRoom) {
-      this.debateRoom = debateRoom,
-      this.connectedUsers = {
-        1: {username: debateRoom.debator1, state: "debator1", stance: debateRoom.debator1Stance, id: debateRoom.debator1Id}
-        },
-      this.messages = [ ],
-      this.debator1Liked = 0,
-      this.debator2Liked = 0,
-      this.shouldRedirect = false,
-      this.debator1Switch = 0,
-      this.debator2Switch = 0,
-      this.userStance = null
+    this.debateRoom = debateRoom,
+    this.connectedUsers = {
+      1: {username: debateRoom.debator1, state: "debator1", stance: debateRoom.debator1Stance, id: debateRoom.debator1Id}
+      },
+    this.messages = [ ],
+    this.debator1Liked = 0,
+    this.debator2Liked = 0,
+    this.shouldRedirect = false,
+    this.debator1Switch = 0,
+    this.debator2Switch = 0,
+    this.userStance = null
   }
 }
 
 io.on('connection', function (client) {
-
   console.log('client connected...', client.id)
 
   client.on('getDebateRooms', function (data) {
     client.emit('debateRooms', JSON.stringify(debateRooms))
   })
+
   client.on('getInitialState', function (data) {
-    console.log("RECIEVED GET INITIAL STATE FOR DEBATEROOM ", data)
+    console.log("RECIEVED GET INITIAL STATE FOR DEBATEROOM ", data, "by", client.id)
     let parsedData = JSON.parse(data)
     let serverMsg = debateRoomObject[parsedData]
-    console.log("SERVER MESSAGE TO SEND SHOULD BE STATE", serverMsg)
     client.emit('getInitialState', JSON.stringify(serverMsg))
   })
 
@@ -81,8 +85,26 @@ io.on('connection', function (client) {
   })
 
   client.on('leave', function (data) {
-    console.log("RECIEVED leave for: ", data)
-    client.leave(data)
+    let incomingLeave = JSON.parse(data)
+    console.log("RECIEVED leave for: ", incomingLeave.room.id, "by", incomingLeave.currentUser)
+    client.leave(incomingLeave.room.id)
+
+    console.log("CONNECTED USERS BEFORE DELETE" , debateRoomObject[incomingLeave.room.id].connectedUsers)
+
+    if (incomingLeave.currentUser.state === 'debator1') {
+      //THIS IS BECAUSE DEBATOR ONE ALWAYS GETS THE KEY 1 and other users get the key as their user id
+      delete debateRoomObject[incomingLeave.room.id].connectedUsers[1]
+    } else {
+      delete debateRoomObject[incomingLeave.room.id].connectedUsers[incomingLeave.currentUser.id]
+    }
+
+    console.log("CONNECTED USERS AFTER DELETE" , debateRoomObject[incomingLeave.room.id].connectedUsers)
+
+    //IF THE PERSON WHO LEFT IS DEBATOR 1 or 2 trigger the results
+    if (incomingLeave.currentUser.state === 'debator2' || incomingLeave.currentUser.state === 'debator1' ) {
+      console.log("DEBATOR LEFT", incomingLeave.currentUser.state)
+      io.in(incomingLeave.room.id).emit('displayResultsTo:',incomingLeave.room.id)
+    }
   })
 
   client.on('debateEnded', function (data) {
@@ -96,8 +118,6 @@ io.on('connection', function (client) {
     console.log("SENT GO BACK HOME TO", data)
     client.leave(data)
     console.log("LEFT ROOM", data)
-    //THIS IS BEING SENT 1 time but RECEIVED TWICE AND I THINK CAUSING THE DISCREPANCY
-    // io.emit('closeRoom', data)
   })
 
   client.on('destroyRoom', function (data) {
@@ -106,8 +126,10 @@ io.on('connection', function (client) {
     //   // io.emit('destroyRoom', data)
     // }
     console.log("Does the server get the destroy COMMAND", data)
-    io.emit('destroyRoom', data)
+    // io.emit('destroyRoom', data)
     destroyDebateRoom(data)
+    io.emit('debateRooms', JSON.stringify(debateRooms))
+
   })
 
   client.on('message', function (data) {
@@ -119,9 +141,9 @@ io.on('connection', function (client) {
       incomingmsg.content = incomingmsg.content + result.systemMessage;
       incomingmsg.flag = result.flag;
       console.log("RECIEVED : ", incomingmsg, "from", incomingmsg.roomName);
-      io.in(incomingmsg.roomName).emit('message', JSON.stringify(incomingmsg))
+      io.in(incomingmsg.roomId).emit('message', JSON.stringify(incomingmsg))
       debateRoomObject[incomingmsg.roomId].messages.push(incomingmsg)
-      console.log("SENT ", incomingmsg, "To hopefully only", incomingmsg.roomName)
+      console.log("SENT ", incomingmsg, "To", incomingmsg.roomId)
     })
   });
 
@@ -130,7 +152,7 @@ io.on('connection', function (client) {
   client.on('newRoom', function  (data) {
     console.log("RECIEVED newRoom", data)
     let incomingRoom = JSON.parse(data)
-    incomingRoom.name = "Room" + (debateRooms.length + 1)
+    incomingRoom.name = "Room" + incomingRoom.id
     debateRooms.push(incomingRoom)
     io.emit('newRoom', JSON.stringify(incomingRoom))
     client.emit('redirect', JSON.stringify(incomingRoom))
@@ -147,7 +169,8 @@ io.on('connection', function (client) {
   client.on('addViewer', function (data) {
     let incomingViewer = JSON.parse(data)
     let viewerToBeAdded = {id: incomingViewer.id, username: incomingViewer.username, state: "viewer", stance: null}
-    io.in(incomingViewer.room).emit('addUser', JSON.stringify(viewerToBeAdded))
+    console.log("VIEWER IS", incomingViewer)
+    io.in(incomingViewer.roomId).emit('addUser', JSON.stringify(viewerToBeAdded))
     console.log("ADD VIEEEEWER", incomingViewer)
     debateRoomObject[incomingViewer.roomId].connectedUsers[incomingViewer.id] = viewerToBeAdded
     console.log("CONNECTED USERS ARE ", debateRoomObject[incomingViewer.roomId].connectedUsers)
@@ -157,7 +180,7 @@ io.on('connection', function (client) {
     let incomingDebator2 = JSON.parse(data)
     let debator2ToBeAdded = {id: incomingDebator2.id, username: incomingDebator2.username, state: "debator2", stance: incomingDebator2.stance}
     let appDebator2 = {id: incomingDebator2.id, username: incomingDebator2.username, room: incomingDebator2.room}
-    io.in(incomingDebator2.room.name).emit('addUser', JSON.stringify(debator2ToBeAdded))
+    io.in(incomingDebator2.room.id).emit('addUser', JSON.stringify(debator2ToBeAdded))
     io.emit('addDebator2ToApp', JSON.stringify(appDebator2))
     debateRoomObject[appDebator2.room.id].connectedUsers[appDebator2.id] = debator2ToBeAdded
     console.log("DID DEBATOR 2 GET ADDED is ", debateRoomObject[appDebator2.room.id].connectedUsers)

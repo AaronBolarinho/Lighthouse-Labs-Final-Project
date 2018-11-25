@@ -77,7 +77,7 @@ export default class Slider extends Component {
                 let computedClass = index === (this.state.currentIndex) ? 'slide active' : 'slide';
                 if (debateRoom.debator1 && debateRoom.debator2) {
                   return ( <li className={computedClass} key={index}>
-                          <Link to={`/${debateRoom.name}`} onClick={() =>{this.addViewerToRoom({currentUser}, {debateRoom})}}>{item.proposedDebate}</Link>
+                          <Link to={`/${debateRoom.id}`} onClick={() =>{this.addViewerToRoom({currentUser}, {debateRoom})}}>{item.proposedDebate}</Link>
                         </li>)
               }})}
             </ul>

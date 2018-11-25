@@ -9,7 +9,7 @@ class Timer extends React.Component {
 
     this.state = {
       time: {},
-      seconds: 300,
+      seconds: 3,
       debateRoom: props.debateRoom
     };
 
@@ -49,7 +49,7 @@ class Timer extends React.Component {
     if (seconds == 0) {
       clearInterval(this.timer);
       let room = this.state.debateRoom
-      this.props.socket.emit('debateEnded', room.name)
+      this.props.socket.emit('debateEnded', room.id)
       // this.props.socket.emit('destroyRoom', room.id)
     }
 }
@@ -65,14 +65,16 @@ class Timer extends React.Component {
 }
 
   startTimer() {
+    console.log("START TIMER CALLED")
     if (this.timer == 0 && this.state.seconds > 0) {
       this.timer = setInterval(this.countDown, 1000);
     }
   }
 
   countDown() {
+    console.log("COUNTDOWN CALLED")
 
-    let room = this.state.debateRoom.name
+    let room = this.state.debateRoom.id
     let timeLeft = this.state.seconds
     let roomTime = { room : room,
                      timeLeft : timeLeft
