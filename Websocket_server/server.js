@@ -21,8 +21,9 @@ function setDebateRoomDebator2(user, debateRoom) {
   debateRooms = [
     ...debateRooms.slice(0, index), debateRoom, ...debateRooms.slice(index + 1)
     ]
-
-    console.log("DEBATE ROOMS AFTER SLICE ARE ", debateRooms)
+    //UPDATE DEBATE ROOM OBJECT WITH DEBATOR 2 AS WELL
+    debateRoomObject[debateRoom.id].debateRoom.debator2 = user
+    console.log("DEBATE OBJECT AFTER SLICE ARE ", debateRoomObject)
 }
 
 function findDebateRoomById(id) {
@@ -49,7 +50,7 @@ class DebateRoom {
       this.connectedUsers = {
         1: {username: debateRoom.debator1, state: "debator1", stance: debateRoom.debator1Stance, id: debateRoom.debator1Id}
         },
-      this.messages = [{id:1, content:"hello", username:"TestUser1"}, {id:2, content:"hello back", username:"TestUser2"} ],
+      this.messages = [ ],
       this.debator1Liked = 0,
       this.debator2Liked = 0,
       this.shouldRedirect = false,
