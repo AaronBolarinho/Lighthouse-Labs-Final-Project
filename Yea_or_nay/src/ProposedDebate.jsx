@@ -7,24 +7,31 @@ class ProposedDebate extends Component {
       super();
       this.state = {
        proposedDebate: "",
-       stance: "Yea"
+       stance: "Yea",
+       allowViewers: "Yes"
     }
      this.handleChange = this.handleChange.bind(this)
      this.handleSubmit= this.handleSubmit.bind(this)
-     this.handleDropdown = this.handleDropdown.bind(this)
+     this.handleSide = this.handleSide.bind(this)
+     this.allowViewers = this.allowViewers.bind(this)
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    const newRoom = {id: uuid(), name: "", proposedDebate:this.state.proposedDebate, debator1:this.props.currentUser.name, debator2: null, debator1Stance: this.state.stance, debator1Id: this.props.currentUser.id}
+    const newRoom = {id: uuid(), name: "", proposedDebate:this.state.proposedDebate, debator1:this.props.currentUser.name, debator2: null, debator1Stance: this.state.stance, debator1Id: this.props.currentUser.id, allowViewers: this.state.allowViewers }
     event.target.reset()
     this.setState({stance: "Yea"})
+    this.setState({allowViewers: "Yes"})
     this.props.socket.emit('newRoom', JSON.stringify(newRoom))
     this.props.setUserToDebator("debator1")
   }
 
-  handleDropdown(e){
+  handleSide(e){
     this.setState({stance: e.target.value})
+  }
+
+  allowViewers(e){
+    this.setState({allowViewers: e.target.value})
   }
 
   handleChange (e) {
@@ -37,10 +44,18 @@ class ProposedDebate extends Component {
       <form className="form" onSubmit={this.handleSubmit}>
         <input className='input form-control propose-debate' type="text" placeholder="Debate input" onChange={this.handleChange}/>
         <div className="buttons has-addons">
-          <select onChange={this.handleDropdown}>
+         <label>Stance:
+          <select onChange={this.handleSide}>
             <option value="Yea"> Yea</option>
             <option value="Nay"> Nay</option>
           </select>
+          </label>
+          <label>Allow Viewers:
+           <select onChange={this.allowViewers}>
+            <option value="Yes"> Yes </option>
+            <option value="No"> No </option>
+          </select>
+          </label>
           <button type="submit" class="float-right btn btn-dark">Propose!</button>
         </div>
       </form>    );

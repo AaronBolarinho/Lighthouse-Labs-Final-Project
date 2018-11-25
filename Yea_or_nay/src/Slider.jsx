@@ -29,19 +29,25 @@ export default class Slider extends Component {
   }
 
   goToPrevSlide() {
+    let activeDebates = this.props.debateRooms.filter(d => {
+     return d.debator2 !== null && d.allowViewers === "Yes"
+      })
     if (this.state.currentIndex) {
       this.setState((prevState) => ({
         currentIndex: this.state.currentIndex - 1
       }))
     } else {
       this.setState((prevState) => ({
-        currentIndex: this.props.debateRooms.length - 1
+        currentIndex: activeDebates.length - 1
       }))
     };
   }
 
   goToNextSlide() {
-     if (this.state.currentIndex === this.props.debateRooms.length - 1) {
+    let activeDebates = this.props.debateRooms.filter(d => {
+     return d.debator2 !== null && d.allowViewers === "Yes"
+      })
+     if (this.state.currentIndex === activeDebates.length - 1) {
       this.setState({
         currentIndex: 0
       })
@@ -54,6 +60,10 @@ export default class Slider extends Component {
 
    render() {
     let currentUser = this.props.currentUser
+   let activeDebates = this.props.debateRooms.filter(d => {
+     return d.debator2 !== null && d.allowViewers === "Yes"
+      })
+   console.log("ACTIVE DEBATES ", activeDebates)
 
     // let sliderStyle = {
     //   transform:`translateX(${this.state.activeIndex * -100}%)`,
@@ -72,14 +82,16 @@ export default class Slider extends Component {
           <div className='slideContainer'>
 
             <ul className='slide-container justify-content-center'>
-              {this.props.debateRooms.map((item, index) => {
-                let debateRoom = this.props.debateRooms[this.state.currentIndex]
+              {
+
+                activeDebates.map((item, index) => {
+                let debateRoom = activeDebates[this.state.currentIndex]
                 let computedClass = index === (this.state.currentIndex) ? 'slide active' : 'slide';
-                if (debateRoom.debator1 && debateRoom.debator2) {
+
                   return ( <li className={computedClass} key={index}>
-                          <Link to={`/${debateRoom.id}`} onClick={() =>{this.addViewerToRoom({currentUser}, {debateRoom})}}>{item.proposedDebate}</Link>
+                          <Link to={`/${item.id}`} onClick={() =>{this.addViewerToRoom({currentUser}, {debateRoom})}}>{item.proposedDebate}</Link>
                         </li>)
-              }})}
+              })}
             </ul>
 
           </div>

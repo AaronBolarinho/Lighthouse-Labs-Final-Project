@@ -28,6 +28,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    this.props.socket.emit('getDebateRooms', "please")
     this.props.socket.on('redirect', data => {
 
     const serverMsg = JSON.parse(data)
