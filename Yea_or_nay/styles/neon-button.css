@@ -1,0 +1,75 @@
+/*body {
+  margin: 0;
+  padding: 0;
+  background: #00041d;
+}
+*/
+.a {
+  transform: translate(-50%, -50%);
+  width: 100px;
+  background: #00072f;
+  text-align: center;
+  line-height: 40px;
+  color: #555;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-family: sans-serif;
+  letter-spacing: 6px;
+  transition: 1s;
+  overflow: hidden;
+  border-radius: 20px;
+  margin-width: 0;
+}
+
+.a:hover {
+  color: #fff;
+  box-shadow: -15px 0 50px rgba(255,20,152,1), 15px 0 50px rgba(022,20,152,1);
+  text-shadow: 0 0 10px rgba(255,255,255,0.50), 0 0 25px rgba(255,255,255,0.50),
+                0 0 35px rgba(255,255,255,0.50);
+}
+
+.a:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0px;
+  height: 0px;
+  border-radius: 50%;
+  background: rgba(255,20,152,1);
+  filter: blur(4px);
+  transition: 0.5s;
+  z-index: -1;
+}
+
+.a:hover:before {
+  background: rgba(022,20,152,1);
+  transform: scaleX(5);
+}
+
+.a:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0px;
+  height: 0px;
+  border-radius: 50%;
+  background: rgba(122,0,255,1);
+  filter: blur(4px);
+  transition: 1s;
+  z-index: -1;
+  mix-blend-mode: lighten;
+}
+
+.a:hover:after {
+  background: rgba(122,0,255,1);
+  filter: blur(4px);
+  transition: 1s;
+  z-index: -1;
+}
+
+.a:hover:before {
+  background: rgba(022,20,152,1);
+  transform: scaleX(10);
+}
