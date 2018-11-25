@@ -3,6 +3,7 @@ var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 require('dotenv').config()
+const uuid = require('uuid/v4')
 
 const Perspective = require('perspective-api-client');
 const perspective = new Perspective({apiKey: process.env.PERSPECTIVE_API_KEY });
@@ -130,7 +131,7 @@ io.on('connection', function (client) {
   client.on('newRoom', function  (data) {
     console.log("RECIEVED newRoom", data)
     let incomingRoom = JSON.parse(data)
-    incomingRoom.name = "Room" + (debateRooms.length + 1)
+    incomingRoom.name = "Room" + incomingRoom.id
     debateRooms.push(incomingRoom)
     io.emit('newRoom', JSON.stringify(incomingRoom))
     client.emit('redirect', JSON.stringify(incomingRoom))

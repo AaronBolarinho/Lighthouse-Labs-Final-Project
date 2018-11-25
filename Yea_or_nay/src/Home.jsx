@@ -29,10 +29,11 @@ class Home extends Component {
 
   componentDidMount() {
     this.props.socket.on('redirect', data => {
-      console.log("RECEIVED A REDIRECT IN HOME .JSX")
+
     const serverMsg = JSON.parse(data)
-    serverMsg.name = "Room" + (this.props.debateRooms.length)
-    this.shouldRedirect(serverMsg.name)
+    console.log("RECEIVED A REDIRECT IN HOME .JSX", serverMsg.id)
+    serverMsg.name = "Room" + (serverMsg.id)
+    this.shouldRedirect(serverMsg.id)
     })
   }
 
