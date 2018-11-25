@@ -37,44 +37,45 @@ function findDebateRoomById(id) {
 
 function destroyDebateRoom(id) {
 
-    const index = findDebateRoomById(id)
+  const index = findDebateRoomById(id)
+  let debateroom = debateRooms[index]
+  console.log("debateRoomObject before", debateRoomObject)
 
-    if (index !== -1) {
-      console.log("RUNNING DESTROY SLICE")
-     debateRooms = [
-    ...debateRooms.slice(0, index), ...debateRooms.slice(index + 1)
-    ]
+  if (index !== -1) {
+    console.log("RUNNING DESTROY SLICE")
+    debateRooms = [...debateRooms.slice(0, index), ...debateRooms.slice(index + 1)]
+    delete debateRoomObject[debateroom.id]
   }
+  console.log("debateRoomObject after", debateRoomObject)
 }
 
 class DebateRoom {
   constructor(debateRoom) {
-      this.debateRoom = debateRoom,
-      this.connectedUsers = {
-        1: {username: debateRoom.debator1, state: "debator1", stance: debateRoom.debator1Stance, id: debateRoom.debator1Id}
-        },
-      this.messages = [ ],
-      this.debator1Liked = 0,
-      this.debator2Liked = 0,
-      this.shouldRedirect = false,
-      this.debator1Switch = 0,
-      this.debator2Switch = 0,
-      this.userStance = null
+    this.debateRoom = debateRoom,
+    this.connectedUsers = {
+      1: {username: debateRoom.debator1, state: "debator1", stance: debateRoom.debator1Stance, id: debateRoom.debator1Id}
+      },
+    this.messages = [ ],
+    this.debator1Liked = 0,
+    this.debator2Liked = 0,
+    this.shouldRedirect = false,
+    this.debator1Switch = 0,
+    this.debator2Switch = 0,
+    this.userStance = null
   }
 }
 
 io.on('connection', function (client) {
-
   console.log('client connected...', client.id)
 
   client.on('getDebateRooms', function (data) {
     client.emit('debateRooms', JSON.stringify(debateRooms))
   })
+
   client.on('getInitialState', function (data) {
     console.log("RECIEVED GET INITIAL STATE FOR DEBATEROOM ", data, "by", client.id)
     let parsedData = JSON.parse(data)
     let serverMsg = debateRoomObject[parsedData]
-    // console.log("SERVER MESSAGE TO SEND SHOULD BE STATE", serverMsg)
     client.emit('getInitialState', JSON.stringify(serverMsg))
   })
 
@@ -88,6 +89,18 @@ io.on('connection', function (client) {
     console.log("RECIEVED leave for: ", incomingLeave.room.id, "by", incomingLeave.currentUser)
     client.leave(incomingLeave.room.id)
 
+    console.log("CONNECTED USERS BEFORE DELETE" , debateRoomObject[incomingLeave.room.id].connectedUsers)
+
+    if (incomingLeave.currentUser.state === 'debator1') {
+      //THIS IS BECAUSE DEBATOR ONE ALWAYS GETS THE KEY 1 and other users get the key as their user id
+      delete debateRoomObject[incomingLeave.room.id].connectedUsers[1]
+    } else {
+      delete debateRoomObject[incomingLeave.room.id].connectedUsers[incomingLeave.currentUser.id]
+    }
+
+    console.log("CONNECTED USERS AFTER DELETE" , debateRoomObject[incomingLeave.room.id].connectedUsers)
+
+    //IF THE PERSON WHO LEFT IS DEBATOR 1 or 2 trigger the results
     if (incomingLeave.currentUser.state === 'debator2' || incomingLeave.currentUser.state === 'debator1' ) {
       console.log("DEBATOR LEFT", incomingLeave.currentUser.state)
       io.in(incomingLeave.room.id).emit('displayResultsTo:',incomingLeave.room.id)
@@ -105,8 +118,6 @@ io.on('connection', function (client) {
     console.log("SENT GO BACK HOME TO", data)
     client.leave(data)
     console.log("LEFT ROOM", data)
-    //THIS IS BEING SENT 1 time but RECEIVED TWICE AND I THINK CAUSING THE DISCREPANCY
-    // io.emit('closeRoom', data)
   })
 
   client.on('destroyRoom', function (data) {
@@ -194,7 +205,6 @@ io.on('connection', function (client) {
   })
 
   client.on('timer', function (data) {
-    console.log("RECIEVED TIMER")
     let incomingTimerUpdate = JSON.parse(data)
     io.in(incomingTimerUpdate.room).emit('TimerUpdate', JSON.stringify(incomingTimerUpdate))
   })
