@@ -17,6 +17,16 @@
 .message-container {
   margin-bottom: 10px;
   align-content: center;
+  display: block;
+}
+
+.message-content {
+  display:block;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
 }
 
 /*.message {
@@ -71,6 +81,10 @@
   border-color: darkgrey;
   border-style: solid;
   padding: 10px;
+}
+
+.input-lg {
+  width: 100%;
 }
 
 .debate-room {
@@ -156,10 +170,8 @@
 }
 
 .lrnedSomethingNew {
-  position: absolute;
   display: flex;
   color: white;
-  margin-left: 28%;
 }
 
 .lrnedSomethingNewButton {
