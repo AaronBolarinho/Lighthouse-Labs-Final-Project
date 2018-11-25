@@ -80,20 +80,20 @@ class DebateRoom extends Component {
 
     this.props.setUserToViewer()
     let room = this.state.debateRoom
-
+    let roomUser = {currentUser: this.props.currentUser, room:this.state.debateRoom}
     console.log("Debate ROOM TO LEAVE IS ", room.id)
-    this.props.socket.emit('leave', room.id)
+    this.props.socket.emit('leave', JSON.stringify(roomUser))
     //Destroy Room is working fine just gets called wrong during the results
     //this.props.socket.emit('destroyRoom', room.id)
   }
 
   componentDidMount() {
     console.log(this.state.debateRoom)
+    this.props.socket.emit('subscribe', this.state.debateRoom.id)
 
     this.props.socket.emit('getInitialState', JSON.stringify(this.state.debateRoom.id))
-    // console.log("STATE", this.state)
+
     let room = this.state.debateRoom.id
-    this.props.socket.emit('subscribe', room)
     this.props.socket.on ('message', data => {
     const serverMsg = JSON.parse(data)
     console.log("received : ", serverMsg)

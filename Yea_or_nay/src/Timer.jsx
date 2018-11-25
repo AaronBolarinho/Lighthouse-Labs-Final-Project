@@ -65,14 +65,16 @@ class Timer extends React.Component {
 }
 
   startTimer() {
+    console.log("START TIMER CALLED")
     if (this.timer == 0 && this.state.seconds > 0) {
       this.timer = setInterval(this.countDown, 1000);
     }
   }
 
   countDown() {
+    console.log("COUNTDOWN CALLED")
 
-    let room = this.state.debateRoom.name
+    let room = this.state.debateRoom.id
     let timeLeft = this.state.seconds
     let roomTime = { room : room,
                      timeLeft : timeLeft

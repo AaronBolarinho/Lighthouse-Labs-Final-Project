@@ -71,10 +71,10 @@ io.on('connection', function (client) {
     client.emit('debateRooms', JSON.stringify(debateRooms))
   })
   client.on('getInitialState', function (data) {
-    console.log("RECIEVED GET INITIAL STATE FOR DEBATEROOM ", data)
+    console.log("RECIEVED GET INITIAL STATE FOR DEBATEROOM ", data, "by", client.id)
     let parsedData = JSON.parse(data)
     let serverMsg = debateRoomObject[parsedData]
-    console.log("SERVER MESSAGE TO SEND SHOULD BE STATE", serverMsg)
+    // console.log("SERVER MESSAGE TO SEND SHOULD BE STATE", serverMsg)
     client.emit('getInitialState', JSON.stringify(serverMsg))
   })
 
@@ -84,8 +84,14 @@ io.on('connection', function (client) {
   })
 
   client.on('leave', function (data) {
-    console.log("RECIEVED leave for: ", data)
-    client.leave(data)
+    let incomingLeave = JSON.parse(data)
+    console.log("RECIEVED leave for: ", incomingLeave.room.id, "by", incomingLeave.currentUser)
+    client.leave(incomingLeave.room.id)
+
+    if (incomingLeave.currentUser.state === 'debator2' || incomingLeave.currentUser.state === 'debator1' ) {
+      console.log("DEBATOR LEFT", incomingLeave.currentUser.state)
+      io.in(incomingLeave.room.id).emit('displayResultsTo:',incomingLeave.room.id)
+    }
   })
 
   client.on('debateEnded', function (data) {
@@ -188,6 +194,7 @@ io.on('connection', function (client) {
   })
 
   client.on('timer', function (data) {
+    console.log("RECIEVED TIMER")
     let incomingTimerUpdate = JSON.parse(data)
     io.in(incomingTimerUpdate.room).emit('TimerUpdate', JSON.stringify(incomingTimerUpdate))
   })

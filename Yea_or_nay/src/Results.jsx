@@ -88,7 +88,7 @@ class Results extends React.Component {
 
   countDown() {
 
-    let room = this.state.debateRoom.name
+    let room = this.state.debateRoom.id
     let timeLeft = this.state.seconds
     let roomTime = { room : room,
                      timeLeft : timeLeft

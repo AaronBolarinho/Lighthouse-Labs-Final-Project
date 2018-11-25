@@ -19,12 +19,12 @@ class Home extends Component {
 
   closeMainRoomSocket(){
     console.log("mainroom socket about to close!")
-    this.props.socket.emit('leave', "mainroom")
+    // this.props.socket.emit('leave', "mainroom")
   }
 
   shouldRedirect(room) {
     this.setState({shouldRedirect: {should: true, room: room}})
-    this.props.socket.emit('leave', "mainroom")
+    // this.props.socket.emit('leave', "mainroom")
   }
 
   componentDidMount() {
