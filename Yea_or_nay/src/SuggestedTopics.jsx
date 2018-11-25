@@ -14,7 +14,7 @@ function SuggestedTopics ({topics}) {
   })
   return (
         <div className="messages">
-          <h5 className='room-name'>Suggested Topics</h5>
+          <div><h5 className='room-name'>Suggested Topics</h5><a href='https://newsapi.org'>Powered by News API</a></div>
           <ul>
            {topicList}
           </ul>
