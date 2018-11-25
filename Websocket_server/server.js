@@ -226,7 +226,7 @@ io.on('connection', function (client) {
     console.log("DID LIKES GET UPDATED ", debateRoomObject[incomingMsg.roomId])
 
    // console.log("this is the timer update data", incomingTimerUpdate)
-    io.in(incomingMsg.room).emit('likes', JSON.stringify(incomingMsg))
+    io.in(incomingMsg.roomId).emit('likes', JSON.stringify(incomingMsg))
   })
 
   client.on('timer', function (data) {
@@ -245,7 +245,7 @@ io.on('connection', function (client) {
     let incomingMsg = JSON.parse(data)   // console.log("this is the timer update data", incomingTimerUpdate)
     debateRoomObject[incomingMsg.roomId].debator1Switch = incomingMsg.debator1Switch
     debateRoomObject[incomingMsg.roomId].debator2Switch = incomingMsg.debator2Switch
-    io.in(incomingMsg.room).emit('switch', JSON.stringify(incomingMsg))
+    io.in(incomingMsg.roomId).emit('switch', JSON.stringify(incomingMsg))
     console.log("DID THE SWITCH UPDATE", debateRoomObject[incomingMsg.roomId] )
   })
 
