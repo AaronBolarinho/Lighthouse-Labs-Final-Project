@@ -87,7 +87,9 @@ io.on('connection', function (client) {
 
   client.on('debateEnded', function (data) {
     console.log("RECIEVED DebateEnded: ", data)
-    io.in(data).emit('displayResultsTo:', data)
+    io.in(data).emit('resultsTriggered', data)
+    io.in(data).emit('resultsTimerTriggered', data)
+    // client.emit('resultsTriggered', data)
   })
 
   client.on('closeDebate', function (data) {
