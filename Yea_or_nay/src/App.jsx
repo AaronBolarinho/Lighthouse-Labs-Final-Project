@@ -3,7 +3,7 @@ import Timer from './Timer.jsx';
 import DebateRoom from './DebateRoom.jsx';
 import Home from './Home.jsx';
 import Slider from './Slider.jsx';
-import TestChangeUser from './TestChangeUser.jsx'
+import Navbar from './Navbar.jsx';
 import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom';
 const uuid = require('uuid/v4')
 const io = require('socket.io-client');
@@ -134,21 +134,7 @@ class App extends Component {
     return (
       <BrowserRouter>
       <div>
-        <nav className='navbar navbar-expand-sm navbar-black'>
-          <div className='container'>
-            <div className="navbar-brand">
-              <p id="logo">YEA or NAY</p>
-            </div>
-
-            <TestChangeUser changeUsername={this.changeUsername}/>
-
-            <div className="navbar-nav navbar-right">
-              <div className="nav-item">
-                <span className="navbar-users">Viewer</span>
-              </div>
-            </div>
-          </div>
-        </nav>
+        <Navbar changeUsername={this.changeUsername} currentUser={this.state.currentUser}/>
           <div className="container">
            <Switch>
               <Route
