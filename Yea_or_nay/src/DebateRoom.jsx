@@ -5,8 +5,8 @@ import { Redirect, Link } from 'react-router-dom'
 import Timer from './Timer.jsx';
 import ChooseASide from './ChooseASide.jsx';
 import Results from './Results.jsx'
-
 import DebateRoomMessage from './DebateRoomMessage.jsx';
+import LearnedSomethingNew from './LearnedSomethingNew.jsx';
 
 class DebateRoom extends Component {
   constructor(props) {
@@ -177,18 +177,29 @@ class DebateRoom extends Component {
     this.props.socket.emit("switch", JSON.stringify(newMessage));
   }
 
-  render() {
-     if (this.state.shouldRedirect) {
+  render() { console.log("DEBATE ROOMS PROPS", this.props)
+
+    if (this.state.shouldRedirect) {
          return (<Redirect to="/" />)
-        }
+    }
     return (
       <div className = "container debate-room">
         <div className="container message-container">
-          <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.props.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked}/>
-          {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> : <ChooseASide updateSide={this.updateSide}/>}
-          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' && this.props.currentUser.state !== 'viewer' ? <Timer debateRoom={this.state.debateRoom} socket={this.props.socket}/> : ""}</span>
-          <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Results debateRoom={this.state.debateRoom} socket={this.props.socket} leaveRoom={this.leaveRoom}/> : ""}</span>
-          {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
+          <div className='row'>
+
+            <div className='col-sm-4'>
+              {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? '' : <ChooseASide updateSide={this.updateSide}/>}
+              <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' && this.props.currentUser.state !== 'viewer' ? <Timer debateRoom={this.state.debateRoom} socket={this.props.socket}/> : ""}</span>
+              {this.state.debateRoom.name !== 'mainroom' && this.props.currentUser.state !== 'viewer' ? <LearnedSomethingNew/> : ""}
+              <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Results debateRoom={this.state.debateRoom} socket={this.props.socket} leaveRoom={this.leaveRoom}/> : ""}</span>
+              {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
+            </div>
+
+            <div className="col-sm-8">
+              <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.props.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked}/>
+               {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> :''}
+            </div>
+          </div>
         </div>
       </div>
     );
