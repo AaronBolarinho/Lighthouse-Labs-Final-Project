@@ -7,6 +7,22 @@ require('dotenv').config()
 const Perspective = require('perspective-api-client');
 const perspective = new Perspective({apiKey: process.env.PERSPECTIVE_API_KEY });
 
+const NewsAPI = require('newsapi');
+const newsapi = new NewsAPI(process.env.NEWS_API_KEY);
+let newsfeed = [];
+
+newsapi.v2.topHeadlines({
+  language: 'en',
+  country: 'us'
+}).then(response => {
+ // const data = JSON.parse(response)
+  newsfeed = response.articles;
+  //newsfeed.push(response.articles);
+  //console.log(newsfeed)
+  // newsfeed.forEach(feed =>{
+  //    console.log(feed.title)
+  // })
+});
 // app.get('/Room1', function (req, res) {
 //   res.sendFile(__dirname + '/index.html');
 // });
@@ -63,6 +79,13 @@ class DebateRoom {
 io.on('connection', function (client) {
 
   console.log('client connected...', client.id)
+
+  client.emit('newsfeed', JSON.stringify(newsfeed))
+
+  client.on('getNewsFeed', function (data) {
+    client.emit('debateRooms', JSON.stringify(debateRooms))
+  })
+
 
   client.on('getDebateRooms', function (data) {
     client.emit('debateRooms', JSON.stringify(debateRooms))
