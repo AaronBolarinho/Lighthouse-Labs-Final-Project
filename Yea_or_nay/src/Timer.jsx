@@ -9,7 +9,7 @@ class Timer extends React.Component {
 
     this.state = {
       time: {},
-      seconds: 3,
+      seconds: 300,
       debateRoom: props.debateRoom
     };
 
