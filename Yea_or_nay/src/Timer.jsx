@@ -49,7 +49,7 @@ class Timer extends React.Component {
     if (seconds == 0) {
       clearInterval(this.timer);
       let room = this.state.debateRoom
-      this.props.socket.emit('debateEnded', room.name)
+      this.props.socket.emit('debateEnded', room.id)
       // this.props.socket.emit('destroyRoom', room.id)
     }
 }

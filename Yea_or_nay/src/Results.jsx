@@ -51,7 +51,7 @@ class Results extends React.Component {
     // Check if we're at zero.
     if (seconds == 0) {
       clearInterval(this.timer);
-      let room = this.state.debateRoom.name
+      let room = this.state.debateRoom.id
       this.props.socket.emit('closeDebate', room)
     }
 }

@@ -124,9 +124,9 @@ io.on('connection', function (client) {
       incomingmsg.content = incomingmsg.content + result.systemMessage;
       incomingmsg.flag = result.flag;
       console.log("RECIEVED : ", incomingmsg, "from", incomingmsg.roomName);
-      io.in(incomingmsg.roomName).emit('message', JSON.stringify(incomingmsg))
+      io.in(incomingmsg.roomId).emit('message', JSON.stringify(incomingmsg))
       debateRoomObject[incomingmsg.roomId].messages.push(incomingmsg)
-      console.log("SENT ", incomingmsg, "To hopefully only", incomingmsg.roomName)
+      console.log("SENT ", incomingmsg, "To", incomingmsg.roomId)
     })
   });
 
@@ -152,7 +152,8 @@ io.on('connection', function (client) {
   client.on('addViewer', function (data) {
     let incomingViewer = JSON.parse(data)
     let viewerToBeAdded = {id: incomingViewer.id, username: incomingViewer.username, state: "viewer", stance: null}
-    io.in(incomingViewer.room).emit('addUser', JSON.stringify(viewerToBeAdded))
+    console.log("VIEWER IS", incomingViewer)
+    io.in(incomingViewer.roomId).emit('addUser', JSON.stringify(viewerToBeAdded))
     console.log("ADD VIEEEEWER", incomingViewer)
     debateRoomObject[incomingViewer.roomId].connectedUsers[incomingViewer.id] = viewerToBeAdded
     console.log("CONNECTED USERS ARE ", debateRoomObject[incomingViewer.roomId].connectedUsers)
@@ -162,7 +163,7 @@ io.on('connection', function (client) {
     let incomingDebator2 = JSON.parse(data)
     let debator2ToBeAdded = {id: incomingDebator2.id, username: incomingDebator2.username, state: "debator2", stance: incomingDebator2.stance}
     let appDebator2 = {id: incomingDebator2.id, username: incomingDebator2.username, room: incomingDebator2.room}
-    io.in(incomingDebator2.room.name).emit('addUser', JSON.stringify(debator2ToBeAdded))
+    io.in(incomingDebator2.room.id).emit('addUser', JSON.stringify(debator2ToBeAdded))
     io.emit('addDebator2ToApp', JSON.stringify(appDebator2))
     debateRoomObject[appDebator2.room.id].connectedUsers[appDebator2.id] = debator2ToBeAdded
     console.log("DID DEBATOR 2 GET ADDED is ", debateRoomObject[appDebator2.room.id].connectedUsers)

@@ -80,8 +80,9 @@ class DebateRoom extends Component {
 
     this.props.setUserToViewer()
     let room = this.state.debateRoom
-    console.log("Debate ROOM TO LEAVE IS ", room.name)
-    this.props.socket.emit('leave', room.name)
+
+    console.log("Debate ROOM TO LEAVE IS ", room.id)
+    this.props.socket.emit('leave', room.id)
     //Destroy Room is working fine just gets called wrong during the results
     //this.props.socket.emit('destroyRoom', room.id)
   }
@@ -91,7 +92,7 @@ class DebateRoom extends Component {
 
     this.props.socket.emit('getInitialState', JSON.stringify(this.state.debateRoom.id))
     // console.log("STATE", this.state)
-    let room = this.state.debateRoom.name
+    let room = this.state.debateRoom.id
     this.props.socket.emit('subscribe', room)
     this.props.socket.on ('message', data => {
     const serverMsg = JSON.parse(data)
