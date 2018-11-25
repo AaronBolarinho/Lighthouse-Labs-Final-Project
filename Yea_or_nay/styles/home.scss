@@ -2,3 +2,24 @@
 
 // Import a Google Font
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
+.subtitle {
+  margin-bottom: 0.5rem;
+  color: white;
+  font-weight: bold;
+}
+
+body {
+  background-image: url("/images/background.jpg");
+    background-repeat: no-repeat, repeat;
+    background-size: cover;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+li {
+  color: white;
+}

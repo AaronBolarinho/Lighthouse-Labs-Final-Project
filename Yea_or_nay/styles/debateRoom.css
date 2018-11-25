@@ -1,0 +1,167 @@
+#messageList {
+  height: 300%;
+}
+
+.container .message-list {
+  padding: 20px;
+  margin-bottom: 10px;
+  height: 300px;
+  background-color: lightgrey;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: darkgrey;
+  overflow: scroll;
+}
+
+.message-container {
+  margin-bottom: 10px;
+  align-content: center;
+}
+
+/*.message {
+  background-color: white;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  border-color: grey;
+  border-style: solid;
+  border-width: 1px;
+  padding: 5px;
+  box-sizing: content-box;
+  overflow: hidden;
+}*/
+
+.speech-bubble {
+  position: relative;
+  background: #00aabb;
+  border-radius: 5px;
+  padding: 5px;
+  margin-top: 5px;
+  width: 75%;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.top:before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 10%;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-bottom-color: #00aabb;
+  border-top: 0;
+  margin-left: -20px;
+  margin-top: -5px;
+}
+
+
+::-webkit-scrollbar {
+   width:0px;
+}
+
+.room-name {
+  color: white;
+}
+
+.input-debate-chatbar {
+  margin-top: 20px;
+  border-radius: 5px;
+  border-color: darkgrey;
+  border-style: solid;
+  padding: 10px;
+}
+
+.debate-room {
+  margin-top: 20px;
+}
+
+.debator-name1, .debator-name2 {
+  color: white;
+  display:inline-block;
+}
+
+.debator-name1 {
+  float:left;
+}
+
+.debator-name2 {
+  float:right;
+}
+
+.progress-bar-container {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 20px;
+    outline: none;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    border-radius: 5px;
+}
+
+.progress-bar:hover {
+    opacity: 1;
+}
+
+.progress-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 40px;
+    background: white;
+    border-color: darkgrey;
+    border-style: solid;
+    border-width: 2px;
+
+    cursor: pointer;
+    border-radius: 35%;
+    transition: width 400ms ease-in-out;
+}
+
+.progress-bar::-moz-range-thumb {
+    width: 25px;
+    height: 40px;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+#grad {
+  background-image: linear-gradient(to right, white , blue);
+}
+
+.timer {
+  color: white;
+}
+
+.selected {
+  border-color: blue;
+  border-width: 5px;
+  border-style: solid;
+}
+
+.yeaClass, .nayClass {
+  background-color: white;
+}
+
+.choose-side {
+  display: inline-block;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
+.lrnedSomethingNew {
+  position: absolute;
+  display: flex;
+  color: white;
+  margin-left: 28%;
+}
+
+.lrnedSomethingNewButton {
+  display: inline;
+}

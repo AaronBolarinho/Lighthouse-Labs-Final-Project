@@ -1,0 +1,33 @@
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: black;
+  color: white;
+  text-align: center;
+  align-items: center;
+}
+
+.slide-container {
+  position: relative;
+  display: flex;
+  margin-bottom: 5%;
+  padding: 0;
+}
+
+.slide {
+  position: absolute;
+  display: center;
+  margin-bottom: 5%;
+  opacity: 0;
+  transition: opacity 2s
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+.slideContainer {
+  width: 200px;
+}

@@ -9,15 +9,17 @@ function DebateMessageList ({messages, debateRoom,updateLiked, userState, debato
       <DebateRoomMessage key={message.id} message={message.content} username={message.username} room={debateRoom.name}  updateLiked={updateLiked} state={userState} flag={message.flag}/>
     )
   });
+
   return (
-        <div className="messages">
-          <h4 className='room-name'>{debateRoom.proposedDebate} </h4>
-          {debateRoom.name !== 'mainroom' ?  <ProgressBar value={progress_value} name1={debateRoom.debator1} name2={debateRoom.debator2}/> : ""}
-          <div className='container message-list'>
-            {messageList}
-          </div>
-        </div>
+
+    <div className="messages">
+      <h4 className='room-name'>{debateRoom.proposedDebate} </h4>
+      {debateRoom.name !== 'mainroom' ?  <ProgressBar value={progress_value} name1={debateRoom.debator1} name2={debateRoom.debator2}/> : ""}
+      <div className='container message-list clearfix'>
+        {messageList}
+      </div>
+    </div>
   );
 }
 
-export default DebateMessageList
+export default DebateMessageList;

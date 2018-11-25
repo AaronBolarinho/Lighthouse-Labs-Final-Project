@@ -1,33 +1,5 @@
 import React, {Component} from 'react';
 
-// function ChooseSide ({updateSide}) {
-
-//   let yeaClass = 'yeaClass';
-//   let nayClass = 'nayClass';
-
-//   function clickSide(e) {
-//     if (e.target.value === 'yea') {
-//       e.target.className= 'selected';
-//       nayClass = 'nayClass';
-//       // updateSide('yea');
-//     };
-
-//     if (e.target.value === 'nay') {
-//       e.target.className = 'selected';
-//       yeaClass = 'yeaClass';
-//       // nayClass = 'selected';
-//       // updateSide('nay');
-//     };
-//   }
-
-//   return (
-//         <div>
-//           <span><input className={yeaClass} type="submit" value='yea' onClick={clickSide}></input> Choose your side <input className={nayClass} type="submit" value='nay' onClick={clickSide}></input></span>
-//           {/*<span><input type="submit" value='yea' onClick={clickSide}></input> Choose your side <input type="submit" value='nay' onClick={clickSide}></input></span>*/}
-//         </div>
-//   );
-// }
-
 class ChooseSide extends Component {
 
   constructor() {
