@@ -10,7 +10,7 @@ class Results extends React.Component {
     this.state = {
       endSequence : false,
       time: {},
-      seconds: 60,
+      seconds: 3,
       debateRoom: props.debateRoom
     };
 

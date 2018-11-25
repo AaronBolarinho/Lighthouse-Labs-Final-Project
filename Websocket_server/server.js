@@ -39,10 +39,12 @@ function destroyDebateRoom(id) {
 
     const index = findDebateRoomById(id)
 
+    if (index !== -1) {
+      console.log("RUNNING DESTROY SLICE")
      debateRooms = [
     ...debateRooms.slice(0, index), ...debateRooms.slice(index + 1)
     ]
-
+  }
 }
 
 class DebateRoom {
@@ -107,8 +109,10 @@ io.on('connection', function (client) {
     //   // io.emit('destroyRoom', data)
     // }
     console.log("Does the server get the destroy COMMAND", data)
-    io.emit('destroyRoom', data)
+    // io.emit('destroyRoom', data)
     destroyDebateRoom(data)
+    io.emit('debateRooms', JSON.stringify(debateRooms))
+
   })
 
   client.on('message', function (data) {
