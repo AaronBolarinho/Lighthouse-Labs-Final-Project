@@ -7,7 +7,7 @@ import TestChangeUser from './TestChangeUser.jsx'
 import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom';
 const uuid = require('uuid/v4')
 const io = require('socket.io-client');
-const socket = io.connect('http://172.46.1.35:3001');
+const socket = io.connect('http://localhost:3001');
 
 
 class App extends Component {
