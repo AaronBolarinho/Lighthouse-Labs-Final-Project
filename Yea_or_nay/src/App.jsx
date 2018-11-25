@@ -140,7 +140,7 @@ class App extends Component {
               <p id="logo">YEA or NAY</p>
             </div>
 
-            <TestChangeUser changeUsername={this.props.changeUsername}/>
+            <TestChangeUser changeUsername={this.changeUsername}/>
 
             <div className="navbar-nav navbar-right">
               <div className="nav-item">
