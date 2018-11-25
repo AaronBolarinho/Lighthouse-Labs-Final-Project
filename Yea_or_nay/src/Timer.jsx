@@ -88,13 +88,13 @@ class Timer extends React.Component {
     if (this.state.time.m !== 5) {
       return (
         <div>
-          <button onClick={this.startTimer}>Start</button>
+          <button className='a' onClick={this.startTimer}>Start</button>
           <span className='timer'>m: {this.state.time.m} s: {this.state.time.s}</span>
         </div>)
     } else {
       return(
         <div>
-          <button onClick={this.startTimer}>Start</button>
+          <button className='a' onClick={this.startTimer}>Start</button>
         </div>
       )};
   }
