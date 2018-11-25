@@ -1,6 +1,7 @@
 // This is the top-level scss file. Import all other files in here.
 @import 'home';
 @import '~bootstrap/dist/css/bootstrap.min.css';
+@import 'neon-button.css';
 
 @bg-dark {
   color: black;
@@ -30,6 +31,7 @@ body {
 #logo {
   font-size: 30px;
   font-weight: bold;
+  margin-bottom: 0;
 }
 
 .box {
@@ -200,7 +202,7 @@ li {
   align-content: center;
 }
 
-.message {
+/*.message {
   background-color: white;
   margin-bottom: 5px;
   border-radius: 5px;
@@ -210,6 +212,31 @@ li {
   padding: 5px;
   box-sizing: content-box;
   overflow: hidden;
+}*/
+
+.speech-bubble {
+  position: relative;
+  background: #00aabb;
+  border-radius: 5px;
+  padding: 5px;
+  margin-top: 5px;
+  width: 75%;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.top:before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 10%;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-bottom-color: #00aabb;
+  border-top: 0;
+  margin-left: -20px;
+  margin-top: -5px;
 }
 
 
