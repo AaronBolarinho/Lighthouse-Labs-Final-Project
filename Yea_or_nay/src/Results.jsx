@@ -8,7 +8,7 @@ class Results extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      endSequence : false,
+      // endSequence : false,
       time: {},
       seconds: 3,
       debateRoom: props.debateRoom
@@ -19,7 +19,7 @@ class Results extends React.Component {
     this.countDown = this.countDown.bind(this);
     this.updateComponant = this.updateComponant.bind(this);
 
-    this.displayResults = this.displayResults.bind(this);
+    this.startResultsTimer = this.startResultsTimer.bind(this);
   }
 
   secondsToTime(secs){
@@ -56,10 +56,10 @@ class Results extends React.Component {
     }
 }
 
-  displayResults () {
-    this.setState({
-      endSequence : true,
-    });
+  startResultsTimer() {
+    // this.setState({
+    //   endSequence : true,
+    // });
 
     this.startTimer()
   }
@@ -69,9 +69,14 @@ class Results extends React.Component {
     let timeLeftVar = this.secondsToTime(this.state.seconds);
     this.setState({ time: timeLeftVar });
 
-    this.props.socket.on ('displayResultsTo:', data => {
-      console.log("received displayResults: ", data)
-       this.displayResults()
+    // this.props.socket.on ('displayResultsTo:', data => {
+    //   console.log("received displayResults: ", data)
+    //    this.displayResults()
+    // })
+
+    this.props.socket.on ('resultsTimerTriggered', data => {
+      console.log("Results Timer Triggered!", data)
+       this.startResultsTimer()
     })
 
     this.props.socket.on ('ResultsTimerUpdate', data => {
@@ -97,21 +102,21 @@ class Results extends React.Component {
   }
 
   render() {
-    if (this.state.endSequence === true || this.state.seconds !== 10) {
+    // if (this.state.endSequence === true || this.state.seconds !== 60) {
 
       return(
-        <div className="level-item">
-          <span className="navbar-users">Results!</span>
+        <div className="Results">
+          <span className="">Results!</span>
           m: {this.state.time.m} s: {this.state.time.s}
         </div>
-      )} else {
+      // )} else {
 
-        return(
-          <div className="level-item">
-          </div>
-        )}
+      //   return(
+      //     <div className="level-item">
+      //     </div>
+        // )}
 
-  }
+  )}
 }
 
 export default Results;

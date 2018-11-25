@@ -21,7 +21,8 @@ class DebateRoom extends Component {
       shouldRedirect: false,
       debator1Switch: 0,
       debator2Switch: 0,
-      userStance: null
+      userStance: null,
+      resultsTrigger: false,
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.updateMessages = this.updateMessages.bind(this);
@@ -133,6 +134,11 @@ class DebateRoom extends Component {
     this.shouldRedirect()
     })
 
+    this.props.socket.on ('resultsTriggered', data => {
+      console.log("resultsTriggered: ", data)
+       this.displayResults()
+    })
+
 
   }
 
@@ -178,20 +184,26 @@ class DebateRoom extends Component {
     this.props.socket.emit("switch", JSON.stringify(newMessage));
   }
 
+  displayResults () {
+    this.setState({
+      resultsTrigger : true,
+    });
+
+  }
+
   render() { console.log("DEBATE ROOMS PROPS", this.props)
 
     if (this.state.shouldRedirect) {
          return (<Redirect to="/" />)
     }
+    if (this.state.resultsTrigger === true) {
     return (
+
       <div className = "container debate-room">
         <div className="container message-container">
           <div className='row'>
 
             <div className='col-sm-4'>
-              {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? '' : <ChooseASide updateSide={this.updateSide}/>}
-              <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' && this.props.currentUser.state !== 'viewer' ? <Timer debateRoom={this.state.debateRoom} socket={this.props.socket}/> : ""}</span>
-              {this.state.debateRoom.name !== 'mainroom' && this.props.currentUser.state !== 'viewer' ? <LearnedSomethingNew/> : ""}
               <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Results debateRoom={this.state.debateRoom} socket={this.props.socket} leaveRoom={this.leaveRoom}/> : ""}</span>
               {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
             </div>
@@ -203,7 +215,29 @@ class DebateRoom extends Component {
           </div>
         </div>
       </div>
-    );
+
+      )} else {
+      return(
+      <div className = "container debate-room">
+        <div className="container message-container">
+          <div className='row'>
+
+            <div className='col-sm-4'>
+              {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? '' : <ChooseASide updateSide={this.updateSide}/>}
+              <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' && this.props.currentUser.state !== 'viewer' ? <Timer debateRoom={this.state.debateRoom} socket={this.props.socket}/> : ""}</span>
+              {this.state.debateRoom.name !== 'mainroom' && this.props.currentUser.state !== 'viewer' ? <LearnedSomethingNew/> : ""}
+              {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
+            </div>
+
+            <div className="col-sm-8">
+              <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.props.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked}/>
+               {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> :''}
+            </div>
+          </div>
+        </div>
+      </div>
+      )}
+    // );
   }
 }
 
