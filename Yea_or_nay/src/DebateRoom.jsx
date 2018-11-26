@@ -253,7 +253,7 @@ class DebateRoom extends Component {
         <div className='row'>
 
           <div className='col-sm-4 flex-container'>
-              {this.state.debateRoom.name !== 'mainroom' && this.props.currentUser.state !== 'viewer' ? <Timer debateRoom={this.state.debateRoom} socket={this.props.socket}/> : ""}
+               <Timer debateRoom={this.state.debateRoom} socket={this.props.socket} currentUser={this.props.currentUser}/>
               {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? '' : <ChooseASide updateSide={this.updateSide}/>}
               {this.state.debateRoom.name !== 'mainroom' && this.props.currentUser.state !== 'viewer' ? <LearnedSomethingNew/> : ""}
               {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}

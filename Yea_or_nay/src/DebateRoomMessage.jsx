@@ -5,30 +5,28 @@ function DebateRoomMessage ({username, message, room, updateLiked, state, flag, 
   function clickedLike(e){
     updateLiked(username, e.target.value);
     e.target.disabled = true;
-    console.log("VALUE", e.target.value)
+
   }
-  console.log("LIKED IN MESSAGE IS", liked)
+
   if (liked) {
     return (
-      <div className="liked">
+      <div className={debatorState == 'debator1' ? 'debator1 liked' : 'debator2 liked'}>
         <div>
           <span className="message-username">{username}: </span>
-          <span>{debatorState} </span>
         </div>
         <div className="message">
-          <div className="message-content speech-bubble top">{message} {room !== 'mainroom' && state === 'viewer' &&  !flag ? <button id='liked' onClick={clickedLike} value={messageId}>LIKE {messageId}</button>: ''}</div>
+          <div className="message-content speech-bubble top liked">{message} {room !== 'mainroom' && state === 'viewer' &&  !flag ? <button id='liked' onClick={clickedLike} value={messageId}>LIKE </button>: ''}</div>
         </div>
       </div>
     );
   } else {
     return (
-      <div>
+      <div className={debatorState == 'debator1' ? 'debator1' : 'debator2'}>
         <div>
           <span className="message-username">{username}: </span>
-          <span>{debatorState} </span>
         </div>
         <div className="message">
-          <div className="message-content speech-bubble top">{message} {room !== 'mainroom' && state === 'viewer' &&  !flag ? <button id='liked' onClick={clickedLike} value={messageId}>LIKE {messageId}</button>: ''}</div>
+          <div className="message-content speech-bubble top">{message} {room !== 'mainroom' && state === 'viewer' &&  !flag ? <button id='liked' onClick={clickedLike} value={messageId}>LIKE </button>: ''}</div>
         </div>
       </div>
     )
