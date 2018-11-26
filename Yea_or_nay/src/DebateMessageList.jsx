@@ -5,8 +5,9 @@ import ProgressBar from './ProgressBar.jsx';
 function DebateMessageList ({messages, debateRoom,updateLiked, userState, debator1Liked, debator2Liked}) {
   let progress_value = 100 * debator2Liked / (debator1Liked + debator2Liked);
   const messageList = messages.map(message => {
+    console.log("message is", message)
     return(
-      <DebateRoomMessage key={message.id} message={message.content} username={message.username} room={debateRoom.name}  updateLiked={updateLiked} state={userState} flag={message.flag}/>
+      <DebateRoomMessage key={message.id} message={message.content} username={message.username} debatorState={message.state} room={debateRoom.name}  updateLiked={updateLiked} state={userState} flag={message.flag}/>
     )
   });
 

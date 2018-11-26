@@ -63,6 +63,7 @@ class DebateRoom extends Component {
     const newMessage = {
       id: (this.state.messages.length + 1),
       username: this.props.currentUser.name,
+      state: this.props.currentUser.state,
       content: message,
       roomName: this.state.debateRoom.name,
       roomId: this.state.debateRoom.id
