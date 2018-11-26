@@ -1,0 +1,35 @@
+.url-image {
+  height: 100%;
+  width: 25%;
+  display: inline;
+  border: solid black 1px;
+  border-radius: 3px;
+  margin: 0;
+}
+.url-link {
+  font-size: 15px;
+  margin-left: 10px;
+}
+
+.topic-item {
+  display: flex;
+  flex-direction: row;
+  border-radius: 3px;
+  height: 6em;
+  padding: 10px 0;
+}
+
+.topic-list {
+  padding: 20px;
+  margin-bottom: 10px;
+  height: 444px;
+  background-color: lightgrey;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: darkgrey;
+  overflow: scroll;
+}
+.credit {
+  font-size: 10px;
+}

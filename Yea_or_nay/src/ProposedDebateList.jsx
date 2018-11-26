@@ -40,13 +40,12 @@ class ProposedDebateList extends Component {
   render() {
     console.log("DEBATE ROOMS FROM DEBATE LIST ARE ", this.props.debateRooms)
     return (
-      <div class="dropdown proposed-debate-list">
-       <button class="dropbtn">Join a Debate</button>
-        <div class="dropdown-content">
+      <div class="proposed-debate-list">
+
           <ul>
             {this.createTopics()}
           </ul>
-        </div>
+
       </div>
     );
   }

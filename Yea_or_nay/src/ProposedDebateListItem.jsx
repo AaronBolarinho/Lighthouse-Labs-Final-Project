@@ -21,10 +21,12 @@ function ProposedDebateListItem (props) {
   }
 
     return (
-      <div>
-        <li className='proposed-debate-li'>{props.proposingUser} proposes: {props.topic} in {props.debateRoom.name}<Link to={`/${props.debateRoom.id}`} onClick={makeDebator}>
-        <input className="button input-sm btn float-right button-join-debate btn-dark" value={checkSupportStatus()}/></Link></li>
-      </div>
+      <div className="proposed-debate-list-item">
+       <span className='proposed-debate-li'> <strong> {props.proposingUser} proposes: </strong> {props.topic} </span>
+        <Link to={`/${props.debateRoom.id}`} onClick={makeDebator} className="nay-link">
+        <button className="btn nay-btn" value={checkSupportStatus()}> {checkSupportStatus()}</button>
+        </Link>
+        </div>
     );
 }
 
