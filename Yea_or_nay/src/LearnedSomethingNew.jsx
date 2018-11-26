@@ -6,11 +6,8 @@ class LearnedSomethingNew extends Component {
 
     return (
       <div className='lrnedSomethingNew'>
-        <span>
           Learned Something New!
-          <button className='lrnedSomethingNewButton'>Cool!
-          </button>
-        </span>
+          <button className='lrnedSomethingNewButton'>Cool!</button>
       </div>
     )
   }

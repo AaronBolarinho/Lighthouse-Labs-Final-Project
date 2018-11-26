@@ -14,7 +14,7 @@ let newsfeed = [];
 
 newsapi.v2.topHeadlines({
   language: 'en',
-  country: 'us'
+  country: 'ca'
 }).then(response => {
  // const data = JSON.parse(response)
   newsfeed = response.articles;
@@ -107,7 +107,7 @@ class DebateRoom {
 io.on('connection', function (client) {
   console.log('client connected...', client.id)
 
-  client.emit('newsfeed', JSON.stringify(newsfeed))
+  //client.emit('newsfeed', JSON.stringify(newsfeed))
 
   client.on('getNewsFeed', function (data) {
     client.emit('debateRooms', JSON.stringify(debateRooms))
@@ -115,6 +115,7 @@ io.on('connection', function (client) {
 
 
   client.on('getDebateRooms', function (data) {
+    client.emit('newsfeed', JSON.stringify(newsfeed))
     client.emit('debateRooms', JSON.stringify(debateRooms))
   })
 

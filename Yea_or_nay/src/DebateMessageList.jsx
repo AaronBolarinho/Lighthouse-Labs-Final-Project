@@ -2,8 +2,12 @@ import React, {Component} from 'react';
 import DebateRoomMessage from './DebateRoomMessage.jsx';
 import ProgressBar from './ProgressBar.jsx';
 
-function DebateMessageList ({messages, debateRoom, updateLiked, userState, debator1Liked, debator2Liked}) {
-  let progress_value = 100 * debator2Liked / (debator1Liked + debator2Liked);
+
+function DebateMessageList ({messages, debateRoom,updateLiked, userState, debator1Liked, debator2Liked, debator1Switch, debator2Switch}) {
+  let debator1Points = debator1Liked + (debator1Switch * 3);
+  let debator2Points = debator2Liked + (debator2Switch * 3);
+  let progress_value = 100 * debator2Points / (debator1Points + debator2Points);
+
   const messageList = messages.map(message => {
     console.log("message is", message)
     return(

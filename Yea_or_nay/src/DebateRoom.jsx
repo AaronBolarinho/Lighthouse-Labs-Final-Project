@@ -228,19 +228,21 @@ class DebateRoom extends Component {
     if (this.state.resultsTrigger === true) {
     return (
 
-      <div className = "container debate-room">
-        <div className="container message-container">
-          <div className='row'>
+      <div className ="container debate-room">
+        <div className='row'>
 
-            <div className='col-sm-4'>
-              <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' ? <Results debateRoom={this.state.debateRoom} socket={this.props.socket} leaveRoom={this.leaveRoom}/> : ""}</span>
-              {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
-            </div>
+          <div className='col-sm-4 flex-container'>
+              <div> {this.state.debateRoom.name !== 'mainroom' ?
+                        <Results debateRoom={this.state.debateRoom} socket={this.props.socket} leaveRoom={this.leaveRoom}/> : ""}
+              </div>
+              <div>
+                {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
+              </div>
+          </div>
 
-            <div className="col-sm-8">
-              <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.props.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked}/>
-               {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> :''}
-            </div>
+          <div className="col-sm-8">
+            <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.props.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked}/>
+             {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> :''}
           </div>
         </div>
       </div>
@@ -248,20 +250,20 @@ class DebateRoom extends Component {
       )} else {
       return(
       <div className = "container debate-room">
-        <div className="container message-container">
-          <div className='row'>
+        <div className='row'>
 
-            <div className='col-sm-4'>
+          <div className='col-sm-4 flex-container'>
+              {this.state.debateRoom.name !== 'mainroom' && this.props.currentUser.state !== 'viewer' ? <Timer debateRoom={this.state.debateRoom} socket={this.props.socket}/> : ""}
               {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? '' : <ChooseASide updateSide={this.updateSide}/>}
-              <span className="message-content"> {this.state.debateRoom.name !== 'mainroom' && this.props.currentUser.state !== 'viewer' ? <Timer debateRoom={this.state.debateRoom} socket={this.props.socket}/> : ""}</span>
               {this.state.debateRoom.name !== 'mainroom' && this.props.currentUser.state !== 'viewer' ? <LearnedSomethingNew/> : ""}
               {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
-            </div>
+          </div>
 
-            <div className="col-sm-8">
-              <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.props.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked}/>
-               {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> :''}
-            </div>
+
+          <div className="col-sm-8">
+              <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.props.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked} debator1Switch={this.state.debator1Switch} debator2Switch={this.state.debator2Switch}/>
+             {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> :''}
+
           </div>
         </div>
       </div>
