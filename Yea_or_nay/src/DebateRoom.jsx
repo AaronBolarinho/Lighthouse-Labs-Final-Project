@@ -107,7 +107,13 @@ class DebateRoom extends Component {
     })
 
     this.props.socket.on('addUser', data => {
+      console.log("DEBATEROOM IS", this.state.debateRoom)
       const serverMsg = JSON.parse(data)
+      console.log("RECIEVED ADD FOR ", serverMsg)
+      if (serverMsg.state === 'debator2') {
+    this.setState({debateRoom: {id: this.state.debateRoom.id, proposedDebate:this.state.debateRoom.proposedDebate, debator1:this.state.debateRoom.debator1, debator2:serverMsg.username, debator1Stance:this.state.debateRoom.debator1Stance, debator1Id: this.state.debateRoom.debator1Id, allowViewers: this.state.debateRoom.allowViewers } })
+    console.log("DEBATEROOM IS", this.state.debateRoom)
+      }
       this.addConnectedUser(serverMsg)
     })
 
