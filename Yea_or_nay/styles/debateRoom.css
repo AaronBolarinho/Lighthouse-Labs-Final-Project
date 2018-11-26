@@ -116,6 +116,19 @@
   margin-top: 20px;
 }
 
+.debator-name1, .debator-name2 {
+  color: white;
+  display:inline-block;
+}
+
+.debator-name1 {
+  float:left;
+}
+
+.debator-name2 {
+  float:right;
+}
+
 .progress-bar-container {
   width: 100%;
   margin-bottom: 20px;

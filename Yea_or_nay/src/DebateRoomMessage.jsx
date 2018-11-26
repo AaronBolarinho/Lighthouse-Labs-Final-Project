@@ -18,7 +18,7 @@ function DebateRoomMessage ({username, message, room, updateLiked, state,
         <div className="message-content speech-bubble-yea top-yea">
           {message}
           {room !== 'mainroom' && state === 'viewer' &&  !flag ?
-          <button id='liked' onClick={clickedLike}>LIKE</button>: ''}
+          <button id='liked' onClick={clickedLike} value={messageId}>LIKE</button>: ''}
         </div>
       </div>
     )
@@ -32,7 +32,7 @@ function DebateRoomMessage ({username, message, room, updateLiked, state,
         <div className="message-content speech-bubble-nay top-nay">
           {message}
           {room !== 'mainroom' && state === 'viewer' &&  !flag ?
-          <button id='liked' onClick={clickedLike}>LIKE</button>: ''}
+          <button id='liked' onClick={clickedLike} value={messageId}>LIKE</button>: ''}
         </div>
       </div>
     )
