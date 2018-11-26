@@ -33,12 +33,20 @@ class DebateRoom extends Component {
     this.updateSide = this.updateSide.bind(this);
     this.findMessageById = this.findMessageById.bind(this)
     this.updateLikedMessage = this.updateLikedMessage.bind(this)
-    // this.getInitialState = this.getInitialState.bind(this)
+    this.findDebatorName = this.findDebatorName.bind(this)
   }
 
-  // getInitialState(initialState) {
-  //   this.setState(initialState)
-  // }
+  //THIS FUNCTION SKELETON WILL BE USED FOR PULLING NAME FOR ARRON TO BE USED IN RESULTS
+  findDebatorName(state) {
+    console.log("CALLED FOR ", state)
+    for (let user in this.state.connectedUsers) {
+      console.log("CONNECT USERS ARE", this.state.connectedUsers)
+      if (this.state.connectedUsers[user].state == state) {
+        console.log("FOUND", this.state.connectedUsers[user].username)
+        return this.state.connectedUsers[user].username
+      }
+    }
+  }
 
   addConnectedUser(newUser) {
     console.log("NEW USER IS", newUser)
@@ -226,7 +234,7 @@ class DebateRoom extends Component {
 
   }
 
-  render() { console.log("DEBATE ROOMS PROPS", this.props)
+  render() { this.findDebatorName('debator1')
 
     if (this.state.shouldRedirect) {
          return (<Redirect to="/" />)

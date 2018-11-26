@@ -105,9 +105,11 @@ class Results extends React.Component {
     // if (this.state.endSequence === true || this.state.seconds !== 60) {
 
       return(
-        <div className="Results">
-          <span className="">Results!</span>
-          m: {this.state.time.m} s: {this.state.time.s}
+        <div className ="results">
+          <div className="clock"> Results
+            <div className="timer time">{this.state.time.m} : {this.state.time.s < 10 ? 0 :''} {this.state.time.s}
+          </div>
+        </div>
         </div>
       // )} else {
 
@@ -115,7 +117,6 @@ class Results extends React.Component {
       //     <div className="level-item">
       //     </div>
         // )}
-
   )}
 }
 
