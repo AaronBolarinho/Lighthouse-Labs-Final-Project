@@ -22,8 +22,10 @@ function DebateMessageList ({messages, debateRoom,updateLiked, userState, debato
     debatorNay = debateRoom.debator1;
   };
 
+  console.log("MESSAGES IN MESSAGE LIST ARE", messages)
+
   const messageList = messages.map(message => {
-    console.log("message is", message)
+
     return(
 
       <DebateRoomMessage key={message.id} message={message.content} messageId={message.id} username={message.username}

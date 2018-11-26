@@ -150,7 +150,8 @@ io.on('connection', function (client) {
     //IF THE PERSON WHO LEFT IS DEBATOR 1 or 2 trigger the results
     if (incomingLeave.currentUser.state === 'debator2' || incomingLeave.currentUser.state === 'debator1' ) {
       console.log("DEBATOR LEFT", incomingLeave.currentUser.state)
-      io.in(incomingLeave.room.id).emit('displayResultsTo:',incomingLeave.room.id)
+      io.in(incomingLeave.room.id).emit('resultsTriggered',incomingLeave.room.id)
+      io.in(incomingLeave.room.id).emit('resultsTimerTriggered',incomingLeave.room.id)
     }
   })
 
@@ -252,7 +253,8 @@ io.on('connection', function (client) {
     console.log("DID LIKES GET UPDATED ", debateRoomObject[incomingMsg.roomId])
 
    // console.log("this is the timer update data", incomingTimerUpdate)
-    io.in(incomingMsg.roomId).emit('likes', JSON.stringify(incomingMsg))
+   io.in(incomingMsg.roomId).emit('likes', JSON.stringify(debateRoomObject[incomingMsg.roomId]))
+    // io.in(incomingMsg.roomId).emit('likes', JSON.stringify(incomingMsg))
   })
 
   client.on('timer', function (data) {

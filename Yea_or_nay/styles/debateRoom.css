@@ -197,7 +197,7 @@
   display: block;
 }
 .liked {
-  border-radius: 8px;
+  border: solid red 2px;
 }
 .lrnedSomethingNew {
   display: flex;
