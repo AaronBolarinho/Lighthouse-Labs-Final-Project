@@ -6,7 +6,7 @@
   padding: 20px;
   margin-bottom: 10px;
   height: 300px;
-  background-color: lightgrey;
+  background-color: white;
   border-radius: 5px;
   border-style: solid;
   border-width: 2px;
@@ -16,8 +16,8 @@
 
 .message-container {
   margin-bottom: 10px;
-  align-content: center;
   display: block;
+  clear: both;
 }
 
 .message-content {
@@ -29,46 +29,71 @@
   flex-direction: column;
 }
 
-/*.message {
-  background-color: white;
-  margin-bottom: 5px;
-  border-radius: 5px;
-  border-color: grey;
-  border-style: solid;
-  border-width: 1px;
-  padding: 5px;
-  box-sizing: content-box;
-  overflow: hidden;
-}*/
-
-.speech-bubble {
+.speech-bubble-yea {
   position: relative;
-  background: #00aabb;
+  background: #FF9EFC;
   border-radius: 5px;
   padding: 5px;
-  margin-top: 5px;
-  width: 75%;
   margin-top: 5px;
   margin-bottom: 10px;
+  min-width: 40px;
+  width: 40%;
 }
 
-.top:before {
+.top-yea:before {
   content: '';
   position: absolute;
-  top: -5px;
-  left: 10%;
+  top: -3px;
+  left: 15%;
   width: 0;
   height: 0;
   border: 10px solid transparent;
-  border-bottom-color: #00aabb;
+  border-bottom-color: #FF9EFC;
   border-top: 0;
   margin-left: -20px;
   margin-top: -5px;
 }
 
+.speech-bubble-nay {
+  position: relative;
+  float: right;
+  background: #BB94FF;
+  border-radius: 5px;
+  padding: 5px;
+  margin-top:10px;
+  margin-bottom: 30px;
+  width: 40%;
+  top: 20px;
+  margin-right: -30px;
+}
+
+.top-nay:before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 95%;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-bottom-color: #BB94FF;
+  border-top: 0;
+  margin-left: -20px;
+  margin-top: -8px;
+  top: 0px;
+}
+
+.debatorNay {
+  position: relative;
+  display: block;
+  float: right;
+}
+
+/*#liked {
+  display: inline-block;
+}*/
 
 ::-webkit-scrollbar {
-   width:0px;
+   width: 0px;
 }
 
 .room-name {
@@ -132,7 +157,6 @@
     border-color: darkgrey;
     border-style: solid;
     border-width: 2px;
-
     cursor: pointer;
     border-radius: 35%;
     transition: width 400ms ease-in-out;

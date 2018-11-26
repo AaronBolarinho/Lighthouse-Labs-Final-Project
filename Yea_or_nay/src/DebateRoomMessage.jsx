@@ -1,32 +1,38 @@
 import React, {Component} from 'react';
 
-function DebateRoomMessage ({username, message, room, updateLiked, state, flag, debatorState, messageId, liked}) {
+function DebateRoomMessage ({username, message, room, updateLiked, state,
+                            flag, debatorState, messageId, liked, debatorYea, debatorNay, debator1Stance})
+  {
 
   function clickedLike(e){
     updateLiked(username, e.target.value);
     e.target.disabled = true;
-
   }
 
-  if (liked) {
+  if (username === debatorYea) {
+
     return (
-      <div className={debatorState == 'debator1' ? 'debator1 liked' : 'debator2 liked'}>
-        <div>
-          <span className="message-username">{username}: </span>
+      <div className='message-container'>
+        <div className="message-username">{username}:
         </div>
-        <div className="message">
-          <div className="message-content speech-bubble top liked">{message} {room !== 'mainroom' && state === 'viewer' &&  !flag ? <button id='liked' onClick={clickedLike} value={messageId}>LIKE </button>: ''}</div>
+        <div className="message-content speech-bubble-yea top-yea">
+          {message}
+          {room !== 'mainroom' && state === 'viewer' &&  !flag ?
+          <button id='liked' onClick={clickedLike} value={messageId}>LIKE</button>: ''}
         </div>
       </div>
-    );
+    )
   } else {
+
     return (
-      <div className={debatorState == 'debator1' ? 'debator1' : 'debator2'}>
-        <div>
-          <span className="message-username">{username}: </span>
+
+      <div className='message-container'>
+        <div className="debatorNay">{username}
         </div>
-        <div className="message">
-          <div className="message-content speech-bubble top">{message} {room !== 'mainroom' && state === 'viewer' &&  !flag ? <button id='liked' onClick={clickedLike} value={messageId}>LIKE </button>: ''}</div>
+        <div className="message-content speech-bubble-nay top-nay">
+          {message}
+          {room !== 'mainroom' && state === 'viewer' &&  !flag ?
+          <button id='liked' onClick={clickedLike} value={messageId}>LIKE</button>: ''}
         </div>
       </div>
     )
