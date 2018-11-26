@@ -7,6 +7,7 @@ import ChooseASide from './ChooseASide.jsx';
 import Results from './Results.jsx'
 import DebateRoomMessage from './DebateRoomMessage.jsx';
 import LearnedSomethingNew from './LearnedSomethingNew.jsx';
+const uuid = require('uuid/v4')
 
 class DebateRoom extends Component {
   constructor(props) {
@@ -30,6 +31,8 @@ class DebateRoom extends Component {
     this.leaveRoom = this.leaveRoom.bind(this)
     this.addConnectedUser = this.addConnectedUser.bind(this)
     this.updateSide = this.updateSide.bind(this);
+    this.findMessageById = this.findMessageById.bind(this)
+    this.updateLikedMessage = this.updateLikedMessage.bind(this)
     // this.getInitialState = this.getInitialState.bind(this)
   }
 
@@ -61,12 +64,13 @@ class DebateRoom extends Component {
 
    sendMessage(message) {
     const newMessage = {
-      id: (this.state.messages.length + 1),
+      id: uuid(),
       username: this.props.currentUser.name,
       state: this.props.currentUser.state,
       content: message,
       roomName: this.state.debateRoom.name,
-      roomId: this.state.debateRoom.id
+      roomId: this.state.debateRoom.id,
+      liked: false
     };
     console.log("SENT : ", newMessage)
     this.props.socket.emit("message", JSON.stringify(newMessage));
@@ -111,6 +115,7 @@ class DebateRoom extends Component {
       const serverMsg = JSON.parse(data)
       this.setState({debator1Liked:serverMsg.debator1Liked});
       this.setState({debator2Liked:serverMsg.debator2Liked});
+      this.updateLikedMessage(serverMsg.messageId)
       console.log(this.props.debateRoom.debator1, "has been liked= ",this.state.debator1Liked);
       console.log(this.props.debateRoom.debator2, "has been liked= ",this.state.debator2Liked);
     })
@@ -143,7 +148,7 @@ class DebateRoom extends Component {
 
   }
 
-  updateLiked(username) {
+  updateLiked(username, id) {
     if (username === this.state.debateRoom.debator1){
      this.state.debator1Liked += 1;
     } else {
@@ -154,14 +159,37 @@ class DebateRoom extends Component {
       debator1Liked: this.state.debator1Liked,
       debator2Liked: this.state.debator2Liked,
       room: this.state.debateRoom.name,
-      roomId: this.state.debateRoom.id
+      roomId: this.state.debateRoom.id,
+      messageId: id
     }
 
     this.props.socket.emit("likes", JSON.stringify(newMessage));
+
+
+  }
+
+  updateLikedMessage(messageId) {
+    console.log("UPDATING LIKED MESSAGE", messageId)
+    console.log("MESSAGES ARE", this.state.messages)
+    const index = this.findMessageById(messageId)
+    let message = this.state.messages[index]
+    message.liked = true
+    this.setState({messages: [
+      ...this.state.messages.slice(0, index), message, ...this.state.messages.slice(index + 1)
+      ]})
+    console.log("MEESAGE STATE IS NOW", this.state.messages)
+  }
+
+  findMessageById(id) {
+    let messageIndex = this.state.messages.findIndex(message => {
+      return message.id == id
+    })
+    console.log("This is the find message id at index", messageIndex)
+    return messageIndex
+  }
    // console.log(this.state.debateRoom.debator1, "has been liked= ",this.state.debator1Liked);
    // console.log(this.state.debateRoom.debator2, "has been liked= ",this.state.debator2Liked);
    // console.log(this.state.userState.state);
-  }
 
   updateSide(side) {
 

@@ -65,6 +65,28 @@ function destroyDebateRoom(id) {
   console.log("debateRoomObject after", debateRoomObject)
 }
 
+function updateLikedMessage(roomId, messageId) {
+    console.log("UPDATING LIKED MESSAGE", messageId, "in room", roomId)
+    console.log("MESSAGES BEFORE ARE", debateRoomObject[roomId].messages)
+    const index = findMessageById(roomId, messageId)
+    console.log("INDEX IS", index)
+    let message = debateRoomObject[roomId].messages[index]
+    console.log("MESSAGE TO BE PUT IN IS", message)
+    message.liked = true
+
+    debateRoomObject[roomId].messages = [
+      ...debateRoomObject[roomId].messages.slice(0, index), message, ...debateRoomObject[roomId].messages.slice(index + 1)
+      ]
+    console.log("MEESAGE STATE IS NOW", debateRoomObject[roomId].messages)
+  }
+
+function findMessageById(roomId, messageId) {
+    let messageIndex = debateRoomObject[roomId].messages.findIndex(message => {
+      return message.id == messageId
+    })
+    return messageIndex
+  }
+
 class DebateRoom {
   constructor(debateRoom) {
     this.debateRoom = debateRoom,
@@ -80,6 +102,7 @@ class DebateRoom {
     this.userStance = null
   }
 }
+
 
 io.on('connection', function (client) {
   console.log('client connected...', client.id)
@@ -161,6 +184,7 @@ io.on('connection', function (client) {
 
     let incomingmsg = JSON.parse(data)
 
+
     checkMessage(incomingmsg.content).then(function(result){
 
       incomingmsg.content = incomingmsg.content + result.systemMessage;
@@ -223,6 +247,7 @@ io.on('connection', function (client) {
     debateRoomObject[incomingMsg.roomId].debator1Liked = incomingMsg.debator1Liked
     debateRoomObject[incomingMsg.roomId].debator2Liked = incomingMsg.debator2Liked
 
+    updateLikedMessage(incomingMsg.roomId,incomingMsg.messageId)
     console.log("DID LIKES GET UPDATED ", debateRoomObject[incomingMsg.roomId])
 
    // console.log("this is the timer update data", incomingTimerUpdate)
