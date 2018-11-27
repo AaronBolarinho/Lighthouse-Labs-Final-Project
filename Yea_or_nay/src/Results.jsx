@@ -61,7 +61,6 @@ class Results extends React.Component {
 
   componentDidMount() {
 
-    console.log("this is the debate room state prior to the result component rendering)", this.props.state)
 
     let timeLeftVar = this.secondsToTime(this.state.seconds);
     this.setState({ time: timeLeftVar });
@@ -101,8 +100,8 @@ class Results extends React.Component {
         <table>
           <tr>
             <th>Debate Statistics</th>
-            <th>Debator 1</th>
-            <th>Debator 2</th>
+            <th>{this.props.findDebatorName("debator1")}</th>
+            <th>{this.props.findDebatorName("debator2")}</th>
           </tr>
           <tr>
             <td>Total Viewer Likes</td>

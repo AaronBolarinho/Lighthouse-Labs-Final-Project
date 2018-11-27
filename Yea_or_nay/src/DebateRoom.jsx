@@ -340,7 +340,7 @@ class DebateRoom extends Component {
         <div className='row'>
           <div className='col-sm-4 flex-container'>
             {this.state.debateRoom.name !== 'mainroom' ?
-                        <Results debateRoom={this.state.debateRoom} socket={this.props.socket} leaveRoom={this.leaveRoom} state={this.state}/> : ""}
+                        <Results debateRoom={this.state.debateRoom} socket={this.props.socket} leaveRoom={this.leaveRoom} state={this.state} findDebatorName={this.findDebatorName}/> : ""}
             {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
           </div>
           <div className="col-sm-8">

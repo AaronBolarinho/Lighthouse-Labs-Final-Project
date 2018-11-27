@@ -167,7 +167,7 @@ io.on('connection', function (client) {
     // let roomId = JSON.parse(data)
     // let roomId = data
     // console.log(roomId)
-    debateRoomObject[data].resultsTrigger = true
+    // debateRoomObject[data].resultsTrigger = true
     io.in(data).emit('resultsTriggered', data)
     io.in(data).emit('resultsTimerTriggered', data)
     console.log("UPDATED DEBATE ROOM OBJECT", debateRoomObject[data])
