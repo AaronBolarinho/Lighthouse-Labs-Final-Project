@@ -9,7 +9,7 @@ class Results extends React.Component {
     super();
     this.state = {
       time: {},
-      seconds: 150,
+      seconds: 15,
       debateRoom: props.debateRoom
     };
 
@@ -131,11 +131,12 @@ class Results extends React.Component {
           </tr>
         </table>
       </div>
-      <div>
-        <p> m: {this.state.time.m} s: {this.state.time.s}</p>
+      <div className='clock'>
+        <div className='timer time'>{this.state.time.m} : {this.state.time.s < 10 ? 0 :''} {this.state.time.s} </div>
       </div>
     </div>
   )}
 }
+
 
 export default Results;

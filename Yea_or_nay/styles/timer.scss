@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Orbitron');
 
 
-#clock {
+.clock {
     color: #ffffff;
     text-align: center;
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 75%;
     transform: translate(-50%, -50%);
     color: #daf6ff;
     text-shadow: 0 0 20px rgba(10, 175, 230, 1),  0 0 20px rgba(10, 175, 230, 0);
@@ -27,7 +27,8 @@
 }
 
 .ending-countdown{
-  animation: .5s shake infinite alternate
+  animation: .5s shake infinite alternate;
+  color: red;
 }
 
 
