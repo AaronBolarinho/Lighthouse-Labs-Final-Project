@@ -24,15 +24,24 @@ class DebateRoom extends Component {
       debator2Switch: 0,
       userStance: null,
       resultsTrigger: false,
+      debator1LrnedNew: false,
+      debator2LrnedNew: false,
+      debator1TotalScore: 0,
+      debator2TotalScore: 0,
+      debator1win: "Keep Trying!",
+      debator2win: "Keep Trying!"
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.updateMessages = this.updateMessages.bind(this);
     this.updateLiked = this.updateLiked.bind(this);
-    this.leaveRoom = this.leaveRoom.bind(this)
-    this.addConnectedUser = this.addConnectedUser.bind(this)
+    this.leaveRoom = this.leaveRoom.bind(this);
+    this.addConnectedUser = this.addConnectedUser.bind(this);
     this.updateSide = this.updateSide.bind(this);
     this.findMessageById = this.findMessageById.bind(this)
     this.updateLikedMessage = this.updateLikedMessage.bind(this)
+    this.LrnedNewThing = this.LrnedNewThing.bind(this);
+    this.calculateScore = this.calculateScore.bind(this);
+    this.displayResults = this.displayResults.bind(this);
     // this.getInitialState = this.getInitialState.bind(this)
   }
 
@@ -146,11 +155,25 @@ class DebateRoom extends Component {
     this.shouldRedirect()
     })
 
-    this.props.socket.on ('resultsTriggered', data => {
-      console.log("resultsTriggered: ", data)
+    this.props.socket.on('resultsTriggered', data => {
+      console.log("client recieved results triggered")
        this.displayResults()
     })
 
+    this.props.socket.on('lrnedNewServerUpdate', data => {
+      const serverMsg = JSON.parse(data)
+      this.setState({debator1LrnedNew:serverMsg.debator1LrnedNew});
+      this.setState({debator2LrnedNew:serverMsg.debator2LrnedNew});
+    })
+
+    this.props.socket.on('FinalTotalScoreServerUpdate', data => {
+      const serverMsg = JSON.parse(data)
+      console.log("this is the total score update sent to client", serverMsg)
+      this.setState({debator1TotalScore:serverMsg.debator1TotalScore});
+      this.setState({debator2TotalScore:serverMsg.debator2TotalScore});
+      this.setState({debator1win:serverMsg.debator1win});
+      this.setState({debator2win:serverMsg.debator2win});
+    })
 
   }
 
@@ -215,13 +238,93 @@ class DebateRoom extends Component {
   }
 
   displayResults () {
-    this.setState({
-      resultsTrigger : true,
-    });
+    this.calculateScore()
+    // this.setState({resultsTrigger: true}, () => {
+    // });
+    this.setState({resultsTrigger: true});
 
   }
 
-  render() { console.log("DEBATE ROOMS PROPS", this.props)
+  calculateScore() {
+    let debator1Score = 0
+    let debator2Score = 0
+    let debator1win = "Keep Trying!"
+    let debator2win = "Keep Trying!"
+
+    console.log("these are the scoring console logs")
+    console.log("this is the state before the scoring calcs", this.state)
+
+    debator1Score += this.state.debator1Liked
+    debator1Score += this.state.debator1Switch * 3
+
+    if (this.state.debator2LrnedNew === true) {
+      debator1Score += 5
+    }
+
+    debator2Score += this.state.debator2Liked
+    debator2Score += this.state.debator2Switch * 3
+
+    if (this.state.debator1LrnedNew === true) {
+      debator2Score += 5
+    }
+
+    if (debator1Score > debator2Score) {
+      debator1win = "Winner!!"
+    } else {
+      debator2win = "Winner!!"
+    }
+
+
+    // console.log("finished calculating score for Deb 1", debator1Score)
+    // console.log("finished calculating score for Deb 2", debator2Score)
+
+    this.setState({debator1TotalScore: debator1Score, debator2TotalScore: debator2Score, debator1win: debator1win, debator2win: debator2win}, () => {
+
+          const newMessage = {
+            debator1TotalScore: this.state.debator1TotalScore,
+            debator2TotalScore: this.state.debator2TotalScore,
+            room: this.state.debateRoom.name,
+            roomId: this.state.debateRoom.id,
+            debator1win: this.state.debator1win,
+            debator2win: this.state.debator2win
+          }
+
+          console.log("this is the total score Sent to the Server", newMessage)
+          this.props.socket.emit("updateTotalScore", JSON.stringify(newMessage));
+        })
+  }
+
+  LrnedNewThing (){
+    if (this.props.currentUser.state === "debator1"){
+        this.setState({debator1LrnedNew: true}, () => {
+
+          const newMessage = {
+            debator1LrnedNew: this.state.debator1LrnedNew,
+            debator2LrnedNew: this.state.debator2LrnedNew,
+            room: this.state.debateRoom.name,
+            roomId: this.state.debateRoom.id
+          }
+          this.props.socket.emit("updateLrned", JSON.stringify(newMessage));
+        })
+    }
+
+    if (this.props.currentUser.state === "debator2"){
+        this.setState({debator2LrnedNew: true} , () => {
+
+          const newMessage = {
+            debator1LrnedNew: this.state.debator1LrnedNew,
+            debator2LrnedNew: this.state.debator2LrnedNew,
+            room: this.state.debateRoom.name,
+            roomId: this.state.debateRoom.id
+          }
+          this.props.socket.emit("updateLrned", JSON.stringify(newMessage));
+        })
+
+    }
+
+  }
+
+  render() {
 
     if (this.state.shouldRedirect) {
          return (<Redirect to="/" />)
@@ -231,13 +334,11 @@ class DebateRoom extends Component {
 
       <div className ="container debate-room">
         <div className='row'>
-
           <div className='col-sm-4 flex-container'>
             {this.state.debateRoom.name !== 'mainroom' ?
-                        <Results debateRoom={this.state.debateRoom} socket={this.props.socket} leaveRoom={this.leaveRoom}/> : ""}
+                        <Results debateRoom={this.state.debateRoom} socket={this.props.socket} leaveRoom={this.leaveRoom} state={this.state}/> : ""}
             {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
           </div>
-
           <div className="col-sm-8">
             <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.props.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked}/>
             {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> :''}
@@ -254,7 +355,7 @@ class DebateRoom extends Component {
           <div className='col-sm-4 flex-container'>
               <Timer debateRoom={this.state.debateRoom} socket={this.props.socket} currentUser={this.props.currentUser}/>
               {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? '' : <ChooseASide updateSide={this.updateSide}/>}
-              {this.state.debateRoom.name !== 'mainroom' && this.props.currentUser.state !== 'viewer' ? <LearnedSomethingNew/> : ""}
+              {this.state.debateRoom.name !== 'mainroom' && this.props.currentUser.state !== 'viewer' ? <LearnedSomethingNew LrnedNewThing={this.LrnedNewThing} currentUser={this.props.currentUser} socket={this.props.socket} debateRoom={this.state.debateRoom} state={this.state}/> : ""}
               {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" onClick={this.leaveRoom}> Return Home </Link> : ""}
           </div>
 

@@ -207,3 +207,7 @@
 .lrnedSomethingNewButton {
   display: inline;
 }
+
+.results {
+  background-color: white;
+}
