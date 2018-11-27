@@ -361,8 +361,8 @@ class DebateRoom extends Component {
               {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? '' : <ChooseASide updateSide={this.updateSide}/>}
               {this.state.debateRoom.name !== 'mainroom' && this.props.currentUser.state !== 'viewer' ? <LearnedSomethingNew LrnedNewThing={this.LrnedNewThing} currentUser={this.props.currentUser} socket={this.props.socket} debateRoom={this.state.debateRoom} state={this.state}/> : ""}
               {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" className="return-home" onClick={this.leaveRoom}> Return Home </Link> : ""}
-              {/*<img src="https://i.kym-cdn.com/entries/icons/mobile/000/024/153/soundsgood.jpg"/>*/}
-              <img src="https://pbs.twimg.com/profile_images/378800000328970347/40e96c650dad499b060a4f24ddc68c6e_400x400.png"/>
+              <img src="https://i.kym-cdn.com/entries/icons/mobile/000/024/153/soundsgood.jpg"/>
+              {/*<img src="https://pbs.twimg.com/profile_images/378800000328970347/40e96c650dad499b060a4f24ddc68c6e_400x400.png"/>*/}
           </div>
 
           <div className="col-sm-8">
