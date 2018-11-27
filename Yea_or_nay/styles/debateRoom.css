@@ -290,8 +290,12 @@ td {
 .lrnedSomethingNewButton{
   display: block
 }
-.WORK{
-  border: solid red 2px;
+.winner-div {
+
+}
+.winner {
+text-align: center;
+color: white;
 }
 
 .return-home{

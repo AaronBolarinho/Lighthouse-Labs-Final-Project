@@ -338,8 +338,12 @@ class DebateRoom extends Component {
     return (
 
       <div className ="container debate-room">
-      <Confetti width={1200} height={1000} />
+      <div className="winner-div">
+      <h1 className="winner"> {this.state.debator1win === 'Winner!!' ? this.findDebatorName('debator1') : this.findDebatorName('debator2')} won!</h1>
+
+      </div>
         <div className='row'>
+        <Confetti width={1200} height={200} float={'right'} />
           <div className='col-sm-4 flex-container'>
             {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" className="return-home">  Home </Link> : ""}
             {this.state.debateRoom.name !== 'mainroom' ?
