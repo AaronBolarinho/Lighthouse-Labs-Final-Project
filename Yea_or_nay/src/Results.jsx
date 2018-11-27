@@ -8,9 +8,8 @@ class Results extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      // endSequence : false,
       time: {},
-      seconds: 3,
+      seconds: 150,
       debateRoom: props.debateRoom
     };
 
@@ -57,22 +56,15 @@ class Results extends React.Component {
 }
 
   startResultsTimer() {
-    // this.setState({
-    //   endSequence : true,
-    // });
-
     this.startTimer()
   }
 
   componentDidMount() {
 
+    console.log("this is the debate room state prior to the result component rendering)", this.props.state)
+
     let timeLeftVar = this.secondsToTime(this.state.seconds);
     this.setState({ time: timeLeftVar });
-
-    // this.props.socket.on ('displayResultsTo:', data => {
-    //   console.log("received displayResults: ", data)
-    //    this.displayResults()
-    // })
 
     this.props.socket.on ('resultsTimerTriggered', data => {
       console.log("Results Timer Triggered!", data)
@@ -102,20 +94,47 @@ class Results extends React.Component {
   }
 
   render() {
-    // if (this.state.endSequence === true || this.state.seconds !== 60) {
-
-      return(
-        <div className="Results">
-          <span className="">Results!</span>
-          m: {this.state.time.m} s: {this.state.time.s}
-        </div>
-      // )} else {
-
-      //   return(
-      //     <div className="level-item">
-      //     </div>
-        // )}
-
+    return(
+      <div>
+      <div className="results">
+        <h2 className="">Results!</h2>
+        <table>
+          <tr>
+            <th>Debate Statistics</th>
+            <th>Debator 1</th>
+            <th>Debator 2</th>
+          </tr>
+          <tr>
+            <td>Total Viewer Likes</td>
+            <td>{this.props.state.debator1Liked}</td>
+            <td>{this.props.state.debator2Liked}</td>
+          </tr>
+          <tr>
+            <td>Changed A Viewer's Mind:</td>
+            <td>{this.props.state.debator1Switch} Times</td>
+            <td>{this.props.state.debator2Switch} Times</td>
+          </tr>
+          <tr>
+            <td>Learned Something New!</td>
+            <td>{this.props.state.debator1LrnedNew ? "Yes" : "No"}</td>
+            <td>{this.props.state.debator2LrnedNew ? "Yes" : "No"}</td>
+          </tr>
+          <tr>
+            <td>Total Score</td>
+            <td>{this.props.state.debator1TotalScore}</td>
+            <td>{this.props.state.debator2TotalScore}</td>
+          </tr>
+          <tr>
+            <td>Debate Winner:</td>
+            <td>{this.props.state.debator1win}</td>
+            <td>{this.props.state.debator2win}</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <p> m: {this.state.time.m} s: {this.state.time.s}</p>
+      </div>
+    </div>
   )}
 }
 

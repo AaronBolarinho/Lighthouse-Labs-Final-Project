@@ -49,6 +49,8 @@ class Timer extends React.Component {
     if (seconds == 0) {
       clearInterval(this.timer);
       let room = this.state.debateRoom
+      console.log("this is the timer room variable", room)
+      console.log("this is the timer room id", room.id)
       this.props.socket.emit('debateEnded', room.id)
       // this.props.socket.emit('destroyRoom', room.id)
     }

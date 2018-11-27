@@ -77,7 +77,14 @@ class DebateRoom {
     this.shouldRedirect = false,
     this.debator1Switch = 0,
     this.debator2Switch = 0,
-    this.userStance = null
+    this.userStance = null,
+    this.resultsTrigger = false,
+    this.debator1LrnedNew = false,
+    this.debator2LrnedNew = false,
+    this.debator1TotalScore = 0,
+    this.debator2TotalScore = 0,
+    this.debator1win = "Keep Trying!",
+    this.debator2win = "Keep Trying!"
   }
 }
 
@@ -112,7 +119,7 @@ io.on('connection', function (client) {
     console.log("RECIEVED leave for: ", incomingLeave.room.id, "by", incomingLeave.currentUser)
     client.leave(incomingLeave.room.id)
 
-    console.log("CONNECTED USERS BEFORE DELETE" , debateRoomObject[incomingLeave.room.id].connectedUsers)
+    // console.log("CONNECTED USERS BEFORE DELETE" , debateRoomObject[incomingLeave.room.id].connectedUsers)
 
     if (incomingLeave.currentUser.state === 'debator1') {
       //THIS IS BECAUSE DEBATOR ONE ALWAYS GETS THE KEY 1 and other users get the key as their user id
@@ -121,7 +128,7 @@ io.on('connection', function (client) {
       delete debateRoomObject[incomingLeave.room.id].connectedUsers[incomingLeave.currentUser.id]
     }
 
-    console.log("CONNECTED USERS AFTER DELETE" , debateRoomObject[incomingLeave.room.id].connectedUsers)
+    // console.log("CONNECTED USERS AFTER DELETE" , debateRoomObject[incomingLeave.room.id].connectedUsers)
 
     //IF THE PERSON WHO LEFT IS DEBATOR 1 or 2 trigger the results
     if (incomingLeave.currentUser.state === 'debator2' || incomingLeave.currentUser.state === 'debator1' ) {
@@ -132,9 +139,15 @@ io.on('connection', function (client) {
 
   client.on('debateEnded', function (data) {
     console.log("RECIEVED DebateEnded: ", data)
+    // let roomId = JSON.parse(data)
+    // let roomId = data
+    // console.log(roomId)
+    debateRoomObject[data].resultsTrigger = true
     io.in(data).emit('resultsTriggered', data)
     io.in(data).emit('resultsTimerTriggered', data)
-    // client.emit('resultsTriggered', data)
+    console.log("UPDATED DEBATE ROOM OBJECT", debateRoomObject[data])
+
+    client.emit('resultsTriggered', data)
   })
 
   client.on('closeDebate', function (data) {
@@ -226,7 +239,7 @@ io.on('connection', function (client) {
     console.log("DID LIKES GET UPDATED ", debateRoomObject[incomingMsg.roomId])
 
    // console.log("this is the timer update data", incomingTimerUpdate)
-    io.in(incomingMsg.room).emit('likes', JSON.stringify(incomingMsg))
+    io.in(incomingMsg.roomId).emit('likes', JSON.stringify(incomingMsg))
   })
 
   client.on('timer', function (data) {
@@ -242,11 +255,32 @@ io.on('connection', function (client) {
   })
 
   client.on('switch', function (data) {
-    let incomingMsg = JSON.parse(data)   // console.log("this is the timer update data", incomingTimerUpdate)
+    let incomingMsg = JSON.parse(data)
     debateRoomObject[incomingMsg.roomId].debator1Switch = incomingMsg.debator1Switch
     debateRoomObject[incomingMsg.roomId].debator2Switch = incomingMsg.debator2Switch
-    io.in(incomingMsg.room).emit('switch', JSON.stringify(incomingMsg))
+    io.in(incomingMsg.roomId).emit('switch', JSON.stringify(incomingMsg))
     console.log("DID THE SWITCH UPDATE", debateRoomObject[incomingMsg.roomId] )
+  })
+
+  client.on('updateLrned', function (data) {
+    console.log("DID THE updateLrned UPDATE", data )
+    let update = JSON.parse(data)
+    debateRoomObject[update.roomId].debator1LrnedNew = update.debator1LrnedNew
+    debateRoomObject[update.roomId].debator2LrnedNew = update.debator2LrnedNew
+    console.log("This is the lrnedNew update", update)
+    console.log("DID the lrnedNew update", debateRoomObject[update.roomId])
+    console.log("this is the new debate room Object", debateRoomObject)
+    io.in(update.roomId).emit('lrnedNewServerUpdate', JSON.stringify(update))
+  })
+
+  client.on('updateTotalScore', function (data) {
+     console.log("Server Recieved updateScoresUPDATE", data)
+     let update = JSON.parse(data)
+     debateRoomObject[update.roomId].debator1TotalScore = update.debator1TotalScore
+     debateRoomObject[update.roomId].debator2TotalScore = update.debator2TotalScore
+     debateRoomObject[update.roomId].debator1win = update.debator1win
+     debateRoomObject[update.roomId].debator2win = update.debator2win
+     io.in(update.roomId).emit('FinalTotalScoreServerUpdate', JSON.stringify(update))
   })
 
 
