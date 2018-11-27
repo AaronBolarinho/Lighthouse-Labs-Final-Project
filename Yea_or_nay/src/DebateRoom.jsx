@@ -42,23 +42,25 @@ class DebateRoom extends Component {
     this.LrnedNewThing = this.LrnedNewThing.bind(this);
     this.calculateScore = this.calculateScore.bind(this);
     this.displayResults = this.displayResults.bind(this);
-    // this.getInitialState = this.getInitialState.bind(this)
+    this.findDebatorName = this.findDebatorName.bind(this)
   }
 
-  // getInitialState(initialState) {
-  //   this.setState(initialState)
-  // }
+  //THIS FUNCTION SKELETON WILL BE USED FOR PULLING NAME FOR ARRON TO BE USED IN RESULTS
+  findDebatorName(state) {
+    console.log("CALLED FOR ", state)
+    for (let user in this.state.connectedUsers) {
+      console.log("CONNECT USERS ARE", this.state.connectedUsers)
+      if (this.state.connectedUsers[user].state == state) {
+        console.log("FOUND", this.state.connectedUsers[user].username)
+        return this.state.connectedUsers[user].username
+      }
+    }
+  }
 
   addConnectedUser(newUser) {
-    console.log("NEW USER IS", newUser)
-    console.log("NEWUSER ID", newUser.id)
     let oldUsers = this.state.connectedUsers;
-    console.log("EARLY OLD USERS", oldUsers)
     oldUsers[newUser.id] = newUser
-    console.log("OLD USERS IS with new user ", oldUsers)
     this.setState({'connectedUsers': oldUsers})
-    console.log("CONNECTED USERS ARE", this.state.connectedUsers)
-   // console.log('current user', this.state.connectedUsers.newUser.id)
    for (let one in this.state.connectedUsers){
       console.log('user', this.state.connectedUsers[one].id)
     }
@@ -103,7 +105,6 @@ class DebateRoom extends Component {
   }
 
   componentDidMount() {
-    console.log(this.state.debateRoom)
     this.props.socket.emit('subscribe', this.state.debateRoom.id)
 
     this.props.socket.emit('getInitialState', JSON.stringify(this.state.debateRoom.id))
@@ -116,23 +117,24 @@ class DebateRoom extends Component {
     })
 
     this.props.socket.on('addUser', data => {
-      console.log("DEBATEROOM IS", this.state.debateRoom)
       const serverMsg = JSON.parse(data)
-      console.log("RECIEVED ADD FOR ", serverMsg)
       if (serverMsg.state === 'debator2') {
     this.setState({debateRoom: {id: this.state.debateRoom.id, proposedDebate:this.state.debateRoom.proposedDebate, debator1:this.state.debateRoom.debator1, debator2:serverMsg.username, debator1Stance:this.state.debateRoom.debator1Stance, debator1Id: this.state.debateRoom.debator1Id, allowViewers: this.state.debateRoom.allowViewers } })
-    console.log("DEBATEROOM IS", this.state.debateRoom)
+
       }
       this.addConnectedUser(serverMsg)
     })
 
     this.props.socket.on('likes', data => {
+      console.log("STATE IS ", this.state)
       const serverMsg = JSON.parse(data)
-      this.setState({debator1Liked:serverMsg.debator1Liked});
-      this.setState({debator2Liked:serverMsg.debator2Liked});
-      this.updateLikedMessage(serverMsg.messageId)
-      console.log(this.props.debateRoom.debator1, "has been liked= ",this.state.debator1Liked);
-      console.log(this.props.debateRoom.debator2, "has been liked= ",this.state.debator2Liked);
+      this.setState({debator1Liked: serverMsg.debator1Liked});
+      this.setState({debator2Liked: serverMsg.debator2Liked});
+      this.setState({messages:serverMsg.messages})
+      // console.log("RECEIVED LIKES FROM SERVER", serverMsg)
+      // console.log("THIS is", this)
+      // console.log(this.props.debateRoom.debator1, "has been liked= ",this.state.debator1Liked);
+      // console.log(this.props.debateRoom.debator2, "has been liked= ",this.state.debator2Liked);
     })
 
     this.props.socket.on('getInitialState', data => {
@@ -197,7 +199,8 @@ class DebateRoom extends Component {
 
   updateLikedMessage(messageId) {
     console.log("UPDATING LIKED MESSAGE", messageId)
-    console.log("MESSAGES ARE", this.state.messages)
+    console.log("MESSAGES ARE", this.state.messages, "in room", this.state.debateRoom.name)
+    console.log("IN ROOM", this.state.debateRoom.id)
     const index = this.findMessageById(messageId)
     let message = this.state.messages[index]
     message.liked = true
@@ -208,6 +211,7 @@ class DebateRoom extends Component {
   }
 
   findMessageById(id) {
+    console.log("FIND MESSAGE IS", this.state.debateRoom)
     let messageIndex = this.state.messages.findIndex(message => {
       return message.id == id
     })
