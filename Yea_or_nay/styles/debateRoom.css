@@ -4,7 +4,8 @@
 
 .debate-name {
   display: inline-block;
-  color: white;
+  color: #D1E8E2;
+  font-style: italic;
   width: 100%;
   text-align: center;
 }
@@ -13,11 +14,11 @@
   padding: 20px;
   margin-bottom: 10px;
   height: 300px;
-  background-color: white;
+  background-color: #D1E8E2;
   border-radius: 5px;
   border-style: solid;
   border-width: 2px;
-  border-color: darkgrey;
+  border-color: #116466;
   overflow: scroll;
 }
 
@@ -39,7 +40,7 @@
 
 .speech-bubble-yea {
   position: relative;
-  background: #F3E0DC;
+  background: #FFCB9A;
   border-radius: 5px;
   padding: 5px;
   margin-top: 5px;
@@ -65,7 +66,7 @@
 .speech-bubble-nay {
   position: relative;
   float: right;
-  background: #5C2018;
+  background: #116466;
   border-radius: 5px;
   padding: 5px;
   margin-top:10px;
@@ -89,6 +90,10 @@
   margin-left: -20px;
   margin-top: -8px;
   top: 0px;
+}
+
+.debatorYay, .debatorNay {
+  color: #116466;
 }
 
 .debatorNay {
@@ -133,16 +138,18 @@
 }
 
 .debator-name1, .debator-name2 {
-  color: white;
   display:inline-block;
 }
 
 .debator-name1 {
   float:left;
+  color: #FFCB9A;
 }
 
 .debator-name2 {
   float:right;
+  color: #116466;
+  border-color:
 }
 
 .progress-bar-container {
@@ -151,44 +158,43 @@
 }
 
 .progress-bar {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 20px;
-    outline: none;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-    border-radius: 5px;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 20px;
+  outline: none;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  border-radius: 5px;
 }
 
 .progress-bar:hover {
-    opacity: 1;
+  opacity: 1;
 }
 
 .progress-bar::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 40px;
-    background: white;
-    border-color: darkgrey;
-    border-style: solid;
-    border-width: 2px;
-    cursor: pointer;
-    border-radius: 35%;
-    transition: width 400ms ease-in-out;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 40px;
+  background: #FFCB9A;
+  border-color: #116466;
+  border-style: solid;
+  border-width: 2px;
+  cursor: pointer;
+  border-radius: 35%;
+  transition: width 400ms ease-in-out;
 }
 
 .progress-bar::-moz-range-thumb {
-    width: 25px;
-    height: 40px;
-    background: #4CAF50;
-    cursor: pointer;
+  width: 25px;
+  height: 40px;
+  background: #4CAF50;
+  cursor: pointer;
 }
 
 #grad {
-  background-image: linear-gradient(to right, #F3E0DC , #5C2018);
+  background-image: linear-gradient(to right, #FFCB9A, #116466);
 }
-
 
 .selected {
   border-color: blue;

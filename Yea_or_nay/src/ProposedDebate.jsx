@@ -43,7 +43,7 @@ class ProposedDebate extends Component {
 
       <form className="propose-debate-form" onSubmit={this.handleSubmit}>
         <input className='input form-control propose-debate' type="text" placeholder="Debate input" onChange={this.handleChange}/>
-         <label>Stance:
+         <label className='stance'>Stance:
           <select onChange={this.handleSide}>
             <option value="Yea"> Yea</option>
             <option value="Nay"> Nay</option>
@@ -51,7 +51,7 @@ class ProposedDebate extends Component {
           </label>
           <button type="submit" class="propose-button btn btn-dark">Propose!</button>
           <br/>
-          <label>Viewers:
+          <label className='stance'>Viewers:
            <select onChange={this.allowViewers}>
             <option value="Yes"> Yes </option>
             <option value="No"> No </option>

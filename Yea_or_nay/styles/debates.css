@@ -1,6 +1,6 @@
 .propose-debate {
   border-style: solid;
-  border-color: grey;
+  border-color: #116466;
   border-width: 1px;
   border-radius: 5px;
   margin-bottom: 5px;
@@ -9,26 +9,30 @@
 .propose-debate-form {
   padding: 20px;
   margin-bottom: 20px;
-  background-color: #F3E0DC;
+  background-color: #D1E8E2;
   border-radius: 5px;
   color: black;
-  border-color: darkgrey;
+  border-color: #116466;
   border-style: solid;
+  border-width: 2px;
 }
 
 .propose-button {
-  margin-bottom: 1rem;
   float: right;
+  background-color: #D9B08C !important;
+  border-color: #116466 !important;
+  margin-top: 10px;
 }
 
 .proposed-debate-list {
   padding: 20px;
   margin-bottom: 10px;
-  background-color: #F3E0DC;
+  background-color: #D1E8E2;
   border-radius: 5px;
   color: black;
-  border-color: darkgrey;
+  border-color: #116466;
   border-style: solid;
+  border-width: 2px;
   height: 250px;
   overflow: scroll;
 }
@@ -37,11 +41,12 @@
   display: flex;
   flex-direction: row;
   border-radius: 3px;
-  height: 3em;
-  padding: 10px 0;
+  padding: 10px;
   /*margin: 10px 0;*/
   margin: 0;
-  align-items: center;
+  background-color: #FFCB9A;
+  margin-bottom: 5px;
+  overflow: auto;
 }
 
 .nay-btn {
@@ -49,7 +54,11 @@
   height: 35px;
   margin-left: 5px;
   line-height: 17px;
+  color: #D1E8E2 !important;
+  background-color: #116466 !important;
+  float: right;
 }
+
 .nay-link {
   height: 40px;
   display: flex;
@@ -58,10 +67,20 @@
 }
 
 .proposed-debate-li {
-  color: black;
+  color: #0a393a;
   border-width: 2px;
   word-wrap: break-word;
-  /*width: 300px;*/
+}
+
+.stance {
+  color: #0A393A;
+  width: 115px;
+}
+
+select {
+  color: #D1E8E2 !important;
+  float: right;
+  background-color: #116466 !important;
 }
 
 

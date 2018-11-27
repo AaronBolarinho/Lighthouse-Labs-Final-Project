@@ -13,7 +13,7 @@ function DebateRoomMessage ({username, message, room, updateLiked, state,
 
     return (
       <div className='message-container'>
-        <div className="message-username">{username}:
+        <div className="debatorYay">{username}:
         </div>
         <div className="message-content speech-bubble-yea top-yea">
           {message}

@@ -98,7 +98,7 @@ class Results extends React.Component {
       <div>
       <div className="results">
         <h2 className="">Results!</h2>
-        <table>
+        <table className='result-table'>
           <tr>
             <th>Debate Statistics</th>
             <th>Debator 1</th>
