@@ -8,7 +8,6 @@ function DebateRoomMessage ({username, message, room, updateLiked, state,
     updateLiked(username, e.target.value);
     e.target.disabled = true;
   }
-  console.log("LIKED")
   if (username === debatorYea) {
 
     return (

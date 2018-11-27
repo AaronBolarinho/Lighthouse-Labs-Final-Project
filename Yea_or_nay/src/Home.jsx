@@ -30,6 +30,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    this.props.setUserToViewer();
 
     this.props.socket.emit('getDebateRooms', "please")
 
