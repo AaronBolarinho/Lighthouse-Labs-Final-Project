@@ -3,7 +3,8 @@
   left: 0;
   bottom: 0;
   width: 100%;
-  background-color: black;
+/*  background-color: black;*/
+  background-image: linear-gradient(#000000, #0a2e38, #000000);
   color: white;
   text-align: center;
   align-items: center;
@@ -28,6 +29,25 @@
   opacity: 1;
 }
 
+.slide-li {
+  border-radius: 7px;
+}
+
 .slideContainer {
-  width: 200px;
+  width: 300px;
+  background-color: #F3E0DC;
+  margin: 0px 10px 10px 10px;
+  border-radius: 7px;
+}
+
+.backArrow, .nextArrow {
+  margin-bottom: 10px;
+}
+
+a:link {
+  color: black;
+}
+
+.slide-debate-title {
+  color: black;
 }

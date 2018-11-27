@@ -11,14 +11,10 @@ function ChangeUsername ({changeUsername}) {
 
     return (
 
-      <div className="field">
-        <div className="control">
-          <footer className="debate-chatbar">
-          <span> Please Choose A Username</span>
-            <input className="input is-primary" onKeyDown={keyPressMessage} placeholder="Ex. PartyParrot99" />
-          </footer>
+        <div className='username-container'>
+          <span className='username-label'>Choose A Username</span>
+          <input className="input username" onKeyDown={keyPressMessage} placeholder="Ex. PartyParrot99" />
         </div>
-      </div>
     )
 }
 

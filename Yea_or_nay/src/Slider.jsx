@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Slide from './Slide.jsx';
 import LeftArrow from './LeftArrow.jsx';
 import RightArrow from './RightArrow.jsx';
 import {Link } from 'react-router-dom';
@@ -73,7 +72,7 @@ export default class Slider extends Component {
     return (
       <footer className="footer">
           <div className="container mt-3">
-            <h4>View Active Debates</h4>
+            <h6>View Active Debates</h6>
       <div className="slider">
         <div className="d-flex justify-content-center">
 
@@ -88,8 +87,8 @@ export default class Slider extends Component {
                 let debateRoom = activeDebates[this.state.currentIndex]
                 let computedClass = index === (this.state.currentIndex) ? 'slide active' : 'slide';
 
-                  return ( <li className={computedClass} key={index}>
-                          <Link to={`/${item.id}`} onClick={() =>{this.addViewerToRoom({currentUser}, {debateRoom})}}>{item.proposedDebate}</Link>
+                  return ( <li className='slide-li' className={computedClass} key={index}>
+                          <Link className='slide-debate-title' to={`/${item.id}`} onClick={() =>{this.addViewerToRoom({currentUser}, {debateRoom})}}>{item.proposedDebate}</Link>
                         </li>)
               })}
             </ul>
