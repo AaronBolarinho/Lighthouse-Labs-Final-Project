@@ -7,6 +7,7 @@ import ChooseASide from './ChooseASide.jsx';
 import Results from './Results.jsx'
 import DebateRoomMessage from './DebateRoomMessage.jsx';
 import LearnedSomethingNew from './LearnedSomethingNew.jsx';
+import Confetti from 'react-confetti';
 const uuid = require('uuid/v4')
 
 class DebateRoom extends Component {
@@ -337,6 +338,7 @@ class DebateRoom extends Component {
     return (
 
       <div className ="container debate-room">
+      <Confetti width={1200} height={1000} />
         <div className='row'>
           <div className='col-sm-4 flex-container'>
             {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" className="return-home">  Home </Link> : ""}
