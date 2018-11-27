@@ -18,7 +18,8 @@ function DebateRoomMessage ({username, message, room, updateLiked, state,
         <div className="message-content speech-bubble-yea top-yea">
           {message}
           {room !== 'mainroom' && state === 'viewer' &&  !flag ?
-          <button id='liked' onClick={clickedLike} value={messageId}>LIKE</button>: ''}
+            <button id='liked' onClick={clickedLike} value={messageId} class="btn btn-secondary btn-xs active" role="button" aria-pressed="true">
+            <i class="far fa-thumbs-up"></i>LIKE</button>: ''}
         </div>
       </div>
     )
@@ -29,10 +30,13 @@ function DebateRoomMessage ({username, message, room, updateLiked, state,
       <div className='message-container'>
         <div className="debatorNay">{username}
         </div>
-        <div className="message-content speech-bubble-nay top-nay">
-          {message}
-          {room !== 'mainroom' && state === 'viewer' &&  !flag ?
-          <button id='liked' onClick={clickedLike} value={messageId}>LIKE</button>: ''}
+        <div>
+          <div className="message-content speech-bubble-nay top-nay">
+            {message}
+            {room !== 'mainroom' && state === 'viewer' &&  !flag ?
+              <button id='liked' onClick={clickedLike} value={messageId} class="btn btn-secondary btn-xs active" role="button" aria-pressed="true">
+              <i class="far fa-thumbs-up"></i>LIKE</button>: ''}
+          </div>
         </div>
       </div>
     )

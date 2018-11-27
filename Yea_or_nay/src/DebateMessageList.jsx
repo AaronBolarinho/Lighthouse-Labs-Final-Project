@@ -35,7 +35,7 @@ function DebateMessageList ({messages, debateRoom,updateLiked, userState, debato
   return (
 
     <div className="messages">
-      <h4 className='room-name'>{debateRoom.proposedDebate} </h4>
+      <h4 className='debate-name'>{debateRoom.proposedDebate} </h4>
       {debateRoom.name !== 'mainroom' ?  <ProgressBar value={progressValue} debatorYea={debatorYea} debatorNay={debatorNay}/> : ""}
       <div className='container message-list clearfix'>
         {messageList}

@@ -1,7 +1,6 @@
 @charset "utf-8";
 
-// Import a Google Font
-@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+@import url('https://fonts.googleapis.com/css?family=Hammersmith+One');
 
 .subtitle {
   margin-bottom: 0.5rem;
@@ -11,8 +10,9 @@
 
 body {
   background-image: url("/images/background.jpg");
-    background-repeat: no-repeat, repeat;
-    background-size: cover;
+  background-repeat: no-repeat, repeat;
+  background-size: cover;
+  font-family: 'Hammersmith One', sans-serif;
 }
 
 ul {
@@ -22,4 +22,9 @@ ul {
 
 li {
   color: white;
+}
+
+.col-sm-5, .col-sm-7 {
+  margin-top: 20px;
+  margin-bottom: 100px;
 }

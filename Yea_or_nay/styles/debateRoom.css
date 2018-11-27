@@ -2,6 +2,13 @@
   height: 300%;
 }
 
+.debate-name {
+  display: inline-block;
+  color: white;
+  width: 100%;
+  text-align: center;
+}
+
 .container .message-list {
   padding: 20px;
   margin-bottom: 10px;
@@ -22,6 +29,7 @@
 
 .message-content {
   display:block;
+  overflow: auto;
 }
 
 .flex-container {
@@ -31,7 +39,7 @@
 
 .speech-bubble-yea {
   position: relative;
-  background: #FF9EFC;
+  background: #F3E0DC;
   border-radius: 5px;
   padding: 5px;
   margin-top: 5px;
@@ -48,7 +56,7 @@
   width: 0;
   height: 0;
   border: 10px solid transparent;
-  border-bottom-color: #FF9EFC;
+  border-bottom-color: #F3E0DC;
   border-top: 0;
   margin-left: -20px;
   margin-top: -5px;
@@ -57,7 +65,7 @@
 .speech-bubble-nay {
   position: relative;
   float: right;
-  background: #BB94FF;
+  background: #5C2018;
   border-radius: 5px;
   padding: 5px;
   margin-top:10px;
@@ -65,6 +73,7 @@
   width: 40%;
   top: 20px;
   margin-right: -30px;
+  color: white;
 }
 
 .top-nay:before {
@@ -75,7 +84,7 @@
   width: 0;
   height: 0;
   border: 10px solid transparent;
-  border-bottom-color: #BB94FF;
+  border-bottom-color: #5C2018;
   border-top: 0;
   margin-left: -20px;
   margin-top: -8px;
@@ -94,6 +103,13 @@
 
 ::-webkit-scrollbar {
    width: 0px;
+}
+
+#liked {
+  background-color: #5C2018 !important;
+  padding: 5px;
+  font-size: 10px;
+  float: right;
 }
 
 .room-name {
@@ -170,7 +186,7 @@
 }
 
 #grad {
-  background-image: linear-gradient(to right, white , blue);
+  background-image: linear-gradient(to right, #F3E0DC , #5C2018);
 }
 
 
@@ -198,6 +214,7 @@
 }
 .liked {
   border-radius: 8px;
+  font-size: 10px;
 }
 .lrnedSomethingNew {
   display: flex;

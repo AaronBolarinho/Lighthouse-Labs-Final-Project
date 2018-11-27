@@ -8,8 +8,8 @@
 
 .propose-debate-form {
   padding: 20px;
-  margin-bottom: 10px;
-  background-color: lightgrey;
+  margin-bottom: 20px;
+  background-color: #F3E0DC;
   border-radius: 5px;
   color: black;
   border-color: darkgrey;
@@ -24,7 +24,7 @@
 .proposed-debate-list {
   padding: 20px;
   margin-bottom: 10px;
-  background-color: lightgrey;
+  background-color: #F3E0DC;
   border-radius: 5px;
   color: black;
   border-color: darkgrey;
