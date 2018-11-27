@@ -4,8 +4,9 @@ import ProgressBar from './ProgressBar.jsx';
 
 
 function DebateMessageList ({messages, debateRoom,updateLiked, userState, debator1Liked,
-                            debator2Liked, debator1Switch, debator2Switch}) {
-  console.log('debateRoom:', debateRoom);
+                            debator2Liked, debator1Switch, debator2Switch, resultsTriggered}) {
+  // console.log('debateRoom:', debateRoom);
+  console.log("RESULTS TRIGGER", resultsTriggered)
   let debator1Points = debator1Liked + (debator1Switch * 3);
   let debator2Points = debator2Liked + (debator2Switch * 3);
   let progressValue = 0;
@@ -30,7 +31,7 @@ function DebateMessageList ({messages, debateRoom,updateLiked, userState, debato
 
       <DebateRoomMessage key={message.id} message={message.content} messageId={message.id} username={message.username}
         room={debateRoom.name} debatorState={message.state} updateLiked={updateLiked} state={userState} flag={message.flag}
-        debatorYea={debatorYea} debatorNay={debatorNay} debator1Stance={debateRoom.debator1Stance} liked={message.liked}/>
+        debatorYea={debatorYea} debatorNay={debatorNay} debator1Stance={debateRoom.debator1Stance} liked={message.liked} resultsTriggered={resultsTriggered}/>
       )
   });
 

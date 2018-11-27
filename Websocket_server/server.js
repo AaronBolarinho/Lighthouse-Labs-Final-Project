@@ -69,6 +69,7 @@ function updateLikedMessage(roomId, messageId) {
     console.log("UPDATING LIKED MESSAGE", messageId, "in room", roomId)
     console.log("MESSAGES BEFORE ARE", debateRoomObject[roomId].messages)
     const index = findMessageById(roomId, messageId)
+    if (index !== -1) {
     console.log("INDEX IS", index)
     let message = debateRoomObject[roomId].messages[index]
     console.log("MESSAGE TO BE PUT IN IS", message)
@@ -78,6 +79,7 @@ function updateLikedMessage(roomId, messageId) {
       ...debateRoomObject[roomId].messages.slice(0, index), message, ...debateRoomObject[roomId].messages.slice(index + 1)
       ]
     console.log("MEESAGE STATE IS NOW", debateRoomObject[roomId].messages)
+    }
   }
 
 function findMessageById(roomId, messageId) {
@@ -278,7 +280,6 @@ io.on('connection', function (client) {
 
   client.on('ResultsTimer', function (data) {
     let incomingResultsTimerUpdate = JSON.parse(data)
-    console.log("Results timer update data", incomingResultsTimerUpdate)
     io.in(incomingResultsTimerUpdate.room).emit('ResultsTimerUpdate', JSON.stringify(incomingResultsTimerUpdate))
   })
 

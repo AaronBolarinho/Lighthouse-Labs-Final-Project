@@ -87,9 +87,9 @@ class LearnedSomethingNew extends Component {
     // console.log(this.props.currentUser)
     return (
       <div className='lrnedSomethingNew'>
-          Learned Something New!
-          <button className='lrnedSomethingNewButton' onClick={this.lrnedNew}>Cool!
-          </button>
+
+       <button className='lrnedSomethingNewButton' onClick={this.lrnedNew}>Learned Something New!
+        </button>
       </div>
     )
   }

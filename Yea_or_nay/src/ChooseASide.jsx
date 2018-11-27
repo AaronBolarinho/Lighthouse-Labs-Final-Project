@@ -27,9 +27,11 @@ class ChooseSide extends Component {
   render() {
     return (
         <div className='choose-side'>
-            <input className={this.state.yeaClass} type="submit" value='yea' onClick={this.clickSide}></input>
             Choose your side
+          <div className ='choose-side-button'>
+            <input className={this.state.yeaClass} type="submit" value='yea' onClick={this.clickSide}></input>
             <input className={this.state.nayClass} type="submit" value='nay' onClick={this.clickSide}></input>
+            </div>
         </div>
     );
   }

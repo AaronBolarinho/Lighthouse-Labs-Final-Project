@@ -66,7 +66,7 @@ class Results extends React.Component {
     this.setState({ time: timeLeftVar });
 
     this.props.socket.on ('resultsTimerTriggered', data => {
-      console.log("Results Timer Triggered!", data)
+      // console.log("Results Timer Triggered!", data)
        this.startResultsTimer()
     })
 
@@ -83,12 +83,15 @@ class Results extends React.Component {
   }
 
   countDown() {
-
+    // console.log("CURRENT USER IS ", this.props.currentUser)
     let room = this.state.debateRoom.id
     let timeLeft = this.state.seconds
     let roomTime = { room : room,
                      timeLeft : timeLeft
     }
+    // if (this.props.currentUser.state == 'debator1') {
+    //   this.props.socket.emit('ResultsTimer', JSON.stringify(roomTime))
+    // }
     this.props.socket.emit('ResultsTimer', JSON.stringify(roomTime))
   }
 
@@ -130,9 +133,9 @@ class Results extends React.Component {
           </tr>
         </table>
       </div>
-      <div className='clock'>
+      {/*<div className='clock'>
         <div className='timer time'>{this.state.time.m} : {this.state.time.s < 10 ? 0 :''} {this.state.time.s} </div>
-      </div>
+      </div>*/}
     </div>
   )}
 }

@@ -47,11 +47,11 @@ class DebateRoom extends Component {
 
   //THIS FUNCTION SKELETON WILL BE USED FOR PULLING NAME FOR ARRON TO BE USED IN RESULTS
   findDebatorName(state) {
-    console.log("CALLED FOR ", state)
+    // console.log("CALLED FOR ", state)
     for (let user in this.state.connectedUsers) {
-      console.log("CONNECT USERS ARE", this.state.connectedUsers)
+      // console.log("CONNECT USERS ARE", this.state.connectedUsers)
       if (this.state.connectedUsers[user].state == state) {
-        console.log("FOUND", this.state.connectedUsers[user].username)
+        // console.log("FOUND", this.state.connectedUsers[user].username)
         return this.state.connectedUsers[user].username
       }
     }
@@ -198,9 +198,9 @@ class DebateRoom extends Component {
   }
 
   updateLikedMessage(messageId) {
-    console.log("UPDATING LIKED MESSAGE", messageId)
-    console.log("MESSAGES ARE", this.state.messages, "in room", this.state.debateRoom.name)
-    console.log("IN ROOM", this.state.debateRoom.id)
+    // console.log("UPDATING LIKED MESSAGE", messageId)
+    // console.log("MESSAGES ARE", this.state.messages, "in room", this.state.debateRoom.name)
+    // console.log("IN ROOM", this.state.debateRoom.id)
     const index = this.findMessageById(messageId)
     let message = this.state.messages[index]
     message.liked = true
@@ -211,7 +211,7 @@ class DebateRoom extends Component {
   }
 
   findMessageById(id) {
-    console.log("FIND MESSAGE IS", this.state.debateRoom)
+    // console.log("FIND MESSAGE IS", this.state.debateRoom)
     let messageIndex = this.state.messages.findIndex(message => {
       return message.id == id
     })
@@ -339,13 +339,12 @@ class DebateRoom extends Component {
       <div className ="container debate-room">
         <div className='row'>
           <div className='col-sm-4 flex-container'>
-           {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" className="return-home" onClick={this.leaveRoom}> Return Home </Link> : ""}
+            {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" className="return-home">  Home </Link> : ""}
             {this.state.debateRoom.name !== 'mainroom' ?
-                        <Results debateRoom={this.state.debateRoom} socket={this.props.socket} leaveRoom={this.leaveRoom} state={this.state} findDebatorName={this.findDebatorName}/> : ""}
+                        <Results debateRoom={this.state.debateRoom} socket={this.props.socket} leaveRoom={this.leaveRoom} state={this.state} findDebatorName={this.findDebatorName} currentUser={this.props.currentUser}/> : ""}
           </div>
           <div className="col-sm-8">
-            <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.props.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked}/>
-            {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> :''}
+            <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.props.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked} resultsTriggered={this.state.resultsTrigger}/>
           </div>
 
         </div>
@@ -358,15 +357,15 @@ class DebateRoom extends Component {
 
           <div className='col-sm-4 flex-container'>
               <Timer debateRoom={this.state.debateRoom} socket={this.props.socket} currentUser={this.props.currentUser}/>
+              {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" className="return-home" onClick={this.leaveRoom}> Home </Link> : ""}
               {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? '' : <ChooseASide updateSide={this.updateSide}/>}
               {this.state.debateRoom.name !== 'mainroom' && this.props.currentUser.state !== 'viewer' ? <LearnedSomethingNew LrnedNewThing={this.LrnedNewThing} currentUser={this.props.currentUser} socket={this.props.socket} debateRoom={this.state.debateRoom} state={this.state}/> : ""}
-              {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" className="return-home" onClick={this.leaveRoom}> Return Home </Link> : ""}
-              <img src="https://i.kym-cdn.com/entries/icons/mobile/000/024/153/soundsgood.jpg"/>
-              {/*<img src="https://pbs.twimg.com/profile_images/378800000328970347/40e96c650dad499b060a4f24ddc68c6e_400x400.png"/>*/}
+              {/*<img src="https://i.kym-cdn.com/entries/icons/mobile/000/024/153/soundsgood.jpg"/>*/}
+              <img src="https://pbs.twimg.com/profile_images/378800000328970347/40e96c650dad499b060a4f24ddc68c6e_400x400.png"/>*/}
           </div>
 
           <div className="col-sm-8">
-            <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.props.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked} debator1Switch={this.state.debator1Switch} debator2Switch={this.state.debator2Switch}/>
+            <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.props.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked} debator1Switch={this.state.debator1Switch} debator2Switch={this.state.debator2Switch} resultsTriggered={this.state.resultsTrigger}/>
             {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> :''}
           </div>
 
