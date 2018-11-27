@@ -9,7 +9,7 @@ class Results extends React.Component {
     super();
     this.state = {
       time: {},
-      seconds: 15,
+      seconds: 400,
       debateRoom: props.debateRoom
     };
 
@@ -95,38 +95,38 @@ class Results extends React.Component {
   render() {
     return(
       <div>
+      <h2 className="results-header">Results!</h2>
       <div className="results">
-        <h2 className="">Results!</h2>
         <table>
           <tr>
-            <th>Debate Statistics</th>
-            <th>{this.props.findDebatorName("debator1")}</th>
-            <th>{this.props.findDebatorName("debator2")}</th>
+            <td className="results-debator"></td>
+            <td className="results-debator">{this.props.findDebatorName("debator1")}</td>
+            <td className="results-debator">{this.props.findDebatorName("debator2")}</td>
           </tr>
           <tr>
             <td>Total Viewer Likes</td>
             <td>{this.props.state.debator1Liked}</td>
-            <td>{this.props.state.debator2Liked}</td>
+            <td className="results-end-column">{this.props.state.debator2Liked}</td>
           </tr>
           <tr>
             <td>Changed A Viewer's Mind:</td>
             <td>{this.props.state.debator1Switch} Times</td>
-            <td>{this.props.state.debator2Switch} Times</td>
+            <td className="results-end-column" >{this.props.state.debator2Switch} Times</td>
           </tr>
           <tr>
             <td>Learned Something New!</td>
             <td>{this.props.state.debator1LrnedNew ? "Yes" : "No"}</td>
-            <td>{this.props.state.debator2LrnedNew ? "Yes" : "No"}</td>
+            <td className="results-end-column">{this.props.state.debator2LrnedNew ? "Yes" : "No"}</td>
           </tr>
           <tr>
             <td>Total Score</td>
             <td>{this.props.state.debator1TotalScore}</td>
-            <td>{this.props.state.debator2TotalScore}</td>
+            <td className="results-end-column">{this.props.state.debator2TotalScore}</td>
           </tr>
           <tr>
             <td>Debate Winner:</td>
             <td>{this.props.state.debator1win}</td>
-            <td>{this.props.state.debator2win}</td>
+            <td className="results-end-column">{this.props.state.debator2win}</td>
           </tr>
         </table>
       </div>
