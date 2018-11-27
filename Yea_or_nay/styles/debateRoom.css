@@ -196,6 +196,7 @@
   border-style: solid;
 }
 
+
 .yeaClass, .nayClass {
   background-color: white;
 }
@@ -216,14 +217,6 @@
   border-radius: 8px;
   font-size: 10px;
   border: solid red 2px;
-}
-.lrnedSomethingNew {
-  display: flex;
-  color: white;
-}
-
-.lrnedSomethingNewButton {
-  display: inline;
 }
 
 .img {
@@ -274,8 +267,25 @@ td {
   border: none;
 }
 
+.col-sm-4 {
+  height: 30em;
+}
+
+.choose-side {
+  margin: 0 auto;
+  color: white;
+}
+
 .lrnedSomethingNew {
   margin: 0 auto;
+  color: white;
+}
+
+.lrnedSomethingNewButton{
+  display: block
+}
+.WORK{
+  border: solid red 2px;
 }
 
 .return-home{
