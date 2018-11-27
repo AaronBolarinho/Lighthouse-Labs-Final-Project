@@ -99,37 +99,43 @@ class Results extends React.Component {
     return(
       <div>
       <h2 className="results-header">Results!</h2>
-      <div className="results">
+      <div className="results-table">
         <table>
           <tr>
             <td className="results-debator"></td>
-            <td className="results-debator">{this.props.findDebatorName("debator1")}</td>
-            <td className="results-debator">{this.props.findDebatorName("debator2")}</td>
+            <td className="results-debator1-name" id='overlay-results-debator1'>{this.props.findDebatorName("debator1")}</td>
+            <td></td>
+            <td className="results-debator2-name" id='overlay-results-debator2'>{this.props.findDebatorName("debator2")}</td>
           </tr>
           <tr>
-            <td>Total Viewer Likes</td>
-            <td>{this.props.state.debator1Liked}</td>
-            <td className="results-end-column">{this.props.state.debator2Liked}</td>
+            <td className='result-type'>Total Viewer Likes</td>
+            <td className='results-debator1' id='overlay-results-debator1'>{this.props.state.debator1Liked}</td>
+            <td></td>
+            <td className="results-debator2" id='overlay-results-debator2'>{this.props.state.debator2Liked}</td>
           </tr>
           <tr>
-            <td>Changed A Viewer's Mind:</td>
-            <td>{this.props.state.debator1Switch} Times</td>
-            <td className="results-end-column" >{this.props.state.debator2Switch} Times</td>
+            <td className='result-type'>Changed A Viewer's Mind:</td>
+            <td className='results-debator1' id='overlay-results-debator1'>{this.props.state.debator1Switch} Times</td>
+            <td></td>
+            <td className="results-debator2" id='overlay-results-debator2'>{this.props.state.debator2Switch} Times</td>
           </tr>
           <tr>
-            <td>Learned Something New!</td>
-            <td>{this.props.state.debator1LrnedNew ? "Yes" : "No"}</td>
-            <td className="results-end-column">{this.props.state.debator2LrnedNew ? "Yes" : "No"}</td>
+            <td className='result-type'>Learned Something New!</td>
+            <td className='results-debator1' id='overlay-results-debator1'>{this.props.state.debator1LrnedNew ? "Yes" : "No"}</td>
+            <td></td>
+            <td className="results-debator2" id='overlay-results-debator2'>{this.props.state.debator2LrnedNew ? "Yes" : "No"}</td>
           </tr>
           <tr>
-            <td>Total Score</td>
-            <td>{this.props.state.debator1TotalScore}</td>
-            <td className="results-end-column">{this.props.state.debator2TotalScore}</td>
+            <td className='result-type'>Total Score</td>
+            <td className='results-debator1' id='overlay-results-debator1'>{this.props.state.debator1TotalScore}</td>
+            <td></td>
+            <td className="results-debator2" id='overlay-results-debator2'>{this.props.state.debator2TotalScore}</td>
           </tr>
           <tr>
-            <td>Debate Winner:</td>
-            <td>{this.props.state.debator1win}</td>
-            <td className="results-end-column">{this.props.state.debator2win}</td>
+            <td className='result-type'>Debate Winner:</td>
+            <td className='results-debator1' id='overlay-results-debator1'>{this.props.state.debator1win}</td>
+            <td></td>
+            <td className="results-debator2" id='overlay-results-debator2'>{this.props.state.debator2win}</td>
           </tr>
         </table>
       </div>

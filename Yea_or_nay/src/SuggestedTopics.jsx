@@ -18,7 +18,7 @@ console.log("TOPCS ARE", topics)
   }})
   return (
     <div>
-    <h5 className="subtitle">Suggested Topics: <a className="credit" href='https://newsapi.org'> Powered by News API</a></h5>
+    <h5 className="subtitle">What's Going On: <a className="credit" href='https://newsapi.org'> Powered by News API</a></h5>
         <div className="topic-list">
           <ul>
            {topicList}
