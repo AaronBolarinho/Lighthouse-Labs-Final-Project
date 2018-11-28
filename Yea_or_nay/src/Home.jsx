@@ -16,7 +16,7 @@ class Home extends Component {
       topics: []
     }
     // this.leaveRoom = this.leaveRoom.bind(this)
-    this.closeMainRoomSocket = this.closeMainRoomSocket.bind(this)
+    // this.closeMainRoomSocket = this.closeMainRoomSocket.bind(this)
   }
 
   // closeMainRoomSocket(){
@@ -43,9 +43,7 @@ class Home extends Component {
     const serverMsg = JSON.parse(data)
     this.setState({topics:serverMsg});
   })
-
   }
-
   render() {
         if (this.state.shouldRedirect.should) {
          return (<Redirect to={`/${this.state.shouldRedirect.room}`} />)
