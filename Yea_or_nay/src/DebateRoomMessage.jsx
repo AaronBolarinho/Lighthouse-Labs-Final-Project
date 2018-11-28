@@ -25,7 +25,7 @@ class DebateRoomMessage extends Component{
         <div className='message-container'>
           <div className="debatorYay">{this.props.username}:
           </div>
-          <div className={this.props.liked ? "message-content speech-bubble-yea top-yea liked" : "message-content speech-bubble-yea top-yea"}>
+          <div className={this.props.flag ? "message-content speech-bubble-yea top-yea flagged" : "message-content speech-bubble-yea top-yea"}>
             {this.props.message} {this.props.liked ? <i class="fas fa-heart heart-nay"></i> : ""}
             {this.props.room !== 'mainroom' && this.props.state === 'viewer' && !this.props.resultsTriggered &&  !this.props.flag  ?
               <button id='likedYea' onClick={this.clickedLike} value={this.props.messageId} class="btn btn-secondary btn-xs active" role="button" aria-pressed="true">
@@ -40,7 +40,7 @@ class DebateRoomMessage extends Component{
           <div className="debatorNay">{this.props.username}
           </div>
           <div>
-            <div className={this.props.liked ? "message-content speech-bubble-nay top-nay liked" : "message-content speech-bubble-nay top-nay"}>
+            <div className={this.props.flag ? "message-content speech-bubble-nay top-nay flagged" : "message-content speech-bubble-nay top-nay"}>
               {this.props.message} {this.props.liked ? <i class="fas fa-heart heart-nay"></i> : ""}
               {this.props.room !== 'mainroom' && this.props.state === 'viewer' && !this.props.resultsTriggered &&  !this.props.flag ?
                 <button id='likedNay' onClick={this.clickedLike} value={this.props.messageId} class="btn btn-secondary btn-xs active" role="button" aria-pressed="true">

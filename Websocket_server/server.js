@@ -12,9 +12,9 @@ const NewsAPI = require('newsapi');
 const newsapi = new NewsAPI(process.env.NEWS_API_KEY);
 let newsfeed = [];
 
-newsapi.v2.topHeadlines({
-  language: 'en',
-  country: 'ca'
+newsapi.v2.everything({
+  q:'funny',
+  language: 'en'
 }).then(response => {
  // const data = JSON.parse(response)
   newsfeed = response.articles;
