@@ -133,7 +133,7 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-      <div id='overlay'>
+      <div>
         <Navbar changeUsername={this.changeUsername} currentUser={this.state.currentUser}/>
           <div className="container">
            <Switch>

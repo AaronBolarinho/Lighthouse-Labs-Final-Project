@@ -11,6 +11,13 @@ background-image: linear-gradient(#000000, #0A393A, #000000);
   margin-bottom: 0;
 }
 
+.image-logo {
+  width: 100px;
+  height: 40px;
+  margin-top: 0px;
+  border: none;
+}
+
 .username {
   border-radius: 5px;
   font-size: 15px;
