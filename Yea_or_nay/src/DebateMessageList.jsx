@@ -5,8 +5,6 @@ import ProgressBar from './ProgressBar.jsx';
 
 function DebateMessageList ({messages, debateRoom,updateLiked, userState, debator1Liked,
                             debator2Liked, debator1Switch, debator2Switch, resultsTriggered}) {
-  // console.log('debateRoom:', debateRoom);
-  console.log("RESULTS TRIGGER", resultsTriggered)
   let debator1Points = debator1Liked + (debator1Switch * 3);
   let debator2Points = debator2Liked + (debator2Switch * 3);
   let progressValue = 0;
@@ -22,8 +20,6 @@ function DebateMessageList ({messages, debateRoom,updateLiked, userState, debato
     debatorYea = debateRoom.debator2;
     debatorNay = debateRoom.debator1;
   };
-
-  console.log("MESSAGES IN MESSAGE LIST ARE", messages)
 
   const messageList = messages.map(message => {
 

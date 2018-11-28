@@ -17,7 +17,6 @@ class DebateRoomMessage extends Component{
   }
 
   render(){
-    console.log("LIEKS", this.props.liked)
 
     if (this.props.username === this.props.debatorYea) {
 

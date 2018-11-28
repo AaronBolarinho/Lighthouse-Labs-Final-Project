@@ -39,15 +39,12 @@ class Results extends React.Component {
   }
 
   updateComponant(data) {
-
-    // Remove one second, set state so a re-render happens.
     let seconds = data.timeLeft - 1;
     this.setState({
       time: this.secondsToTime(seconds),
       seconds: seconds,
     });
 
-    // Check if we're at zero.
     if (seconds == 0) {
       clearInterval(this.timer);
       let room = this.state.debateRoom.id
@@ -61,12 +58,10 @@ class Results extends React.Component {
 
   componentDidMount() {
 
-
     let timeLeftVar = this.secondsToTime(this.state.seconds);
     this.setState({ time: timeLeftVar });
 
     this.props.socket.on ('resultsTimerTriggered', data => {
-      // console.log("Results Timer Triggered!", data)
        this.startResultsTimer()
     })
 
@@ -83,15 +78,11 @@ class Results extends React.Component {
   }
 
   countDown() {
-    // console.log("CURRENT USER IS ", this.props.currentUser)
     let room = this.state.debateRoom.id
     let timeLeft = this.state.seconds
     let roomTime = { room : room,
                      timeLeft : timeLeft
     }
-    // if (this.props.currentUser.state == 'debator1') {
-    //   this.props.socket.emit('ResultsTimer', JSON.stringify(roomTime))
-    // }
     this.props.socket.emit('ResultsTimer', JSON.stringify(roomTime))
   }
 

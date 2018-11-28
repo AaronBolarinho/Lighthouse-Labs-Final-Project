@@ -17,14 +17,8 @@ export default class Slider extends Component {
   }
 
   addViewerToRoom(user, room) {
-    console.log("USER TO BE ADDED ", user.currentUser.name)
-    console.log("IN ROOM ", room.debateRoom.name)
-    console.log(this.props)
-
     let viewer = {id:user.currentUser.id, username:user.currentUser.name, stance: null, room: room.debateRoom.name, roomId: room.debateRoom.id}
     this.props.socket.emit('addViewer', JSON.stringify(viewer))
-
-    //THIS WILL SEND MESSAGE TO SEVER TO ADD USER TO DEBATE ROOM COMPONENT
   }
 
   goToPrevSlide() {
@@ -59,15 +53,9 @@ export default class Slider extends Component {
 
    render() {
     let currentUser = this.props.currentUser
-   let activeDebates = this.props.debateRooms.filter(d => {
+    let activeDebates = this.props.debateRooms.filter(d => {
      return d.debator2 !== null && d.allowViewers === "Yes"
       })
-   console.log("ACTIVE DEBATES ", activeDebates)
-
-    // let sliderStyle = {
-    //   transform:`translateX(${this.state.activeIndex * -100}%)`,
-    //   transition: '0.25s'
-    // }
 
     return (
       <footer className="footer">
