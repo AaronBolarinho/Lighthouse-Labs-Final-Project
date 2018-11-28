@@ -9,7 +9,7 @@ class Results extends React.Component {
     super();
     this.state = {
       time: {},
-      seconds: 25,
+      seconds: 120,
       debateRoom: props.debateRoom
     };
 
