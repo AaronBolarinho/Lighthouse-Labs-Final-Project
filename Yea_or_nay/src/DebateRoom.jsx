@@ -7,6 +7,7 @@ import ChooseASide from './ChooseASide.jsx';
 import Results from './Results.jsx'
 import DebateRoomMessage from './DebateRoomMessage.jsx';
 import LearnedSomethingNew from './LearnedSomethingNew.jsx';
+import Confetti from 'react-confetti';
 const uuid = require('uuid/v4')
 
 class DebateRoom extends Component {
@@ -337,7 +338,12 @@ class DebateRoom extends Component {
     return (
 
       <div className ="container debate-room">
+      <div className="winner-div">
+      <h1 className="winner"> {this.state.debator1win === 'Winner!!' ? this.findDebatorName('debator1') : this.findDebatorName('debator2')} won!</h1>
+
+      </div>
         <div className='row'>
+        <Confetti width={1200} height={150} float={'right'} />
           <div className='col-sm-4 flex-container'>
             {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" className="return-home">  Home </Link> : ""}
             {this.state.debateRoom.name !== 'mainroom' ?
@@ -355,7 +361,7 @@ class DebateRoom extends Component {
       <div className = "container debate-room">
         <div className='row'>
 
-          <div className='col-sm-4 flex-container'>
+          <div className={this.props.currentUser.state !== 'viewer' ? 'col-sm-4 flex-container debator-col' : 'col-sm-4 flex-container'} >
               <Timer debateRoom={this.state.debateRoom} socket={this.props.socket} currentUser={this.props.currentUser}/>
               {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" className="return-home" onClick={this.leaveRoom}> Home </Link> : ""}
               {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? '' : <ChooseASide updateSide={this.updateSide}/>}

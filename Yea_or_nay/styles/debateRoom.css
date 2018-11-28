@@ -1,5 +1,9 @@
 .col-sm-4 {
   overflow: hidden;
+  height: 30em;
+}
+.debator-col {
+  height: 33em;
 }
 
 #messageList {
@@ -261,12 +265,6 @@
 }
 
 
-/*.choose-side {
-  margin: 0 auto;
-  color: white;
-  margin-top: 20px;
-}*/
-
 .debator1 {
   border:solid red 2px;
 }
@@ -276,8 +274,7 @@
   display: block;
 }
 .liked {
-  border-radius: 8px;
-  border: solid red 2px;
+
 }
 
 .img {
@@ -329,9 +326,6 @@ td {
   border: none;
 }
 
-.col-sm-4 {
-  height: 30em;
-}
 
 .image-logo-debate {
   width: 220px;
@@ -356,8 +350,9 @@ td {
   margin-top: 100px;
 }
 
-.WORK{
-  border: solid red 2px;
+.winner {
+text-align: center;
+color: white;
 }
 
 .return-home {
