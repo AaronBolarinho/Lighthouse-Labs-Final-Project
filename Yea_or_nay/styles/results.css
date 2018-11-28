@@ -1,6 +1,75 @@
-
-.result-table {
-  padding:20px;
-  color:#D1E8E2;
-  background-color: transparent;
+.results-table {
+  overflow-x:auto;
+  margin-top: 5px;
+  height: 340px;
+  margin: 7% auto 0 auto;
+  text-align: center;
 }
+
+td {
+  padding: 5px;
+}
+
+.result-type {
+  color: #D1E8E2 !important;
+  font-style: italic;
+}
+
+.results-debator {
+  text-decoration: underline;
+  border: none;
+}
+
+.results-debator1-name, .results-debator1-name {
+  text-align: center;
+}
+
+.results-debator1-name {
+  color: #0A393A;
+  font-weight: bold;
+}
+
+.results-debator2-name {
+  color: #FFCB9A;
+  font-weight: bold;
+}
+
+.results-header {
+  color:#D1E8E2;
+  text-align: center;
+  margin-left: 125px;
+}
+
+.results-debator1, .results-dabator2{
+  border: none;
+  text-align: center;
+}
+
+.results-debator1 {
+  color: #0A393A;
+}
+
+.results-debator2 {
+  color: #FFCB9A;
+}
+
+#overlay-results-debator1 {
+  /*width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;*/
+  background-color: rgba(255, 203, 154 , 1);
+}
+
+#overlay-results-debator2 {
+  /*width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;*/
+  background-color: rgba(17, 100, 102, 0.8);
+}
+
