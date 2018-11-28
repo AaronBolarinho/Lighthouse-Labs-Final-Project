@@ -1,5 +1,9 @@
 .col-sm-4 {
   overflow: hidden;
+  height: 30em;
+}
+.debator-col {
+  height: 33em;
 }
 
 #messageList {
@@ -242,8 +246,7 @@
   display: block;
 }
 .liked {
-  border-radius: 8px;
-  border: solid red 2px;
+
 }
 
 .img {
@@ -292,10 +295,6 @@ td {
 
 .results-end-column{
   border: none;
-}
-
-.col-sm-4 {
-  height: 30em;
 }
 
 .choose-side {

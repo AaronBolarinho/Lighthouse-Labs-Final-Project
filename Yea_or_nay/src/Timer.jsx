@@ -91,7 +91,7 @@ class Timer extends React.Component {
   render() {
     if (this.state.time.m !== 5) {
       return (
-        <div className = 'clock'>
+        <div className={this.props.currentUser.state !== 'viewer' ? 'clock debator-clock' : 'clock'}>
           <div className={this.state.time.s < 30 && this.state.time.m < 1 ? 'timer time ending-countdown' : 'timer time' }>{this.state.time.m} : {this.state.time.s < 10 ? 0 :''} {this.state.time.s}
           </div>
            <div>
