@@ -14,12 +14,12 @@ class ChooseSide extends Component {
 
   clickSide(e) {
     if (e.target.value === 'yea') {
-      this.setState({yeaClass: 'selected', nayClass:'nayClass'});
+      this.setState({yeaClass: 'selectedYea', nayClass:'nayClass'});
       this.props.updateSide('yea');
     };
 
     if (e.target.value === 'nay') {
-      this.setState({yeaClass: 'yeaClass', nayClass:'selected'});
+      this.setState({yeaClass: 'yeaClass', nayClass:'selectedNay'});
       this.props.updateSide('nay');
     };
   }

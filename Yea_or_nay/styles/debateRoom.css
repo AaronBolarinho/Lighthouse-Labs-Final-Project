@@ -225,22 +225,50 @@
   background-image: linear-gradient(to right, #FFCB9A, #116466);
 }
 
-.selected {
-  border-color: blue;
-  border-width: 5px;
+.selectedYea {
+  border-color: red;
+  border-width: 2px;
   border-style: solid;
+  background-color: #FFCB9A;
+  color: #116466;
 }
 
-.yeaClass, .nayClass {
-  background-color: white;
+.selectedNay {
+  border-color: red;
+  border-width: 2px;
+  border-style: solid;
+  background-color: #116466;
+  color: #FFCB9A;
+  margin-left: 42px;
+}
+
+.yeaClass {
+  background-color: #FFCB9A;
+  color: #116466;
+}
+
+.nayClass {
+  background-color: #116466;
+  color: #FFCB9A;
+  margin-left: 42px;
 }
 
 .choose-side {
-  color: white;
+  color: #FFCB9A !important;
+  margin: 0 auto;
+  margin-top: 90px;
+  margin-bottom: 10px;
 }
 
+
+/*.choose-side {
+  margin: 0 auto;
+  color: white;
+  margin-top: 20px;
+}*/
+
 .debator1 {
-  border:solid red 3px;
+  border:solid red 2px;
 }
 .debator2 {
   border:solid blue 3px;
@@ -294,6 +322,7 @@ td {
 .results-header {
   color: white;
   text-align: center;
+  margin-top: 20px;
 }
 
 .results-end-column{
@@ -304,9 +333,11 @@ td {
   height: 30em;
 }
 
-.choose-side {
-  margin: 0 auto;
-  color: white;
+.image-logo-debate {
+  width: 220px;
+  height:80px;
+  margin-top: 60px;
+  border: none;
 }
 
 .lrnedSomethingNew {
@@ -315,14 +346,31 @@ td {
 }
 
 .lrnedSomethingNewButton{
-  display: block
+  display: block;
+  background-color: #FFCB9A;
+  color: #116466;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: #0A393A;
+  border-width: 2px;
+  margin-top: 100px;
 }
+
 .WORK{
   border: solid red 2px;
 }
 
 .return-home {
   margin: 0 auto;
+  margin-top: 10px;
   margin-left: 155px;
-  color: white;
+  color: #D1E8E2;
+  font-style: bold;
+  background-color: #116466;
+  padding: 5px;
+  border-color: #FFCB9A;
+  border-right-style: solid;
+  border-radius: 5px;
+  border-width: 2px;
 }
+

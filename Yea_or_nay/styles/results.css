@@ -8,6 +8,7 @@
 
 td {
   padding: 5px;
+  border-right: none;
 }
 
 .result-type {
@@ -54,22 +55,10 @@ td {
 }
 
 #overlay-results-debator1 {
-  /*width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;*/
   background-color: rgba(255, 203, 154 , 1);
 }
 
 #overlay-results-debator2 {
-  /*width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;*/
   background-color: rgba(17, 100, 102, 0.8);
 }
 
