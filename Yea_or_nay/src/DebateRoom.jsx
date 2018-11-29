@@ -366,7 +366,6 @@ class DebateRoom extends Component {
               {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" className="return-home" onClick={this.leaveRoom}> Home </Link> : ""}
               {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? '' : <ChooseASide updateSide={this.updateSide}/>}
               {this.state.debateRoom.name !== 'mainroom' && this.props.currentUser.state !== 'viewer' ? <LearnedSomethingNew LrnedNewThing={this.LrnedNewThing} currentUser={this.props.currentUser} socket={this.props.socket} debateRoom={this.state.debateRoom} state={this.state}/> : ""}
-              {/*<img src="https://i.kym-cdn.com/entries/icons/mobile/000/024/153/soundsgood.jpg"/>*/}
               <img className='image-logo-debate' src="/images/debate_logo.png" alt="debate clipart Debate Helping Children and Adults with Special Needs Navigate Life Argument @kissclipart"/>
           </div>
 

@@ -47,8 +47,9 @@
   margin: 0;
   background-color: #FFCB9A;
   margin-bottom: 5px;
-  overflow: auto;
-  word-break: break-all;
+  display:block;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .nay-btn {

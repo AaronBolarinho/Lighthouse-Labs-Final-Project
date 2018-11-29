@@ -28,17 +28,19 @@ td {
 .results-debator1-name {
   color: #0A393A;
   font-weight: bold;
+  font-style: italic;
 }
 
 .results-debator2-name {
   color: #FFCB9A;
   font-weight: bold;
+  font-style: italic;
 }
 
 .results-header {
   color:#D1E8E2;
   text-align: center;
-  margin-left: 125px;
+  margin-left: 160px;
 }
 
 .results-debator1, .results-dabator2{

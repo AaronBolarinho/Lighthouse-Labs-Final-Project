@@ -72,7 +72,7 @@ export default class Slider extends Component {
     return (
       <footer className="footer">
           <div className="container mt-3">
-            <h6>View Active Debates</h6>
+            <h5>View Active Debates</h5>
       <div className="slider">
         <div className="d-flex justify-content-center">
 
