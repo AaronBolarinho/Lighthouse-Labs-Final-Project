@@ -7,7 +7,6 @@
   font-weight:bold;
   text-transform: uppercase;
   text-decoration: none;
-  font-family: sans-serif;
   letter-spacing: 6px;
   transition: 1s;
   overflow: hidden;
@@ -19,7 +18,7 @@
 }
 
 .a:hover {
-  color: red;
+  color: #ff1a53;
   box-shadow: -15px 0 50px rgba(255,20,152,1), 15px 0 50px rgba(022,20,152,1);
   text-shadow: 0 0 10px rgba(255,255,255,0.50), 0 0 25px rgba(255,255,255,0.50),
                 0 0 35px rgba(255,255,255,0.50);
