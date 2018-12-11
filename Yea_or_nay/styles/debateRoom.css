@@ -312,7 +312,7 @@ img {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 140px !important;
+  width: 160px !important;
   height: 60px !important;
   background-color: #FFCB9A;
   color: #116466;
@@ -320,7 +320,7 @@ img {
   border-style: solid;
   border-color: #0A393A;
   border-width: 2px;
-  margin-top: 86px;
+  margin-top: 40px;
 }
 
 .winner {
