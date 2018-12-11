@@ -36,16 +36,22 @@ Once dependencies have been install open http://localhost:3000 and enjoy
 
 ### Select a username and browse active debates available to either view or join as well as what's going on in the world for inspiration!
 
+![""](https://github.com/kevinmacarthur/final_project/blob/master/img/Initital_Screen.png)
+
 ### Create your own Debate, take your stance and decide if you want to allow viewers!
+![""](https://github.com/kevinmacarthur/final_project/blob/master/img/Enter_Topic.png)
 
 ### Support your stance with great points and select whether you learned something new!
+![""](https://github.com/kevinmacarthur/final_project/blob/master/img/Debator_View.png)
 
-### As a viewer select a side throughout the arguement with whoever you agree with and give like great points during the debate to help decide a winner!
+### As a viewer select a side throughout the debate with whoever you agree with and give like great points during the debate to help decide a winner!
+![""](https://github.com/kevinmacarthur/final_project/blob/master/img/Viewer_Like.png)
 
 ### Offensive comments are flagged and unable to be liked
+![""](https://github.com/kevinmacarthur/final_project/blob/master/img/Offensive_Comment.png)
 
 ### See who won and a score breakdown before returning home and joining another debate!
-
+![""](https://github.com/kevinmacarthur/final_project/blob/master/img/Results.png)
 
 ## Dependencies
 
