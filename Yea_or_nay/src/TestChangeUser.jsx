@@ -10,7 +10,6 @@ function ChangeUsername ({changeUsername}) {
    }
 
     return (
-
         <div className='username-container'>
           <span className='username-label'>Choose A Username</span>
           <input className="input username" onKeyDown={keyPressMessage} placeholder="Ex. PartyParrot99" />

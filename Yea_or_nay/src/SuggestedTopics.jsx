@@ -2,12 +2,6 @@ import React, {Component} from 'react';
 
 
 function SuggestedTopics ({topics}) {
-  // // const messageList = messages.map(message => {
-  // //   return(
-  // //     <DebateRoomMessage key={message.id} message={message.content} username={message.username} room={debateRoom.name}  updateLiked={updateLiked} state={userState} flag={message.flag}/>
-  // //   )
-  // });
-console.log("TOPCS ARE", topics)
 
   const topicList = topics.map(topic => {
     if (topic.urlToImage) {

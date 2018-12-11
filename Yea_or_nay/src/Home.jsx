@@ -16,17 +16,15 @@ class Home extends Component {
       topics: []
     }
     // this.leaveRoom = this.leaveRoom.bind(this)
-    this.closeMainRoomSocket = this.closeMainRoomSocket.bind(this)
+    // this.closeMainRoomSocket = this.closeMainRoomSocket.bind(this)
   }
 
-  closeMainRoomSocket(){
-    console.log("mainroom socket about to close!")
+  // closeMainRoomSocket(){
     // this.props.socket.emit('leave', "mainroom")
-  }
+  // }
 
   shouldRedirect(room) {
     this.setState({shouldRedirect: {should: true, room: room}})
-    // this.props.socket.emit('leave', "mainroom")
   }
 
   componentDidMount() {
@@ -37,7 +35,6 @@ class Home extends Component {
     this.props.socket.on('redirect', data => {
 
     const serverMsg = JSON.parse(data)
-    console.log("RECEIVED A REDIRECT IN HOME .JSX", serverMsg.id)
     serverMsg.name = "Room" + (serverMsg.id)
     this.shouldRedirect(serverMsg.id)
     })
@@ -45,11 +42,8 @@ class Home extends Component {
    this.props.socket.on('newsfeed', data => {
     const serverMsg = JSON.parse(data)
     this.setState({topics:serverMsg});
-    console.log('topics: ', this.state.topics)
   })
-
   }
-
   render() {
         if (this.state.shouldRedirect.should) {
          return (<Redirect to={`/${this.state.shouldRedirect.room}`} />)

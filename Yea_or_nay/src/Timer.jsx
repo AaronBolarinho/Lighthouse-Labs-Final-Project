@@ -44,7 +44,6 @@ class Timer extends React.Component {
       time: this.secondsToTime(seconds),
       seconds: seconds,
     });
-
     // Check if we're at zero.
     if (seconds == 0) {
       clearInterval(this.timer);
@@ -63,30 +62,23 @@ class Timer extends React.Component {
       let timer = JSON.parse(data)
       this.updateComponant(timer)
     })
-
 }
 
   startTimer() {
-    console.log("START TIMER CALLED")
     if (this.timer == 0 && this.state.seconds > 0) {
       this.timer = setInterval(this.countDown, 1000);
     }
   }
 
   countDown() {
-    console.log("COUNTDOWN CALLED")
-
     let room = this.state.debateRoom.id
     let timeLeft = this.state.seconds
     let roomTime = { room : room,
                      timeLeft : timeLeft
     }
     // Should join the room here
-
     this.props.socket.emit('timer', JSON.stringify(roomTime))
   }
-
-
 
   render() {
     if (this.state.time.m !== 5) {
