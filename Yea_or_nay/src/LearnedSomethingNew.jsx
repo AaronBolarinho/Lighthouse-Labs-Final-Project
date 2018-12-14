@@ -5,10 +5,7 @@ class LearnedSomethingNew extends Component {
   constructor(props) {
     super();
     this.state = {
-      // debator1LrnedNew: false,
-      // debator2LrnedNew: false,
     };
-
     this.lrnedNew= this.lrnedNew.bind(this);
   }
 
@@ -19,9 +16,7 @@ class LearnedSomethingNew extends Component {
   render() {
     return (
       <div className='lrnedSomethingNew'>
-
-       <button className='lrnedSomethingNewButton' onClick={this.lrnedNew}>Learned Something New!
-        </button>
+        <button className='lrnedSomethingNewButton' onClick={this.lrnedNew}>Learned Something New!</button>
       </div>
     )
   }

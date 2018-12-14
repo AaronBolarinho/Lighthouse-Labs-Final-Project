@@ -23,19 +23,17 @@ function DebateMessageList ({messages, debateRoom,updateLiked, userState, debato
 
   const messageList = messages.map(message => {
 
-    return(
-
+    return (
       <DebateRoomMessage key={message.id} message={message.content} messageId={message.id} username={message.username}
         room={debateRoom.name} debatorState={message.state} updateLiked={updateLiked} state={userState} flag={message.flag}
         debatorYea={debatorYea} debatorNay={debatorNay} debator1Stance={debateRoom.debator1Stance} liked={message.liked} resultsTriggered={resultsTriggered}/>
-      )
+    )
   });
 
   return (
-
     <div className="messages">
       <h4 className='debate-name'>{debateRoom.proposedDebate} </h4>
-      {debateRoom.name !== 'mainroom' ?  <ProgressBar value={progressValue} debatorYea={debatorYea} debatorNay={debatorNay}/> : ""}
+      <ProgressBar value={progressValue} debatorYea={debatorYea} debatorNay={debatorNay}/>
       <div className='container message-list clearfix'>
         {messageList}
       </div>

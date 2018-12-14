@@ -19,11 +19,9 @@ class DebateRoomMessage extends Component{
   render(){
 
     if (this.props.username === this.props.debatorYea) {
-
       return (
         <div className='message-container'>
-          <div className="debatorYay">{this.props.username}:
-          </div>
+          <div className="debatorYay">{this.props.username}: </div>
           <div className={this.props.flag ? "message-content speech-bubble-yea top-yea flagged" : "message-content speech-bubble-yea top-yea"}>
             {this.props.message} {this.props.liked ? <i class="fas fa-heart heart-nay"></i> : ""}
             {this.props.room !== 'mainroom' && this.props.state === 'viewer' && !this.props.resultsTriggered &&  !this.props.flag  ?
@@ -33,7 +31,6 @@ class DebateRoomMessage extends Component{
         </div>
       )
     } else {
-
       return (
         <div className='message-container'>
           <div className="debatorNay">{this.props.username}

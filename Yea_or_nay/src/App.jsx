@@ -26,7 +26,6 @@ class App extends Component {
     this.addDebateRoom = this.addDebateRoom.bind(this)
     this.setUserToViewer = this.setUserToViewer.bind(this)
     this.getInitialDebateRooms = this.getInitialDebateRooms.bind(this)
-    // this.getInitialDebateRooms()
   }
 
   getInitialDebateRooms(debateRooms) {
@@ -59,7 +58,6 @@ class App extends Component {
     let roomIndex = this.state.debateRooms.findIndex(debateRoom => {
       return debateRoom.id == id
     })
-    console.log("This is the find DEBATE ROOMBY id at index", roomIndex)
     return roomIndex
   }
 
@@ -78,7 +76,6 @@ class App extends Component {
   }
 
   destroyDebateRoom(id) {
-
     const index = this.findDebateRoomById(id)
 
     this.setState({debateRooms: [
