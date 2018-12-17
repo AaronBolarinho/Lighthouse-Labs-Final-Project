@@ -19,7 +19,6 @@ class Home extends Component {
 
   shouldRedirect(room) {
     this.setState({shouldRedirect: {should: true, room: room}})
-    // this.props.socket.emit('leave', "mainroom")
   }
 
   componentDidMount() {
@@ -28,25 +27,22 @@ class Home extends Component {
     this.props.socket.emit('getDebateRooms', "please")
 
     this.props.socket.on('redirect', data => {
-
-    const serverMsg = JSON.parse(data)
-    console.log("RECEIVED A REDIRECT IN HOME .JSX", serverMsg.id)
-    serverMsg.name = "Room" + (serverMsg.id)
-    this.shouldRedirect(serverMsg.id)
+      const serverMsg = JSON.parse(data)
+      serverMsg.name = "Room" + (serverMsg.id)
+      this.shouldRedirect(serverMsg.id)
     })
 
-   this.props.socket.on('newsfeed', data => {
-    const serverMsg = JSON.parse(data)
-    this.setState({topics:serverMsg});
-    console.log('topics: ', this.state.topics)
-  })
+    this.props.socket.on('newsfeed', data => {
+      const serverMsg = JSON.parse(data)
+      this.setState({topics:serverMsg});
+    })
 
   }
 
   render() {
-        if (this.state.shouldRedirect.should) {
-         return (<Redirect to={`/${this.state.shouldRedirect.room}`} />)
-        }
+    if (this.state.shouldRedirect.should) {
+     return (<Redirect to={`/${this.state.shouldRedirect.room}`} />)
+    }
     return (
       <div>
         <div className='row'>
@@ -57,12 +53,10 @@ class Home extends Component {
             <ProposedDebateList socket={this.props.socket} debateRooms={this.props.debateRooms} currentUser={this.props.currentUser} setUserToDebator={this.props.setUserToDebator} setDebateRoomDebator2={this.props.setDebateRoomDebator2}/>
           </div>
           <div className="col-sm-7">
-            {<SuggestedTopics topics={this.state.topics}/>}
-            {/*<DebateRoom debateRoom={{name:"mainroom"}} currentUser={this.props.currentUser} socket={this.props.socket}/>*/}
-
+            <SuggestedTopics topics={this.state.topics}/>
           </div>
         </div>
-         <Slider debateRooms={this.props.debateRooms} currentUser={this.props.currentUser} socket={this.props.socket}/>
+        <Slider debateRooms={this.props.debateRooms} currentUser={this.props.currentUser} socket={this.props.socket}/>
       </div>
     );
   }

@@ -19,21 +19,18 @@ class DebateRoomMessage extends Component{
   render(){
 
     if (this.props.username === this.props.debatorYea) {
-
       return (
         <div className='message-container'>
-          <div className="debatorYay">{this.props.username}:
-          </div>
+          <div className="debatorYay">{this.props.username}: </div>
           <div className={this.props.flag ? "message-content speech-bubble-yea top-yea flagged" : "message-content speech-bubble-yea top-yea"}>
             {this.props.message} {this.props.liked ? <i class="fas fa-heart heart-nay"></i> : ""}
             {this.props.room !== 'mainroom' && this.props.state === 'viewer' && !this.props.resultsTriggered &&  !this.props.flag  ?
               <button id='likedYea' onClick={this.clickedLike} value={this.props.messageId} class="btn btn-secondary btn-xs active" role="button" aria-pressed="true">
-              <i class="far fa-thumbs-up"></i>LIKE</button> : ""}
+              <i class="fas fa-thumbs-up"></i> LIKE</button> : ""}
           </div>
         </div>
       )
     } else {
-
       return (
         <div className='message-container'>
           <div className="debatorNay">{this.props.username}
@@ -43,7 +40,7 @@ class DebateRoomMessage extends Component{
               {this.props.message} {this.props.liked ? <i class="fas fa-heart heart-nay"></i> : ""}
               {this.props.room !== 'mainroom' && this.props.state === 'viewer' && !this.props.resultsTriggered &&  !this.props.flag ?
                 <button id='likedNay' onClick={this.clickedLike} value={this.props.messageId} class="btn btn-secondary btn-xs active" role="button" aria-pressed="true">
-                <i class="far fa-thumbs-up"></i>LIKE</button>: ''}
+                <i class="fas fa-thumbs-up"></i> LIKE</button>: ''}
             </div>
           </div>
         </div>

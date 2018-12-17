@@ -1,6 +1,5 @@
 .navbar {
 color: white;
-/*  background-color: black;*/
 background-image: linear-gradient(#000000, #0A393A, #000000);
 }
 
@@ -16,6 +15,7 @@ background-image: linear-gradient(#000000, #0A393A, #000000);
   height: 40px;
   margin-top: 0px;
   border: none;
+  margin-left: 20px;
 }
 
 .username {

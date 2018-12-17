@@ -46,13 +46,9 @@ class DebateRoom extends Component {
     this.findDebatorName = this.findDebatorName.bind(this)
   }
 
-  //THIS FUNCTION SKELETON WILL BE USED FOR PULLING NAME FOR ARRON TO BE USED IN RESULTS
   findDebatorName(state) {
-    // console.log("CALLED FOR ", state)
     for (let user in this.state.connectedUsers) {
-      // console.log("CONNECT USERS ARE", this.state.connectedUsers)
       if (this.state.connectedUsers[user].state == state) {
-        // console.log("FOUND", this.state.connectedUsers[user].username)
         return this.state.connectedUsers[user].username
       }
     }
@@ -111,8 +107,7 @@ class DebateRoom extends Component {
     this.props.socket.on('addUser', data => {
       const serverMsg = JSON.parse(data)
       if (serverMsg.state === 'debator2') {
-      this.setState({debateRoom: {id: this.state.debateRoom.id, proposedDebate:this.state.debateRoom.proposedDebate, debator1:this.state.debateRoom.debator1, debator2:serverMsg.username, debator1Stance:this.state.debateRoom.debator1Stance, debator1Id: this.state.debateRoom.debator1Id, allowViewers: this.state.debateRoom.allowViewers }
-      })
+        this.setState({debateRoom: {id: this.state.debateRoom.id, proposedDebate:this.state.debateRoom.proposedDebate, debator1:this.state.debateRoom.debator1, debator2:serverMsg.username, debator1Stance:this.state.debateRoom.debator1Stance, debator1Id: this.state.debateRoom.debator1Id, allowViewers: this.state.debateRoom.allowViewers}})
       }
       this.addConnectedUser(serverMsg)
     })
@@ -183,7 +178,7 @@ class DebateRoom extends Component {
     message.liked = true
     this.setState({messages: [
       ...this.state.messages.slice(0, index), message, ...this.state.messages.slice(index + 1)
-      ]})
+    ]})
   }
 
   findMessageById(id) {
@@ -194,14 +189,14 @@ class DebateRoom extends Component {
   }
 
   updateSide(side) {
-        if (this.state.userStance !== null){
-          if (this.state.debateRoom.debator1Stance.toUpperCase() === side.toUpperCase()){
-            this.state.debator1Switch ++;
-          } else{
-            this.state.debator2Switch ++;
-          }
-        }
-        this.setState({userStance : side});
+    if (this.state.userStance !== null){
+      if (this.state.debateRoom.debator1Stance.toUpperCase() === side.toUpperCase()){
+        this.state.debator1Switch ++;
+      } else {
+        this.state.debator2Switch ++;
+      }
+    }
+    this.setState({userStance : side});
 
     const newMessage = {
       debator1Switch: this.state.debator1Switch,
@@ -245,45 +240,43 @@ class DebateRoom extends Component {
 
     this.setState({debator1TotalScore: debator1Score, debator2TotalScore: debator2Score, debator1win: debator1win, debator2win: debator2win}, () => {
 
-          const newMessage = {
-            debator1TotalScore: this.state.debator1TotalScore,
-            debator2TotalScore: this.state.debator2TotalScore,
-            room: this.state.debateRoom.name,
-            roomId: this.state.debateRoom.id,
-            debator1win: this.state.debator1win,
-            debator2win: this.state.debator2win
-          }
+      const newMessage = {
+        debator1TotalScore: this.state.debator1TotalScore,
+        debator2TotalScore: this.state.debator2TotalScore,
+        room: this.state.debateRoom.name,
+        roomId: this.state.debateRoom.id,
+        debator1win: this.state.debator1win,
+        debator2win: this.state.debator2win
+      }
 
-          this.props.socket.emit("updateTotalScore", JSON.stringify(newMessage));
-        })
+      this.props.socket.emit("updateTotalScore", JSON.stringify(newMessage));
+    })
   }
 
   LrnedNewThing (){
     if (this.props.currentUser.state === "debator1"){
-        this.setState({debator1LrnedNew: true}, () => {
+      this.setState({debator1LrnedNew: true}, () => {
 
-          const newMessage = {
-            debator1LrnedNew: this.state.debator1LrnedNew,
-            debator2LrnedNew: this.state.debator2LrnedNew,
-            room: this.state.debateRoom.name,
-            roomId: this.state.debateRoom.id
-          }
-          this.props.socket.emit("updateLrned", JSON.stringify(newMessage));
-        })
+        const newMessage = {
+          debator1LrnedNew: this.state.debator1LrnedNew,
+          debator2LrnedNew: this.state.debator2LrnedNew,
+          room: this.state.debateRoom.name,
+          roomId: this.state.debateRoom.id
+        }
+        this.props.socket.emit("updateLrned", JSON.stringify(newMessage));
+      })
     }
 
     if (this.props.currentUser.state === "debator2"){
-        this.setState({debator2LrnedNew: true} , () => {
-
-          const newMessage = {
-            debator1LrnedNew: this.state.debator1LrnedNew,
-            debator2LrnedNew: this.state.debator2LrnedNew,
-            room: this.state.debateRoom.name,
-            roomId: this.state.debateRoom.id
-          }
-          this.props.socket.emit("updateLrned", JSON.stringify(newMessage));
-        })
-
+      this.setState({debator2LrnedNew: true} , () => {
+        const newMessage = {
+          debator1LrnedNew: this.state.debator1LrnedNew,
+          debator2LrnedNew: this.state.debator2LrnedNew,
+          room: this.state.debateRoom.name,
+          roomId: this.state.debateRoom.id
+        }
+        this.props.socket.emit("updateLrned", JSON.stringify(newMessage));
+      })
     }
 
   }
@@ -291,51 +284,42 @@ class DebateRoom extends Component {
   render() {
 
     if (this.state.shouldRedirect) {
-         return (<Redirect to="/" />)
+      return (<Redirect to="/" />)
     }
     if (this.state.resultsTrigger === true) {
-    return (
-
-      <div className ="container debate-room">
-      <div className="winner-div">
-      <h1 className="winner"> {this.state.debator1win === 'Winner!!' ? this.findDebatorName('debator1') : this.findDebatorName('debator2')} won!</h1>
-
-      </div>
-        <div className='row'>
-        <Confetti width={1200} height={150} float={'right'} />
-          <div className='col-sm-4 flex-container'>
-            {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" className="return-home">  Home </Link> : ""}
-            {this.state.debateRoom.name !== 'mainroom' ?
-                        <Results debateRoom={this.state.debateRoom} socket={this.props.socket} leaveRoom={this.leaveRoom} state={this.state} findDebatorName={this.findDebatorName} currentUser={this.props.currentUser}/> : ""}
+      return (
+        <div className ="container debate-room">
+          <div className="winner-div">
+            <h1 className="winner"> {this.state.debator1win === 'Winner!!' ? this.findDebatorName('debator1') : this.findDebatorName('debator2')} won!</h1>
           </div>
-          <div className="col-sm-8">
-            <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.props.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked} resultsTriggered={this.state.resultsTrigger}/>
+          <div className='row'>
+            <Confetti width={1200} height={150} float={'right'} />
+            <div className='col-sm-4 flex-container'>
+              <Link to="/" className="return-home">  Home </Link>
+              <Results debateRoom={this.state.debateRoom} socket={this.props.socket} leaveRoom={this.leaveRoom} state={this.state} findDebatorName={this.findDebatorName} currentUser={this.props.currentUser}/>
+            </div>
+            <div className="col-sm-8">
+              <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.props.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked} resultsTriggered={this.state.resultsTrigger}/>
+            </div>
           </div>
-
         </div>
-      </div>
-
       )} else {
       return(
-      <div className = "container debate-room">
-        <div className='row'>
-
-          <div className={this.props.currentUser.state !== 'viewer' ? 'col-sm-4 flex-container debator-col' : 'col-sm-4 flex-container'} >
-              <Timer debateRoom={this.state.debateRoom} socket={this.props.socket} currentUser={this.props.currentUser}/>
-              {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" className="return-home" onClick={this.leaveRoom}> Home </Link> : ""}
-              {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? '' : <ChooseASide updateSide={this.updateSide}/>}
-              {this.state.debateRoom.name !== 'mainroom' && this.props.currentUser.state !== 'viewer' ? <LearnedSomethingNew LrnedNewThing={this.LrnedNewThing} currentUser={this.props.currentUser} socket={this.props.socket} debateRoom={this.state.debateRoom} state={this.state}/> : ""}
-              {/*<img src="https://i.kym-cdn.com/entries/icons/mobile/000/024/153/soundsgood.jpg"/>*/}
-              <img className='image-logo-debate' src="/images/debate_logo.png" alt="debate clipart Debate Helping Children and Adults with Special Needs Navigate Life Argument @kissclipart"/>
+        <div className = "container debate-room">
+          <div className='row'>
+            <div className={this.props.currentUser.state !== 'viewer' ? 'col-sm-4 flex-container debator-col' : 'col-sm-4 flex-container'} >
+                <Timer debateRoom={this.state.debateRoom} socket={this.props.socket} currentUser={this.props.currentUser}/>
+                {this.state.debateRoom.name !== 'mainroom' ? <Link to="/" className="return-home" onClick={this.leaveRoom}> Home </Link> : ""}
+                {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? '' : <ChooseASide updateSide={this.updateSide}/>}
+                {this.state.debateRoom.name !== 'mainroom' && this.props.currentUser.state !== 'viewer' ? <LearnedSomethingNew LrnedNewThing={this.LrnedNewThing} currentUser={this.props.currentUser} socket={this.props.socket} debateRoom={this.state.debateRoom} state={this.state}/> : ""}
+                <img className='image-logo-debate' src="/images/debate_logo.png" alt="debate clipart Debate Helping Children and Adults with Special Needs Navigate Life Argument @kissclipart"/>
+            </div>
+            <div className="col-sm-8">
+              <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.props.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked} debator1Switch={this.state.debator1Switch} debator2Switch={this.state.debator2Switch} resultsTriggered={this.state.resultsTrigger}/>
+              {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> :''}
+            </div>
           </div>
-
-          <div className="col-sm-8">
-            <DebateMessageList messages={this.state.messages} debateRoom={this.state.debateRoom} updateLiked={this.updateLiked} userState={this.props.currentUser.state} debator1Liked={this.state.debator1Liked} debator2Liked={this.state.debator2Liked} debator1Switch={this.state.debator1Switch} debator2Switch={this.state.debator2Switch} resultsTriggered={this.state.resultsTrigger}/>
-            {this.state.debateRoom.name === 'mainroom' || this.props.currentUser.state !== 'viewer' ? <DebateRoomChatBar sendMessage={this.sendMessage}/> :''}
-          </div>
-
         </div>
-      </div>
       )}
   }
 }

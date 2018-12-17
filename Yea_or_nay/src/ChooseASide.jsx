@@ -31,7 +31,7 @@ class ChooseSide extends Component {
           <div className ='choose-side-button'>
             <input className={this.state.yeaClass} type="submit" value='yea' onClick={this.clickSide}></input>
             <input className={this.state.nayClass} type="submit" value='nay' onClick={this.clickSide}></input>
-            </div>
+          </div>
         </div>
     );
   }

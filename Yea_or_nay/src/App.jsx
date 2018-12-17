@@ -7,7 +7,7 @@ import Navbar from './Navbar.jsx';
 import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom';
 const uuid = require('uuid/v4')
 const io = require('socket.io-client');
-const socket = io.connect('localhost:3001');
+const socket = io.connect('http://localhost:3001');
 
 
 class App extends Component {
@@ -26,7 +26,6 @@ class App extends Component {
     this.addDebateRoom = this.addDebateRoom.bind(this)
     this.setUserToViewer = this.setUserToViewer.bind(this)
     this.getInitialDebateRooms = this.getInitialDebateRooms.bind(this)
-    // this.getInitialDebateRooms()
   }
 
   getInitialDebateRooms(debateRooms) {
@@ -59,7 +58,6 @@ class App extends Component {
     let roomIndex = this.state.debateRooms.findIndex(debateRoom => {
       return debateRoom.id == id
     })
-    console.log("This is the find DEBATE ROOMBY id at index", roomIndex)
     return roomIndex
   }
 
@@ -75,33 +73,14 @@ class App extends Component {
     let oldDebateRooms = this.state.debateRooms;
     let newDebateRooms = [...oldDebateRooms, newDebateRoom];
     this.setState({ debateRooms: newDebateRooms });
-    console.log("NEW DEBATE ROOM added", newDebateRoom)
   }
 
   destroyDebateRoom(id) {
-
     const index = this.findDebateRoomById(id)
-    console.log("ALL ROOMS ARE", this.state.debateRooms)
-    console.log("ROOM TO DESTROY IS AT INDEX IS", index)
-    console.log("Before Index", ...this.state.debateRooms.slice(0, index))
-    console.log("After Index", ...this.state.debateRooms.slice(index + 1))
 
     this.setState({debateRooms: [
       ...this.state.debateRooms.slice(0, index), ...this.state.debateRooms.slice(index + 1)
       ]})
-
-    // let oldState = this.state.debateRooms
-    // console.log("Old oldState", oldState);
-    // delete oldState[id]
-    // console.log("New oldState", oldState)
-    // let newState = oldState
-    // console.log("New NEWState", newState)
-
-    //   this.setState({'debateRoomsObject': newState})
-    //   console.log("this is the final state", this.state)
-    // let oldDebateRooms = this.state.debateRooms;
-    // let newDebateRooms = [...oldDebateRooms, newDebateRoom];
-    // this.setState({ debateRooms: newDebateRooms });
   }
 
   componentDidMount() {
@@ -109,23 +88,19 @@ class App extends Component {
 
     socket.on('debateRooms', data => {
       const serverMsg = JSON.parse(data)
-      console.log("RECEIVED debateRooms", serverMsg)
       this.getInitialDebateRooms(serverMsg)
     })
 
     socket.on('destroyRoom', data => {
-      console.log("app recieved destroy room", data)
-        this.destroyDebateRoom(data)
-
+      this.destroyDebateRoom(data)
     })
+
     socket.on('newRoom', data => {
       const serverMsg = JSON.parse(data)
-      // serverMsg.name = "Room" + uuid()
       this.addDebateRoom(serverMsg)
     })
     socket.on('addDebator2ToApp', data => {
       const serverMsg = JSON.parse(data)
-      console.log("SERVER MESSAGE FROM ADD DEBATOR 2", serverMsg )
       this.setDebateRoomDebator2(serverMsg.username, serverMsg.room)
     })
   }

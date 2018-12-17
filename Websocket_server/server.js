@@ -13,7 +13,7 @@ const newsapi = new NewsAPI(process.env.NEWS_API_KEY);
 let newsfeed = [];
 
 newsapi.v2.everything({
-  q:'funny',
+  q:'news',
   language: 'en'
 }).then(response => {
   newsfeed = response.articles;

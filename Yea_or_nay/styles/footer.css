@@ -41,6 +41,9 @@
   border-color: #116466;
   border-right-style: solid;
   border-width: 2px;
+  overflow: scroll;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .backArrow, .nextArrow {
@@ -51,6 +54,7 @@
   color: #0A393A;
   font-style: italic;
   font-weight: bold;
+  margin-right: 5px;
 }
 
 .d-flex {

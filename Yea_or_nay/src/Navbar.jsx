@@ -23,7 +23,7 @@ function Navbar ({changeUsername, currentUser}) {
        <nav className='navbar navbar-expand-sm navbar-black'>
       <div className='container'>
         <div className="navbar-brand">
-          <p id="logo">YEA or NAY</p>
+          <p id="logo">YEA or NAY<img className='image-logo' src="/images/debate_logo.png" alt="debate clipart Debate Helping Children and Adults with Special Needs Navigate Life Argument @kissclipart"/></p>
         </div>
         <div className="navbar-nav navbar-right">
           <div className="nav-item">
