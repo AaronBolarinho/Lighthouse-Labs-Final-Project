@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom'
-import Home from './Home.jsx';
 
 function ProposedDebateListItem (props) {
 
@@ -18,14 +17,14 @@ function ProposedDebateListItem (props) {
     props.socket.emit("addDebator2", JSON.stringify(debator2))
   }
 
-    return (
-      <div className="proposed-debate-list-item">
-       <span className='proposed-debate-li'> <strong> {props.proposingUser} proposes: </strong> {props.topic} </span>
-        <Link to={`/${props.debateRoom.id}`} onClick={makeDebator} className="nay-link">
+  return (
+    <div className="proposed-debate-list-item">
+      <span className='proposed-debate-li'> <strong> {props.proposingUser} proposes: </strong> {props.topic} </span>
+      <Link to={`/${props.debateRoom.id}`} onClick={makeDebator} className="nay-link">
         <button className="btn nay-btn" value={checkSupportStatus()}> {checkSupportStatus()}</button>
-        </Link>
-        </div>
-    );
+      </Link>
+    </div>
+  );
 }
 
 export default ProposedDebateListItem;

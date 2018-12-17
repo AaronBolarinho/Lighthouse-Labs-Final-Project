@@ -1,31 +1,24 @@
 import React, {Component} from 'react';
-import DebateRoomChatBar from './DebateRoomChatBar.jsx';
-import DebateMessageList from './DebateMessageList.jsx';
 import { Link } from 'react-router-dom'
 
 class Timer extends React.Component {
   constructor(props) {
     super();
-
     this.state = {
       time: {},
       seconds: 180,
       debateRoom: props.debateRoom
     };
-
     this.timer = 0;
     this.startTimer = this.startTimer.bind(this);
     this.countDown = this.countDown.bind(this);
     this.updateComponant = this.updateComponant.bind(this);
-
   }
 
   secondsToTime(secs){
     let hours = Math.floor(secs / (60 * 60));
-
     let divisor_for_minutes = secs % (60 * 60);
     let minutes = Math.floor(divisor_for_minutes / 60);
-
     let divisor_for_seconds = divisor_for_minutes % 60;
     let seconds = Math.ceil(divisor_for_seconds);
 
@@ -48,12 +41,9 @@ class Timer extends React.Component {
     if (seconds == 0) {
       clearInterval(this.timer);
       let room = this.state.debateRoom
-      console.log("this is the timer room variable", room)
-      console.log("this is the timer room id", room.id)
       this.props.socket.emit('debateEnded', room.id)
-      // this.props.socket.emit('destroyRoom', room.id)
     }
-}
+  }
 
   componentDidMount() {
     let timeLeftVar = this.secondsToTime(this.state.seconds);
@@ -62,7 +52,7 @@ class Timer extends React.Component {
       let timer = JSON.parse(data)
       this.updateComponant(timer)
     })
-}
+  }
 
   startTimer() {
     if (this.timer == 0 && this.state.seconds > 0) {
@@ -76,7 +66,6 @@ class Timer extends React.Component {
     let roomTime = { room : room,
                      timeLeft : timeLeft
     }
-    // Should join the room here
     this.props.socket.emit('timer', JSON.stringify(roomTime))
   }
 
@@ -93,8 +82,9 @@ class Timer extends React.Component {
         )
     } else {
       return(
-          <button className='a' onClick={this.startTimer}>Start</button>
-      )};
+        <button className='a' onClick={this.startTimer}>Start</button>
+      )
+    };
   }
 }
 

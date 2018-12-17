@@ -37,12 +37,10 @@ class App extends Component {
   }
 
   setUserToDebator(debator) {
-    console.log(`Setting ${this.state.currentUser.name} to ${debator}`)
     this.setState({currentUser: {id: this.state.currentUser.id, name: this.state.currentUser.name, state: debator}});
   }
 
   setUserToViewer() {
-    console.log(`Setting ${this.state.currentUser.name} to Viewer`)
     this.setState({currentUser: {id: this.state.currentUser.id, name: this.state.currentUser.name, state: "viewer"}});
   }
 
@@ -59,14 +57,6 @@ class App extends Component {
       return debateRoom.id == id
     })
     return roomIndex
-  }
-
-  renderDebateRoom(debateRoom) {
-    return (
-      <div>
-        <DebateRoom debateRoom={debateRoom} currentUser={this.state.currentUser} setUserToViewer={this.setUserToViewer} socket={this.state.socket}/>
-      </div>
-    )
   }
 
   addDebateRoom(newDebateRoom) {
@@ -110,29 +100,31 @@ class App extends Component {
       <BrowserRouter>
       <div>
         <Navbar changeUsername={this.changeUsername} currentUser={this.state.currentUser}/>
-          <div className="container">
-           <Switch>
+        <div className="container">
+         <Switch>
+            <Route
+              exact
+              path="/"
+              render={
+                props => (
+                  <Home debateRooms={this.state.debateRooms} socket={this.state.socket} currentUser={this.state.currentUser} changeUsername={this.changeUsername} setUserToDebator={this.setUserToDebator} setDebateRoomDebator2={this.setDebateRoomDebator2} setUserToViewer={this.setUserToViewer}/>
+                )
+              }
+            />
+            {this.state.debateRooms.map(debateRoom => (
               <Route
+                key={debateRoom.id}
                 exact
-                path="/"
+                path={`/${debateRoom.id}`}
                 render={
                   props => (
-                <Home debateRooms={this.state.debateRooms} socket={this.state.socket} currentUser={this.state.currentUser} changeUsername={this.changeUsername} setUserToDebator={this.setUserToDebator} setDebateRoomDebator2={this.setDebateRoomDebator2} setUserToViewer={this.setUserToViewer}/>
-                )
+                    <DebateRoom debateRoom={debateRoom} currentUser={this.state.currentUser} setUserToViewer={this.setUserToViewer} socket={this.state.socket}/>
+                  )
                 }
               />
-              {this.state.debateRooms.map(debateRoom => (
-                <Route
-                  key={debateRoom.id}
-                  exact
-                  path={`/${debateRoom.id}`}
-                  render={
-                    props => this.renderDebateRoom(debateRoom)
-                  }
-                /> ))
-              }
-            </Switch>
-          </div>
+            ))}
+          </Switch>
+        </div>
       </div>
       </BrowserRouter>
     );

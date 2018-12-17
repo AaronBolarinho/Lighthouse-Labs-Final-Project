@@ -89,7 +89,6 @@ class DebateRoom extends Component {
     this.props.setUserToViewer()
     let room = this.state.debateRoom
     let roomUser = {currentUser: this.props.currentUser, room:this.state.debateRoom}
-    console.log("Debate ROOM TO LEAVE IS ", room.id)
     this.props.socket.emit('leave', JSON.stringify(roomUser))
   }
 
