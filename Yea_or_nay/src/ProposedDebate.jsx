@@ -40,24 +40,24 @@ class ProposedDebate extends Component {
 
   render() {
     return (
-
       <form className="propose-debate-form" onSubmit={this.handleSubmit}>
         <input className='input form-control propose-debate' type="text" placeholder="Debate input" onChange={this.handleChange}/>
-         <label className='stance'>Stance:
-          <select onChange={this.handleSide}>
-            <option value="Yea"> Yea</option>
-            <option value="Nay"> Nay</option>
-          </select>
+          <label className='stance'>Stance:
+            <select onChange={this.handleSide}>
+              <option value="Yea"> Yea</option>
+              <option value="Nay"> Nay</option>
+            </select>
           </label>
           <button type="submit" class="propose-button btn btn-dark">Propose!</button>
           <br/>
           <label className='stance'>Viewers:
-           <select onChange={this.allowViewers}>
-            <option value="Yes"> Yes </option>
-            <option value="No"> No </option>
-          </select>
+            <select onChange={this.allowViewers}>
+              <option value="Yes"> Yes </option>
+              <option value="No"> No </option>
+            </select>
           </label>
-      </form>    );
+      </form>
+    );
   }
 }
 
