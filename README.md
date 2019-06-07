@@ -76,3 +76,4 @@ Once dependencies have been install open http://localhost:3000 and enjoy
 -  "socket.io": "^2.1.1",
 -  "uuid": "^3.3.2"
 
+# Lighthouse-Labs-Final-Project
