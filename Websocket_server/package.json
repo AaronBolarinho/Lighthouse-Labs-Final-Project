@@ -8,7 +8,7 @@
     "express": "^4.16.4",
     "newsapi": "^2.4.0",
     "perspective-api-client": "^3.0.0",
-    "socket.io": "^2.1.1",
+    "socket.io": "^2.4.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {},
